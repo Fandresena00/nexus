@@ -1,13 +1,15 @@
 import Divider from "@/src/components/ui/divider";
 import Logo from "@/src/components/ui/logo";
 import NavButton from "@/src/components/ui/nav-button";
-import ProjectCard from "@/src/components/ui/project/project-card";
-import ProjectFrom from "@/src/components/ui/project/project-from";
-import { PlusCircle, Settings2 } from "lucide-react";
+import { PlusCircle, Users, Settings2 } from "lucide-react";
 
-export default function page() {
+export default function layout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
-    <div className="relative ">
+    <div>
       {/** Navigation */}
       <nav className="sticky top-0 z-40 px-6 bg-white border-b border-b-gray-500 shadow shadow-gray-600/50">
         <div className="flex items-center justify-between h-16 max-w-7xl mx-auto ">
@@ -15,17 +17,26 @@ export default function page() {
             {/** Logo and Project name */}
             <div className="flex items-center gap-2.5 text-xl font-bold text-blue-950">
               <Logo />
-              <span>All project</span>
+              <span>Title</span>
+            </div>
+
+            {/** change task view */}
+            <div className="flex gap-3.5 items-center">
+              <NavButton text="Kanban" active />
+              <Divider />
+              <NavButton text="List" />
             </div>
           </div>
 
           {/** Principal button */}
           <div className="flex items-center gap-3.5">
             <NavButton
-              text="New project"
+              text="New task"
               icon={<PlusCircle size={18} />}
               principal
             />
+            <Divider />
+            <NavButton text="Team" icon={<Users size={18} />} principal />
             <Divider />
             <NavButton
               text="Settings"
@@ -35,19 +46,7 @@ export default function page() {
           </div>
         </div>
       </nav>
-
-      {/** project form */}
-      <div className="absolute flex flex-1 items-center justify-center w-full h-full">
-        <ProjectFrom />
-      </div>
-
-      {/** project list */}
-      <div className="grid grid-cols-3 gap-5 p-10 ">
-        <ProjectCard />
-        <ProjectCard />
-        <ProjectCard />
-        <ProjectCard />
-      </div>
+      <div className="h-full">{children}</div>
     </div>
   );
 }

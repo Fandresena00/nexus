@@ -1,17 +1,17 @@
 export default function page() {
   return (
-    <div className="relative overflow-hidden flex h-screen bg-linear-120 from-red-50 to-red-100">
+    <div className="relative overflow-hidden flex h-screen bg-linear-120 from-blue-50 to-blue-100">
       {/** Animated Background */}
-      <div className="absolute rounded-full blur-[80px] opacity-50 w-96 h-96 bg-red-600 top-28 left-28 animate-pulse"></div>
-      <div className="absolute rounded-full blur-[80px] opacity-50 w-72 h-72 bg-red-600 bottom-28 right-28 animate-bounce"></div>
-      <div className="absolute rounded-full blur-[80px] opacity-50 w-52 h-52 bg-red-600 top-1/2 left-1/2 translate-1/2 animate-bounce"></div>
+      <div className="absolute rounded-full blur-[80px] opacity-50 w-96 h-96 bg-blue-600 top-28 left-28 animate-pulse"></div>
+      <div className="absolute rounded-full blur-[80px] opacity-50 w-72 h-72 bg-blue-600 bottom-28 right-28 animate-bounce"></div>
+      <div className="absolute rounded-full blur-[80px] opacity-50 w-52 h-52 bg-blue-600 top-1/2 right-1/2 translate-1/2 animate-ping"></div>
 
       {/** main container */}
       <div className="relative flex w-full max-w-7xl m-auto z-10">
         {/**  Left Side - Brand & Features */}
         <div className="flex flex-1 flex-col justify-center p-16">
           <div className="flex items-center gap-4 mb-12">
-            <div className="flex w-16 h-16 bg-linear-120 from-red-300 to-red-600 rounded-lg items-center justify-center shadow-xl shadow-red-600/50">
+            <div className="flex w-16 h-16 bg-linear-120 from-blue-300 to-blue-600 rounded-lg items-center justify-center shadow-xl shadow-blue-600/50">
               <svg
                 fill="none"
                 stroke="currentColor"
@@ -25,15 +25,15 @@ export default function page() {
                 ></path>
               </svg>
             </div>
-            <span className="text-3xl font-extrabold text-red-800">Nexus</span>
+            <span className="text-3xl font-extrabold text-blue-800">Nexus</span>
           </div>
 
-          <h1 className="text-4xl font-extrabold leading-tight mb-6 text-red-950">
+          <h1 className="text-4xl font-extrabold leading-tight mb-6 text-blue-950">
             Gérez vos tâches <br />
             comme un pro
           </h1>
 
-          <p className="text-lg leading-normal text-red-900 mb-10">
+          <p className="text-lg leading-normal text-blue-900 mb-10">
             La plateforme moderne de gestion de tâches qui booste votre
             productivité et vous aide à atteindre vos objectifs plus rapidement.
           </p>
@@ -41,8 +41,8 @@ export default function page() {
           {/** feature presentation */}
           <ul className="list-none">
             {/** interface */}
-            <li className="flex items-center gap-4 mb-5 text-sm text-red-700">
-              <div className=" flex  w-12 h-12 bg-white rounded-lg items-center justify-center shrink-0 shadow-lg shadow-red-700/60">
+            <li className="flex items-center gap-4 mb-5 text-sm text-blue-700">
+              <div className=" flex  w-12 h-12 bg-white rounded-lg items-center justify-center shrink-0 shadow-lg shadow-blue-700/60">
                 <svg
                   fill="none"
                   stroke="currentColor"
@@ -62,8 +62,8 @@ export default function page() {
               </span>
             </li>
             {/** analyse and productivity */}
-            <li className="flex items-center gap-4 mb-5 text-sm text-red-700">
-              <div className="flex  w-12 h-12 bg-white rounded-lg items-center justify-center shrink-0 shadow-lg shadow-red-700/60">
+            <li className="flex items-center gap-4 mb-5 text-sm text-blue-700">
+              <div className="flex  w-12 h-12 bg-white rounded-lg items-center justify-center shrink-0 shadow-lg shadow-blue-700/60">
                 <svg
                   fill="none"
                   stroke="currentColor"
@@ -83,8 +83,8 @@ export default function page() {
               </span>
             </li>
             {/** security */}
-            <li className="flex items-center gap-4 mb-5 text-sm text-red-700">
-              <div className="flex  w-12 h-12 bg-white rounded-lg items-center justify-center shrink-0 shadow-lg shadow-red-700/60">
+            <li className="flex items-center gap-4 mb-5 text-sm text-blue-700">
+              <div className="flex  w-12 h-12 bg-white rounded-lg items-center justify-center shrink-0 shadow-lg shadow-blue-700/60">
                 <svg
                   fill="none"
                   stroke="currentColor"
@@ -108,7 +108,7 @@ export default function page() {
 
         {/**  Right Side - Login Form */}
         <div className="flex flex-1 items-center justify-center p-16">
-          <div className="bg-gray-50 rounded-xl p-12 w-full max-w-[440] shadow-2xl shadow-red-950/60">
+          <div className="bg-gray-50 rounded-xl p-12 w-full max-w-[440] shadow-2xl shadow-blue-950/60">
             <div className="text-center mb-8">
               <h2 className="text-2xl font-bold text-gray-800 mb-2">
                 Bon retour !
@@ -123,7 +123,7 @@ export default function page() {
               <div className="mb-8">
                 <button
                   type="button"
-                  className="flex w-full py-3 px-6 bg-gray-50 border border-gray-400 rounded-xl text-sm font-semibold text-gray-700 cursor-pointer items-center justify-center gap-3 transition-all mb-3 hover:border-red-500 hover:bg-gray-200"
+                  className="flex w-full py-3 px-6 bg-gray-50 border border-gray-400 rounded-xl text-sm font-semibold text-gray-700 cursor-pointer items-center justify-center gap-3 transition-all mb-3 hover:border-blue-500 hover:bg-gray-200"
                 >
                   <svg
                     viewBox="0 0 24 24"
@@ -151,7 +151,7 @@ export default function page() {
                 </button>
                 <button
                   type="button"
-                  className="flex w-full py-3 px-6 bg-gray-50 border border-gray-400 rounded-xl text-sm font-semibold text-gray-700 cursor-pointer items-center justify-center gap-3 transition-all mb-3 hover:border-red-500 hover:bg-gray-200"
+                  className="flex w-full py-3 px-6 bg-gray-50 border border-gray-400 rounded-xl text-sm font-semibold text-gray-700 cursor-pointer items-center justify-center gap-3 transition-all mb-3 hover:border-blue-500 hover:bg-gray-200"
                 >
                   <svg viewBox="0 0 24 24" fill="#1877F2" className="w-5 h-5">
                     <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
@@ -175,7 +175,7 @@ export default function page() {
                 <input
                   type="email"
                   id="email"
-                  className="w-full py-2 px-4 border border-gray-500 rounded-xl text-sm transition focus:outline-none focus:border-red-500 focus:shadow focus:shadow-red-900/50 placeholder:text-gray-400 "
+                  className="w-full py-2 px-4 border border-gray-500 rounded-xl text-sm transition focus:outline-none focus:border-blue-500 focus:shadow focus:shadow-blue-900/50 placeholder:text-gray-400 "
                   placeholder="vous@exemple.com"
                   required
                 />
@@ -193,7 +193,7 @@ export default function page() {
                   <input
                     type="password"
                     id="password"
-                    className="w-full py-2 px-4 pr-12 border border-gray-500 rounded-xl text-sm transition focus:outline-none focus:border-red-500 focus:shadow focus:shadow-red-900/50 placeholder:text-gray-400 "
+                    className="w-full py-2 px-4 pr-12 border border-gray-500 rounded-xl text-sm transition focus:outline-none focus:border-blue-500 focus:shadow focus:shadow-blue-900/50 placeholder:text-gray-400 "
                     placeholder="••••••••"
                     required
                   />
@@ -230,7 +230,7 @@ export default function page() {
                   <input
                     type="checkbox"
                     id="remember"
-                    className="w-4 h-4 cursor-pointer accent-red-600"
+                    className="w-4 h-4 cursor-pointer accent-blue-600"
                   />
                   <label
                     form="remember"
@@ -241,7 +241,7 @@ export default function page() {
                 </div>
                 <a
                   href="#"
-                  className="text-xs text-red-600 font-semibold hover:text-red-800 transition"
+                  className="text-xs text-blue-600 font-semibold hover:text-blue-800 transition"
                 >
                   Mot de passe oublié ?
                 </a>
@@ -250,7 +250,7 @@ export default function page() {
               {/** Submit Button */}
               <button
                 type="submit"
-                className="w-full py-3 px-6 bg-linear-120 from-red-800 to-red-600 text-gray-50 rounded-xl text-sm font-semibold cursor-pointer transition-all shadow-lg shadow-red-900/60 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0"
+                className="w-full py-3 px-6 bg-linear-120 from-blue-800 to-blue-600 text-gray-50 rounded-xl text-sm font-semibold cursor-pointer transition-all shadow-lg shadow-blue-900/60 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0"
               >
                 Se connecter
               </button>
@@ -260,7 +260,7 @@ export default function page() {
                 Pas encore de compte ?
                 <a
                   href="#"
-                  className="text-red-700 font-semibold px-1 hover:text-red-800 hover:underline "
+                  className="text-blue-700 font-semibold px-1 hover:text-blue-800 hover:underline "
                 >
                   Créer un compte
                 </a>
