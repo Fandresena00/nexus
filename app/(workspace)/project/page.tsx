@@ -24,6 +24,8 @@ export default function page() {
             <NavButton
               text="New project"
               icon={<PlusCircle size={18} />}
+              href="/project/new"
+              link
               principal
             />
             <Divider />
@@ -35,18 +37,9 @@ export default function page() {
           </div>
         </div>
       </nav>
-
-      {/** project form */}
-      <div className="absolute flex flex-1 items-center justify-center w-full h-full">
-        <ProjectFrom />
-      </div>
-
       {/** project list */}
       <div className="grid grid-cols-3 gap-5 p-10 ">
-        <ProjectCard />
-        <ProjectCard />
-        <ProjectCard />
-        <ProjectCard />
+        <ProjectCard title="" projectId="" description="" />
       </div>
     </div>
   );
