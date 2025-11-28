@@ -13,8 +13,11 @@ import NavSectionTitle from "../ui/sidebar/nav-section-title";
 import NavProjectLink from "../ui/sidebar/nav-project-link";
 import AvatarCircle from "../ui/avatar-circle";
 import Logo from "../ui/logo";
+import prisma from "@/src/lib/prisma";
 
-export default function Sidebar() {
+export default async function Sidebar() {
+  const projects = await prisma.project.findMany();
+
   return (
     <aside className=" flex flex-col w-72 h-full bg-white transition-all shadow shadow-gray-600/40 z-50">
       {/** Logo */}
@@ -55,11 +58,9 @@ export default function Sidebar() {
         <div className="mb-5 flex flex-col gap-2">
           <NavSectionTitle title="project" />
           {/** Link */}
-          <NavProjectLink title="Refonte plateforme" badge="6" />
-          <NavProjectLink title="App mobile v2" badge="15" />
-          <NavProjectLink title="Marketing Q4" badge="0" />
-          <NavProjectLink title="Infrastructure" badge="6" />
-          <NavProjectLink title="Design System" badge="10" />
+          {projects.map((e) => (
+            <NavProjectLink key={e.id} title={e.title} badge="6" />
+          ))}
         </div>
 
         {/**  Teams Section */}

@@ -2,10 +2,12 @@ import Divider from "@/src/components/ui/divider";
 import Logo from "@/src/components/ui/logo";
 import NavButton from "@/src/components/ui/nav-button";
 import ProjectCard from "@/src/components/ui/project/project-card";
-import ProjectFrom from "@/src/components/ui/project/project-from";
+import prisma from "@/src/lib/prisma";
 import { PlusCircle, Settings2 } from "lucide-react";
 
-export default function page() {
+export default async function page() {
+  const allProject = await prisma.project.findMany();
+
   return (
     <div className="relative ">
       {/** Navigation */}
@@ -39,7 +41,14 @@ export default function page() {
       </nav>
       {/** project list */}
       <div className="grid grid-cols-3 gap-5 p-10 ">
-        <ProjectCard title="" projectId="" description="" />
+        {allProject.map((project) => (
+          <ProjectCard
+            key={project.id}
+            title={project.title}
+            projectId={project.id.toString()}
+            description={project.description}
+          />
+        ))}
       </div>
     </div>
   );
