@@ -14,51 +14,77 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  name      String
-  firstName String
-  password  String
-  email     String   @unique
-  createdAt DateTime @default(now())
+  id            String  @id @default(cuid())
+  name          String
+  firstName     String
+  email         String   @unique
+  password      String
+  image         String?
+  createdAt     DateTime @default(now())
+  emailVerified Boolean   @default(false)
+  updatedAt     DateTime  @updatedAt
 
   // Relation
   projects      Project[]
   tasks         Task[]
-  emailVerified Boolean   @default(false)
-  image         String?
-  updatedAt     DateTime  @updatedAt
   sessions      Session[]
   accounts      Account[]
+  access        ProjectAccess[]
 
-  @@map("user")
+  @@map("User")
 }
 
 model Project {
-  id           Int      @id @default(autoincrement())
+  id           String   @id @default(cuid())
   title        String
   description  String
-  creationDate DateTime @default(now())
-  deadline     DateTime
+  deadline     DateTime 
+  updateAt     DateTime @updatedAt
+  createAt     DateTime @default(now())
 
   // Relation
-  tasks  Task[]
-  userId Int
-  user   User   @relation(fields: [userId], references: [id])
+  tasks        Task[]
+  access       ProjectAccess[]
+  userId       String
+  user         User   @relation(fields: [userId], references: [id])
 }
 
+
+enum ProjectRole {
+  OWNER     // proprietaire
+  EDITOR    // peut modifier
+  VIEWER    // lecture seule
+}
+
+model ProjectAccess {
+  id        String      @id @default(cuid())
+  role      ProjectRole
+  createAt  DateTime    @default(now())
+
+  // Relation
+  userId    String
+  user      User    @relation(fields: [userId],references: [id])
+  projectId String
+  project   Project @relation(fields: [projectId],references: [id])
+
+  @@unique([userId,projectId])
+}
+
+
 model Task {
-  id          Int      @id @default(autoincrement())
+  id          String  @id @default(cuid())
   title       String
   description String
   tag         String[]
-  deadline    DateTime
+  deadline    DateTime 
+  updateAt    DateTime @updatedAt
   createdAt   DateTime @default(now())
 
   // Relation
-  projectId Int
-  project   Project @relation(fields: [projectId], references: [id])
-  userId    Int
-  user      User    @relation(fields: [userId], references: [id])
+  projectId   String
+  project     Project @relation(fields: [projectId], references: [id])
+  userId      String
+  user        User    @relation(fields: [userId], references: [id])
 }
 
 model Session {
@@ -69,12 +95,14 @@ model Session {
   updatedAt DateTime @updatedAt
   ipAddress String?
   userAgent String?
+
+  // Relation
   userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User @relation(fields: [userId],references: [id] , onDelete: Cascade)
 
   @@unique([token])
   @@index([userId])
-  @@map("session")
+  @@map("Session")
 }
 
 model Account {
@@ -94,7 +122,7 @@ model Account {
   updatedAt             DateTime  @updatedAt
 
   @@index([userId])
-  @@map("account")
+  @@map("Account")
 }
 
 model Verification {
@@ -106,5 +134,5 @@ model Verification {
   updatedAt  DateTime @updatedAt
 
   @@index([identifier])
-  @@map("verification")
+  @@map("Verification")
 }

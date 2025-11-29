@@ -7,21 +7,23 @@ const prisma = new PrismaClient({ adapter });
 
 const userData: Prisma.UserCreateInput[] = [
   {
-    name: "fandresena",
-    firstName: "anjara",
-    email: "anjarafandresena05@gmail.com",
+    id: "test",
+    name: "Test name",
+    firstName: "Test first name",
+    email: "test@gmail.com",
     password: "12345",
   },
 ];
 
 const ProjectData: Prisma.ProjectCreateInput[] = [
   {
+    id: "test",
     title: "create design",
     deadline: "12 - 07 - 2026",
     description: "an simple design for the web app",
     user: {
       connect: {
-        email: "anjarafandresena05@gmail.com",
+        email: "test@gmail.com",
       },
     },
   },
@@ -34,12 +36,12 @@ const TaskData: Prisma.TaskCreateInput[] = [
     description: "an simple design for the web app",
     user: {
       connect: {
-        email: "anjarafandresena05@gmail.com",
+        email: "test@gmail.com",
       },
     },
     project: {
       connect: {
-        id: 1,
+        id: `test`,
       },
     },
   },
