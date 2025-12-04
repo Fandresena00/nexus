@@ -7,6 +7,7 @@ export default function TaskCard({
   days,
   month,
   years,
+  tags = [],
 }: {
   taskId: string;
   title: string;
@@ -14,6 +15,7 @@ export default function TaskCard({
   days: string;
   month: string;
   years: string;
+  tags?: string[];
 }) {
   return (
     <div className="bg-white p-3.5 border border-gray-300 rounded-xl cursor-pointer transition-all hover:border-gray-400 hover:shadow-lg hover:shadow-gray-700/50 hover:-translate-y-0.5">
@@ -37,14 +39,29 @@ export default function TaskCard({
       </p>
 
       {/** Tag task */}
-      <div className="flex flex-wrap gap-1.5 mb-3.5">
-        <span className="flex items-center h-5 px-2 rounded-sm text-[11px] font-bold tracking-wide border bg-orange-200 text-orange-900 border-orange-300">
-          Backend
-        </span>
-        <span className="flex items-center h-5 px-2 rounded-sm text-[11px] font-bold tracking-wide border bg-green-200 text-green-900 border-green-300">
-          features
-        </span>
-      </div>
+      {tags.length > 0 && (
+        <div className="flex flex-wrap gap-1.5 mb-3.5">
+          {tags.map((tag, index) => {
+            // Cycle through colors for tags
+            const colors = [
+              "bg-orange-200 text-orange-900 border-orange-300",
+              "bg-green-200 text-green-900 border-green-300",
+              "bg-blue-200 text-blue-900 border-blue-300",
+              "bg-purple-200 text-purple-900 border-purple-300",
+              "bg-pink-200 text-pink-900 border-pink-300",
+            ];
+            const colorClass = colors[index % colors.length];
+            return (
+              <span
+                key={index}
+                className={`flex items-center h-5 px-2 rounded-sm text-[11px] font-bold tracking-wide border ${colorClass}`}
+              >
+                {tag}
+              </span>
+            );
+          })}
+        </div>
+      )}
 
       <div className="flex items-center justify-between pt-2.5 border-t border-t-gray-500">
         {/** Team members */}

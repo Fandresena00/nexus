@@ -1,7 +1,7 @@
 import Navbar from "@/src/components/layout/navbar";
-import Sidebar from "@/src/components/layout/sidebar";
+import Sidebar from "@/src/components/layout/sidebar/sidebar";
 
-export default function layout({
+export default async function layout({
   children,
 }: Readonly<{
   children: React.ReactNode;

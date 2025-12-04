@@ -2,11 +2,46 @@ import Divider from "@/src/components/ui/divider";
 import Logo from "@/src/components/ui/logo";
 import NavButton from "@/src/components/ui/nav-button";
 import ProjectCard from "@/src/components/ui/project/project-card";
+import { getSession } from "@/src/lib/auth-server";
 import prisma from "@/src/lib/prisma";
+
 import { PlusCircle, Settings2 } from "lucide-react";
+import { redirect } from "next/navigation";
 
 export default async function page() {
-  const allProject = await prisma.project.findMany();
+  const session = await getSession();
+
+  const projects = await prisma.project.findMany({
+    where: {
+      userId: session?.id,
+    },
+  });
+
+  const progression = async (projectId: string) => {
+    const allTasks = await prisma.task.findMany({
+      where: {
+        projectId: projectId,
+      },
+    });
+
+    const doneTasks = await prisma.task.findMany({
+      where: {
+        taskStatus: "DONE",
+      },
+    });
+
+    if (allTasks.length > 1) {
+      const result = (doneTasks.length / allTasks.length) * 100;
+      return result;
+    } else {
+      const result = doneTasks.length * 100;
+      return result;
+    }
+  };
+
+  if (!session) {
+    redirect("/signin");
+  }
 
   return (
     <div className="relative ">
@@ -41,12 +76,13 @@ export default async function page() {
       </nav>
       {/** project list */}
       <div className="grid grid-cols-3 gap-5 p-10 ">
-        {allProject.map((project) => (
+        {projects.map(async (project) => (
           <ProjectCard
             key={project.id}
             title={project.title}
             projectId={project.id.toString()}
             description={project.description}
+            progression={(await progression(project.id)).toString()}
           />
         ))}
       </div>

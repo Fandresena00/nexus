@@ -3,12 +3,14 @@ export default function FormInputLabel({
   type,
   required,
   placeholder,
+  defaultValue,
   textarea,
 }: {
   label: string;
   type?: string;
   required?: boolean;
   placeholder?: string;
+  defaultValue?: string;
   textarea?: boolean;
 }) {
   return (
@@ -25,6 +27,7 @@ export default function FormInputLabel({
       ) : (
         <input
           type={type}
+          defaultValue={defaultValue}
           className="w-full text-sm py-1.5 px-3.5 text-gray-800 rounded-sm border border-gray-400 transition-all placeholder:text-sm"
           placeholder={placeholder}
           required={required}

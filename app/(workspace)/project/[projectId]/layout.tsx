@@ -1,13 +1,24 @@
 import Divider from "@/src/components/ui/divider";
 import Logo from "@/src/components/ui/logo";
 import NavButton from "@/src/components/ui/nav-button";
+import prisma from "@/src/lib/prisma";
 import { PlusCircle, Users, Settings2 } from "lucide-react";
 
-export default function layout({
+export default async function layout({
   children,
+  params,
 }: Readonly<{
   children: React.ReactNode;
+  params: { projectId: string };
 }>) {
+  const { projectId } = await params;
+
+  const project = await prisma.project.findUnique({
+    where: {
+      id: projectId,
+    },
+  });
+
   return (
     <div>
       {/** Navigation */}
@@ -17,22 +28,33 @@ export default function layout({
             {/** Logo and Project name */}
             <div className="flex items-center gap-2.5 text-xl font-bold text-blue-950">
               <Logo />
-              <span>Title</span>
+              <span>{project?.title}</span>
             </div>
 
             {/** change task view */}
             <div className="flex gap-3.5 items-center">
-              <NavButton text="Kanban" active />
+              <NavButton
+                text="Kanban"
+                href={`/project/${projectId}/kanban`}
+                link
+                active
+              />
               <Divider />
-              <NavButton text="List" />
+              <NavButton text="List" href={`/project/${projectId}/list`} link />
             </div>
           </div>
 
           {/** Principal button */}
           <div className="flex items-center gap-3.5">
             <NavButton
+              // Dynamic hrefs like `/project/[projectId]/kanban` are not supported in <Link> in the App Router.
+              // We need to use the correct projectId in the href. Since we are at `[projectId]/layout.tsx`, use `useParams` to get projectId.
+              // But this is a client-side hook, so mark this component as "use client" and extract projectId from params.
+              // Insert nothing here, and see NOTE below.
               text="New task"
               icon={<PlusCircle size={18} />}
+              href={`/project/${projectId}/new`}
+              link
               principal
             />
             <Divider />

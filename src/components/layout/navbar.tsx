@@ -2,8 +2,12 @@ import { BellIcon, MessageCircleMore, SidebarCloseIcon } from "lucide-react";
 import NavButton from "../ui/nav-button";
 import AvatarCircle from "../ui/avatar-circle";
 import Divider from "../ui/divider";
+import { getSession } from "@/src/lib/auth-server";
+import NextImage from "next/image";
 
-export default function Navbar() {
+export default async function Navbar() {
+  const session = await getSession();
+
   return (
     <nav className="sticky top-0 bg-white border-b border-b-gray-400 z-50">
       <div className="flex max-w-full px-6 items-center justify-between h-[71px]">
@@ -24,10 +28,31 @@ export default function Navbar() {
 
           {/** Profil part */}
           <div className="flex items-center gap-2 py-1.5 px-2.5 bg-blue-50 rounded-3xl cursor-pointer transition-all hover:bg-blue-100">
-            <div className="flex flex-col items-end">
-              <div className="text-xs font-bold text-blue-950">Jean Dupont</div>
+            {session?.image ? (
+              <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-white">
+                <NextImage
+                  src={session.image}
+                  alt={session.name}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            ) : (
+              <AvatarCircle
+                initial={`${session?.name[0]}${
+                  session?.name[session.name.length - 1]
+                }`}
+              />
+            )}
+
+            <div className="relative flex flex-col items-center max-w-24">
+              <div className="text-xs max-w-full font-bold text-blue-950 whitespace-nowrap overflow-hidden text-ellipsis">
+                {session?.name}
+              </div>
+              <div className="text-xs max-w-full text-gray-600 whitespace-nowrap overflow-hidden text-ellipsis">
+                {session?.email}
+              </div>
             </div>
-            <AvatarCircle initial="JD" />
           </div>
         </div>
       </div>

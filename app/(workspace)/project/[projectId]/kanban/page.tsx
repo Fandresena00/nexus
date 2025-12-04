@@ -1,53 +1,20 @@
-import TaskCard from "@/src/components/ui/task/task-card";
-import TaskColumn from "@/src/components/ui/task/task-column";
+import { getTasksByProject } from "@/app/actions/task-actions";
+import { getSession } from "@/src/lib/auth-server";
+import { redirect } from "next/navigation";
+import KanbanBoard from "./kanban-board";
 
-export default function page() {
-  return (
-    <div className=" flex flex-1 pb-6 pr-3.5 gap-3.5">
-      {/** To Do Column */}
-      <TaskColumn title="to do">
-        <TaskCard
-          taskId="uid"
-          title="Refonte architecture microservices"
-          description="Migration complète vers une architecture modulaire avec Docker et Kubernetes"
-          days="15"
-          month="Dec"
-          years="2025"
-        />
-      </TaskColumn>
-      {/** In Progress Column */}
-      <TaskColumn title="in progress">
-        <TaskCard
-          taskId="uid"
-          title="Refonte architecture microservices"
-          description="Migration complète vers une architecture modulaire avec Docker et Kubernetes"
-          days="15"
-          month="Dec"
-          years="2025"
-        />
-      </TaskColumn>
-      {/** Reviw column */}
-      <TaskColumn title="review">
-        <TaskCard
-          taskId="uid"
-          title="Refonte architecture microservices"
-          description="Migration complète vers une architecture modulaire avec Docker et Kubernetes"
-          days="15"
-          month="Dec"
-          years="2025"
-        />
-      </TaskColumn>
-      {/** Done column */}
-      <TaskColumn title="done">
-        <TaskCard
-          taskId="uid"
-          title="Refonte architecture microservices"
-          description="Migration complète vers une architecture modulaire avec Docker et Kubernetes"
-          days="15"
-          month="Dec"
-          years="2025"
-        />
-      </TaskColumn>
-    </div>
-  );
+export default async function page({
+  params,
+}: {
+  params: Promise<{ projectId: string }>;
+}) {
+  const { projectId } = await params;
+  const session = await getSession();
+
+  if (!session) {
+    redirect("/signin");
+  }
+  const tasks = await getTasksByProject(projectId);
+
+  return <KanbanBoard tasks={tasks} projectId={projectId} />;
 }

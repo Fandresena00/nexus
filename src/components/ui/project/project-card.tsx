@@ -7,10 +7,12 @@ export default function ProjectCard({
   title,
   description,
   projectId,
+  progression,
 }: {
   title: string;
   description: string;
   projectId: string;
+  progression: string;
 }) {
   return (
     <Link
@@ -30,10 +32,14 @@ export default function ProjectCard({
         <div className="mb-4">
           <div className="flex justify-between items-center mb-2">
             <span className="text-xs text-gray-600">Progression</span>
-            <span className="text-[13px] font-semibold text-gray-800">68%</span>
+            <span className="text-[13px] font-semibold text-gray-800">
+              {progression} %
+            </span>
           </div>
           <div className="h-2 bg-gray-300 overflow-hidden rounded-lg">
-            <div className="h-full rounded-lg transition-all bg-blue-700 w-[68%]"></div>
+            <div
+              className={`h-full rounded-lg transition-all bg-blue-700 w-[${progression}%]`}
+            ></div>
           </div>
         </div>
         <div className="flex items-center justify-between">

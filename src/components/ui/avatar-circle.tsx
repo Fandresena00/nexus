@@ -2,7 +2,7 @@ export default function AvatarCircle({
   initial,
   small,
 }: {
-  initial: string;
+  initial?: string;
   small?: boolean;
 }) {
   return (
@@ -11,7 +11,7 @@ export default function AvatarCircle({
         small ? "w-7 h-7 text-[11px]" : "w-10 h-10 text-sm"
       }`}
     >
-      {initial.toUpperCase()}
+      {initial?.toUpperCase()}
     </div>
   );
 }
