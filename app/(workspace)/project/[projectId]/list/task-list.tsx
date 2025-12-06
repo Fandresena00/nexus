@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Pencil, Trash2 } from "lucide-react";
 import Link from "next/link";
-import ConfirmDialog from "@/src/components/ui/confirm-dialog";
+import ConfirmDialog from "@/src/components/personnal/confirm-dialog";
 
 type Task = {
   id: string;
@@ -130,7 +130,7 @@ export default function TaskList({ tasks, projectId }: TaskListProps) {
                   updatingTaskId === task.id || deletingTaskId === task.id
                 }
                 className={`h-7 px-2 rounded-sm text-[11px] font-bold tracking-wide border cursor-pointer transition-opacity outline-none focus:ring-2 focus:ring-offset-1 ${getStatusBadgeStyle(
-                  task.taskStatus
+                  task.taskStatus,
                 )} ${
                   updatingTaskId === task.id || deletingTaskId === task.id
                     ? "opacity-50 cursor-not-allowed"

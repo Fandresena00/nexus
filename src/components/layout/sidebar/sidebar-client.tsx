@@ -10,9 +10,9 @@ import {
   Settings,
   UserIcon,
 } from "lucide-react";
-import NavLink from "../../ui/nav-link";
-import NavSectionTitle from "../../ui/sidebar/nav-section-title";
-import Logo from "../../ui/logo";
+import NavLink from "../../personnal/nav-link";
+import NavSectionTitle from "../../personnal/sidebar/nav-section-title";
+import Logo from "../../personnal/logo";
 import { signOut } from "@/src/lib/auth-client";
 import { redirect } from "next/navigation";
 

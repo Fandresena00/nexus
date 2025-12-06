@@ -1,8 +1,8 @@
 "use client";
 
 import { createProject } from "@/app/actions/project-action";
-import NavButton from "@/src/components/ui/nav-button";
-import FormTitleSection from "@/src/components/ui/project/form/form-title-section";
+import NavButton from "@/src/components/personnal/nav-button";
+import FormTitleSection from "@/src/components/personnal/project/form/form-title-section";
 import { LoaderPinwheelIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 

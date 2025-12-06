@@ -1,7 +1,7 @@
 import { BellIcon, MessageCircleMore, SidebarCloseIcon } from "lucide-react";
-import NavButton from "../ui/nav-button";
-import AvatarCircle from "../ui/avatar-circle";
-import Divider from "../ui/divider";
+import NavButton from "../personnal/nav-button";
+import AvatarCircle from "../personnal/avatar-circle";
+import Divider from "../personnal/divider";
 import { getSession } from "@/src/lib/auth-server";
 import NextImage from "next/image";
 

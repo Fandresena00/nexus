@@ -1,6 +1,6 @@
 import { getSession } from "@/src/lib/auth-server";
 import { redirect } from "next/navigation";
-import NavButton from "@/src/components/ui/nav-button";
+import NavButton from "@/src/components/personnal/nav-button";
 import {
   Pencil,
   Mail,

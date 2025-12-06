@@ -1,6 +1,6 @@
-import Divider from "@/src/components/ui/divider";
-import Logo from "@/src/components/ui/logo";
-import NavButton from "@/src/components/ui/nav-button";
+import Divider from "@/src/components/personnal/divider";
+import Logo from "@/src/components/personnal/logo";
+import NavButton from "@/src/components/personnal/nav-button";
 import prisma from "@/src/lib/prisma";
 import { PlusCircle, Users, Settings2 } from "lucide-react";
 

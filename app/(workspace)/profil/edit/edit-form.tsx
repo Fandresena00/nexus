@@ -1,6 +1,6 @@
 "use client";
 
-import NavButton from "@/src/components/ui/nav-button";
+import NavButton from "@/src/components/personnal/nav-button";
 import { updateUser } from "@/src/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { useState, useRef } from "react";
@@ -91,7 +91,7 @@ export default function EditForm({
         if (!uploadResponse.ok) {
           const errorData = await uploadResponse.json();
           throw new Error(
-            errorData.error || "Erreur lors de l'upload de l'image"
+            errorData.error || "Erreur lors de l'upload de l'image",
           );
         }
 
@@ -112,16 +112,16 @@ export default function EditForm({
           },
           onError(error) {
             setError(
-              error.error?.message || "Erreur lors de la mise à jour du profil"
+              error.error?.message || "Erreur lors de la mise à jour du profil",
             );
           },
-        }
+        },
       );
     } catch (err) {
       setError(
         err instanceof Error
           ? err.message
-          : "Erreur lors de la mise à jour du profil"
+          : "Erreur lors de la mise à jour du profil",
       );
     } finally {
       setLoading(false);

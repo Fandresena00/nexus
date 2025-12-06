@@ -1,14 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import TaskCard from "@/src/components/ui/task/task-card";
-import TaskColumn from "@/src/components/ui/task/task-column";
+import TaskCard from "@/src/components/personnal/task/task-card";
+import TaskColumn from "@/src/components/personnal/task/task-column";
 import { TaskStatus } from "@/generated/prisma/enums";
 import { updateTaskStatus, deleteTask } from "@/app/actions/task-actions";
 import { useRouter } from "next/navigation";
 import { Trash2, Pencil } from "lucide-react";
 import Link from "next/link";
-import ConfirmDialog from "@/src/components/ui/confirm-dialog";
+import ConfirmDialog from "@/src/components/personnal/confirm-dialog";
 
 type Task = {
   id: string;
@@ -34,7 +34,7 @@ const statusMap: Record<string, TaskStatus> = {
 export default function KanbanBoard({ tasks, projectId }: KanbanBoardProps) {
   const [draggedTaskId, setDraggedTaskId] = useState<string | null>(null);
   const [draggedOverColumn, setDraggedOverColumn] = useState<string | null>(
-    null
+    null,
   );
   const [deletingTaskId, setDeletingTaskId] = useState<string | null>(null);
   const [confirmDialog, setConfirmDialog] = useState<{
@@ -47,10 +47,10 @@ export default function KanbanBoard({ tasks, projectId }: KanbanBoardProps) {
   // Filter tasks by status
   const todoTasks = tasks.filter((task) => task.taskStatus === TaskStatus.TODO);
   const inProgressTasks = tasks.filter(
-    (task) => task.taskStatus === TaskStatus.IN_PROGRESS
+    (task) => task.taskStatus === TaskStatus.IN_PROGRESS,
   );
   const reviewTasks = tasks.filter(
-    (task) => task.taskStatus === TaskStatus.REVIEW
+    (task) => task.taskStatus === TaskStatus.REVIEW,
   );
   const doneTasks = tasks.filter((task) => task.taskStatus === TaskStatus.DONE);
 
@@ -109,7 +109,7 @@ export default function KanbanBoard({ tasks, projectId }: KanbanBoardProps) {
   const handleDeleteClick = (
     taskId: string,
     taskTitle: string,
-    e: React.MouseEvent
+    e: React.MouseEvent,
   ) => {
     e.stopPropagation(); // Prevent drag from starting when clicking delete
     setConfirmDialog({

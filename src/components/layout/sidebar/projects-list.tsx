@@ -1,7 +1,7 @@
 import { getUserProjects } from "@/app/actions/project-action";
 import { getSession } from "@/src/lib/auth-server";
 import prisma from "@/src/lib/prisma";
-import NavProjectLink from "../../ui/sidebar/nav-project-link";
+import NavProjectLink from "../../personnal/sidebar/nav-project-link";
 
 export default async function ProjectsList() {
   const session = await getSession();
@@ -22,7 +22,7 @@ export default async function ProjectsList() {
         ...project,
         taskCount,
       };
-    })
+    }),
   );
 
   if (projectsWithTaskCount.length === 0) {
