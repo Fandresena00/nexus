@@ -2,6 +2,7 @@
 
 import prisma from "@/src/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { TaskStatus } from "@/generated/prisma/enums";
 
 /**
  * Crée une nouvelle tâche pour un projet.
@@ -57,8 +58,8 @@ export async function updateTask(
     description?: string;
     deadline?: Date;
     tag?: string[];
-    taskStatus?: string;
-  }
+    taskStatus?: TaskStatus;
+  },
 ) {
   try {
     const updated = await prisma.task.update({
@@ -79,11 +80,11 @@ export async function updateTask(
  * @param taskId ID de la tâche à modifier
  * @param taskStatus Nouveau statut de la tâche
  */
-export async function updateTaskStatus(taskId: string, taskStatus: string) {
+export async function updateTaskStatus(taskId: string, taskStatus: TaskStatus) {
   try {
     const updated = await prisma.task.update({
       where: { id: taskId },
-      data: { taskStatus: taskStatus as any },
+      data: { taskStatus },
     });
 
     revalidatePath(`/project/${updated.projectId}/kanban`);
