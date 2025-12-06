@@ -2,8 +2,8 @@ import Divider from "@/src/components/personnal/divider";
 import Logo from "@/src/components/personnal/logo";
 import NavButton from "@/src/components/personnal/nav-button";
 import ProjectCard from "@/src/components/personnal/project/project-card";
-import { getSession } from "@/src/lib/auth-server";
-import prisma from "@/src/lib/prisma";
+import { getSession } from "@/lib/auth-server";
+import prisma from "@/lib/prisma";
 
 import { PlusCircle, Settings2 } from "lucide-react";
 import { redirect } from "next/navigation";

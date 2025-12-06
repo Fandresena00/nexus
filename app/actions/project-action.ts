@@ -1,6 +1,6 @@
 "use server";
 
-import prisma from "@/src/lib/prisma";
+import prisma from "@/lib/prisma";
 export const getProjectById = async (projectId: string) => {
   try {
     const project = await prisma.project.findUnique({
@@ -44,7 +44,7 @@ export const updateProject = async (
     title?: string;
     description?: string;
     deadline?: string;
-  }
+  },
 ) => {
   try {
     const updated = await prisma.project.update({
@@ -77,7 +77,7 @@ export const createProject = async (
   title: string,
   description: string,
   deadline: string,
-  userId: string
+  userId: string,
 ) => {
   try {
     const parsedDeadline = parseDeadlineToDate(deadline);

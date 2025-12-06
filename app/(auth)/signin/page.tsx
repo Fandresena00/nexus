@@ -1,7 +1,7 @@
 import GoogleSvg from "@/public/google-svg";
 import SigninForm from "./signin-form";
 import FacebookSvg from "@/public/facebook-svg";
-import { getSession } from "@/src/lib/auth-server";
+import { getSession } from "@/lib/auth-server";
 import { redirect } from "next/navigation";
 
 export default async function page() {

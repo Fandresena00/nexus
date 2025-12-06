@@ -1,6 +1,6 @@
 "use client";
 
-import { signUp } from "@/src/lib/auth-client";
+import { signUp } from "@/lib/auth-client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -37,7 +37,7 @@ export function SignupFrom() {
           setError(error.error.message);
           console.log(error.error.message);
         },
-      }
+      },
     );
   };
 

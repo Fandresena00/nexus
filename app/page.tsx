@@ -1,4 +1,4 @@
-import { getSession } from "@/src/lib/auth-server";
+import { getSession } from "@/lib/auth-server";
 import { redirect, unauthorized } from "next/navigation";
 
 export default async function Home() {

@@ -2,7 +2,7 @@ import { BellIcon, MessageCircleMore, SidebarCloseIcon } from "lucide-react";
 import NavButton from "../personnal/nav-button";
 import AvatarCircle from "../personnal/avatar-circle";
 import Divider from "../personnal/divider";
-import { getSession } from "@/src/lib/auth-server";
+import { getSession } from "@/lib/auth-server";
 import NextImage from "next/image";
 
 export default async function Navbar() {

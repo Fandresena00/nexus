@@ -1,4 +1,4 @@
-import { getSession } from "@/src/lib/auth-server";
+import { getSession } from "@/lib/auth-server";
 import { redirect } from "next/navigation";
 import EditForm from "./edit-form";
 

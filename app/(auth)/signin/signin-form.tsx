@@ -1,6 +1,6 @@
 "use client";
 
-import { signIn } from "@/src/lib/auth-client";
+import { signIn } from "@/lib/auth-client";
 import { LoaderPinwheelIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";

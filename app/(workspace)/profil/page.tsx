@@ -1,4 +1,4 @@
-import { getSession } from "@/src/lib/auth-server";
+import { getSession } from "@/lib/auth-server";
 import { redirect } from "next/navigation";
 import NavButton from "@/src/components/personnal/nav-button";
 import {
@@ -9,7 +9,7 @@ import {
   CheckSquare,
 } from "lucide-react";
 import Link from "next/link";
-import prisma from "@/src/lib/prisma";
+import prisma from "@/lib/prisma";
 import Image from "next/image";
 
 export default async function page() {

@@ -1,5 +1,5 @@
 import { getTaskById } from "@/app/actions/task-actions";
-import { getSession } from "@/src/lib/auth-server";
+import { getSession } from "@/lib/auth-server";
 import { redirect } from "next/navigation";
 import EditTaskForm from "./edit-task-form";
 
@@ -23,11 +23,7 @@ export default async function page({
 
   return (
     <div className="flex items-center justify-center p-8 min-h-screen">
-      <EditTaskForm
-        task={task}
-        projectId={projectId}
-      />
+      <EditTaskForm task={task} projectId={projectId} />
     </div>
   );
 }
-

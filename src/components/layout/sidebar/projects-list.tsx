@@ -1,6 +1,6 @@
 import { getUserProjects } from "@/app/actions/project-action";
-import { getSession } from "@/src/lib/auth-server";
-import prisma from "@/src/lib/prisma";
+import { getSession } from "@/lib/auth-server";
+import prisma from "@/lib/prisma";
 import NavProjectLink from "../../personnal/sidebar/nav-project-link";
 
 export default async function ProjectsList() {

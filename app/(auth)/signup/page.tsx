@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { SignupFrom } from "./signup-from";
-import { getSession } from "@/src/lib/auth-server";
+import { getSession } from "@/lib/auth-server";
 
 export default async function page() {
   const session = await getSession();

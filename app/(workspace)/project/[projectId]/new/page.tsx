@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { getSession } from "@/src/lib/auth-server";
+import { getSession } from "@/lib/auth-server";
 import NewTask from "./new-task";
 
 export default async function page() {

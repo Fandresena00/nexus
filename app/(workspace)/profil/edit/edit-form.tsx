@@ -1,7 +1,7 @@
 "use client";
 
 import NavButton from "@/src/components/personnal/nav-button";
-import { updateUser } from "@/src/lib/auth-client";
+import { updateUser } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { useState, useRef } from "react";
 import Link from "next/link";
