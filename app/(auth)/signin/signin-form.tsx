@@ -1,7 +1,5 @@
 "use client";
 
-import FacebookSvg from "@/public/facebook-svg";
-import GoogleSvg from "@/public/google-svg";
 import { signIn } from "@/src/lib/auth-client";
 import { LoaderPinwheelIcon } from "lucide-react";
 import Link from "next/link";
@@ -37,7 +35,7 @@ export default function SigninForm() {
           setError(error.error.message);
           console.log(error.error.message);
         },
-      }
+      },
     );
   };
 
