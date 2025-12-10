@@ -1,5 +1,15 @@
 import { Task } from "@/generated/prisma/client";
 import RenderTask from "./render-task";
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyTitle,
+  EmptyHeader,
+  EmptyMedia,
+} from "@/components/ui/empty";
+import { FileBarChart2 } from "lucide-react";
+import NewTaskForm from "@/components/form/new-task-form";
 
 export default function TaskList({
   initialTasks = [],
@@ -25,11 +35,28 @@ export default function TaskList({
       </div>
 
       {/** Task list */}
-      <div className="flex p-2.5 flex-col gap-3.5">
-        {initialTasks.map((task) => (
-          <RenderTask key={task.id} task={task} />
-        ))}
-      </div>
+      {initialTasks.length > 0 ? (
+        <div className="flex p-2.5 flex-col gap-3.5">
+          {initialTasks.map((task) => (
+            <RenderTask key={task.id} task={task} />
+          ))}
+        </div>
+      ) : (
+        <Empty className="border-4 border-dashed max-w-96 mx-auto my-8">
+          <EmptyHeader>
+            <EmptyMedia variant={"icon"}>
+              <FileBarChart2 />
+            </EmptyMedia>
+            <EmptyTitle>Task Empty</EmptyTitle>
+            <EmptyDescription>
+              Create new task to better track your progress
+            </EmptyDescription>
+            <EmptyContent>
+              <NewTaskForm userId={userId} projectId={projectId} />
+            </EmptyContent>
+          </EmptyHeader>
+        </Empty>
+      )}
     </div>
   );
 }

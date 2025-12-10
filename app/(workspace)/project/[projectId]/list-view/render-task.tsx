@@ -1,3 +1,5 @@
+"use client";
+
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -11,10 +13,23 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
 import { Task } from "@/generated/prisma/client";
+import { updateTaskStatus } from "@/app/actions/task-actions";
+import { TaskStatus } from "@/generated/prisma/enums";
 
 export default function RenderTask({ task }: { task: Task }) {
+  const handleStatusChange = async (newStatus: TaskStatus) => {
+    try {
+      await updateTaskStatus(task.id, newStatus);
+      // Optionally add toast notification here
+    } catch (error) {
+      console.error("Failed to update task status:", error);
+      // Optionally show error toast here
+    }
+  };
+
   return (
     <Card className="grid grid-cols-2 rounded-none hover:shadow-xl transition-all">
       <CardHeader>
@@ -27,13 +42,15 @@ export default function RenderTask({ task }: { task: Task }) {
             <Badge key={e}>{e}</Badge>
           ))}
         </div>
-        <Select>
-          <SelectTrigger>{task.taskStatus}</SelectTrigger>
+        <Select onValueChange={handleStatusChange} value={task.taskStatus}>
+          <SelectTrigger>
+            <SelectValue>{task.taskStatus}</SelectValue>
+          </SelectTrigger>
           <SelectContent>
-            <SelectItem value="TO DO">To Do</SelectItem>
+            <SelectItem value="TO_DO">To Do</SelectItem>
             <SelectItem value="IN_PROGRESS">In Progress</SelectItem>
             <SelectItem value="REVIEW">In Review</SelectItem>
-            <SelectItem value="Done">Done</SelectItem>
+            <SelectItem value="DONE">Done</SelectItem>
           </SelectContent>
         </Select>
         <h3 className="flex text-sm items-center justify-center">

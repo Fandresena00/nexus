@@ -6,7 +6,6 @@ import { useState } from "react";
 import { updateTaskStatus } from "@/app/actions/task-actions";
 import { TaskStatus } from "@/generated/prisma/enums";
 import { Task } from "@/generated/prisma/client";
-import { useRouter } from "next/navigation";
 import {
   Empty,
   EmptyDescription,

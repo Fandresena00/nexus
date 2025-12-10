@@ -1,6 +1,7 @@
 "use client";
 
-import { createProject } from "@/app/actions/project-action";
+import { updateProject } from "@/app/actions/project-action";
+import { uploadImage } from "@/app/actions/project-action";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -16,42 +17,51 @@ import { Field, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { Textarea } from "@/components/ui/textarea";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
+import { Edit3 } from "lucide-react";
+import { Project } from "@/generated/prisma/client";
+import { useRouter } from "next/navigation";
 
-export default function NewProjectForm({ userId }: { userId: string }) {
-  const [title, SetTitle] = useState("");
-  const [description, SetDescription] = useState("");
-  const [deadline, SetDeadline] = useState("");
+export default function EditProjectForm({ project }: { project: Project }) {
+  const [title, setTitle] = useState(project.title);
+  const [description, setDescription] = useState(project.description);
+  const [deadline, setDeadline] = useState(
+    project.deadline.toISOString().split("T")[0],
+  );
   const [image, setImage] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const router = useRouter();
 
-  const HandleCreateProject = async (e: React.FormEvent) => {
+  const handleUpdateProject = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    if (title.length > 0 && description.length > 0 && deadline.length > 0) {
-      try {
-        await createProject(
-          title,
-          description,
-          deadline,
-          userId,
-          image || undefined,
-        );
-        toast.success(`Project ${title} has been created`, {
-          description: description,
-        });
-        router.refresh();
-      } catch (error) {
-        console.error("Error creating project:", error);
-      } finally {
-        setLoading(false);
+
+    try {
+      let imageUrl: string | undefined;
+
+      // Handle image upload if a new image was selected
+      if (image) {
+        imageUrl = await uploadImage(image);
       }
-    } else {
-      toast.error("invalid project");
+
+      await updateProject(project.id, {
+        title,
+        description,
+        deadline,
+        image: imageUrl,
+      });
+
+      toast.success(`Project ${title} has been updated`);
+      setOpen(false);
+
+      router.refresh();
+    } catch (error) {
+      console.error("Error updating project:", error);
+      toast.error("Failed to update project");
+    } finally {
       setLoading(false);
     }
   };
@@ -64,20 +74,20 @@ export default function NewProjectForm({ userId }: { userId: string }) {
   };
 
   return (
-    <Dialog>
-      <form>
-        <DialogTrigger asChild>
-          <Button>create project</Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-xl">
-          <DialogHeader>
-            <DialogTitle>Create a project</DialogTitle>
-            <DialogDescription>
-              Give the explicit information of the project for better track
-              progression
-            </DialogDescription>
-          </DialogHeader>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button variant="outline" size="sm">
+          <Edit3 className="w-4 h-4 mr-2" />
+          Edit Project
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-xl">
+        <DialogHeader>
+          <DialogTitle>Edit Project</DialogTitle>
+          <DialogDescription>Update your project information</DialogDescription>
+        </DialogHeader>
 
+        <form onSubmit={handleUpdateProject}>
           <div className="w-full max-w-md mx-auto">
             <FieldSet>
               <FieldGroup>
@@ -85,35 +95,38 @@ export default function NewProjectForm({ userId }: { userId: string }) {
                   <FieldLabel htmlFor="title">Title</FieldLabel>
                   <Input
                     type="text"
+                    id="title"
                     value={title}
-                    onChange={(e) => SetTitle(e.target.value)}
+                    onChange={(e) => setTitle(e.target.value)}
                     required
                     autoFocus
                   />
                 </Field>
+
                 <Field>
-                  <FieldLabel htmlFor="description">Descrition</FieldLabel>
+                  <FieldLabel htmlFor="description">Description</FieldLabel>
                   <Textarea
+                    id="description"
                     value={description}
-                    onChange={(e) => SetDescription(e.target.value)}
+                    onChange={(e) => setDescription(e.target.value)}
                     required
                     className="max-h-28 h-full"
                   />
                 </Field>
+
                 <Field>
                   <FieldLabel htmlFor="deadline">Deadline</FieldLabel>
                   <Input
                     type="date"
+                    id="deadline"
                     value={deadline}
                     required
-                    onChange={(e) => SetDeadline(e.target.value)}
+                    onChange={(e) => setDeadline(e.target.value)}
                   />
                 </Field>
 
                 <Field>
-                  <FieldLabel htmlFor="image">
-                    Project Image (Optional)
-                  </FieldLabel>
+                  <FieldLabel htmlFor="image">Project Image</FieldLabel>
                   <Input
                     type="file"
                     id="image"
@@ -132,17 +145,19 @@ export default function NewProjectForm({ userId }: { userId: string }) {
               <FieldGroup>
                 <DialogFooter>
                   <DialogClose asChild>
-                    <Button variant={"outline"}>Cancel</Button>
+                    <Button variant="outline" type="button">
+                      Cancel
+                    </Button>
                   </DialogClose>
-                  <Button onClick={HandleCreateProject} disabled={loading}>
-                    {loading ? <Spinner /> : "Confirm"}
+                  <Button type="submit" disabled={loading}>
+                    {loading ? <Spinner /> : "Update Project"}
                   </Button>
                 </DialogFooter>
               </FieldGroup>
             </FieldSet>
           </div>
-        </DialogContent>
-      </form>
+        </form>
+      </DialogContent>
     </Dialog>
   );
 }
