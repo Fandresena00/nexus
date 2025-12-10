@@ -1,13 +1,7 @@
 import { getSession } from "@/lib/auth-server";
 import prisma from "@/lib/prisma";
 
-import {
-  Calendar,
-  CheckCircle2,
-  Pencil,
-  Settings2,
-  FileBarChart2,
-} from "lucide-react";
+import { Calendar, CheckCircle2, FileBarChart2 } from "lucide-react";
 import { redirect } from "next/navigation";
 import {
   Card,
