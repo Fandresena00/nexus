@@ -1,4 +1,13 @@
-export default function Page() {
+import { getSession } from "@/lib/auth-server";
+import { redirect } from "next/navigation";
+
+export default async function Page() {
+  const session = await getSession();
+
+  if (!session) {
+    redirect("/signin");
+  }
+
   const stats = [
     { label: "Projets tot.", value: 12 },
     { label: "En cours", value: 6 },
@@ -123,8 +132,8 @@ export default function Page() {
             <div className="border rounded p-4 text-sm text-gray-700">
               {/* Simple static calendar example - replace with full calendar library if needed */}
               <div className="grid grid-cols-7 gap-1 text-center">
-                {["L", "M", "M", "J", "V", "S", "D"].map((d) => (
-                  <div key={d} className="font-medium">
+                {["L", "M", "M", "J", "V", "S", "D"].map((d, index) => (
+                  <div key={index} className="font-medium">
                     {d}
                   </div>
                 ))}

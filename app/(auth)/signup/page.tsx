@@ -1,6 +1,11 @@
 import { redirect } from "next/navigation";
 import { SignupFrom } from "./signup-from";
 import { getSession } from "@/lib/auth-server";
+import FacebookSvg from "@/public/facebook-svg";
+import GoogleSvg from "@/public/google-svg";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 
 export default async function page() {
   const session = await getSession();
@@ -9,14 +14,29 @@ export default async function page() {
     redirect("/dashboard");
   }
   return (
-    <div className="bg-gray-50 rounded-xl p-12 w-full max-w-2xl shadow-2xl shadow-blue-950/60">
-      <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">Welcome</h2>
+    <Card className="p-8 w-full max-w-[440] shadow-2xl shadow-zinc-950/60">
+      <CardHeader className="text-center">
+        <h2 className="text-2xl font-bold text-gray-800 mb-2">Bon retour !</h2>
         <p className="text-sm text-gray-600">
-          create an account for use this app
+          Connectez-vous pour accéder à votre espace
         </p>
+      </CardHeader>
+      {/** Social Login */}
+      <div className="relative flex gap-2 justify-center">
+        <Button className="w-2/5">
+          <GoogleSvg />
+          <span>Google</span>
+        </Button>
+        <Button className="w-2/5">
+          <FacebookSvg />
+          <span>Facebook</span>
+        </Button>
       </div>
-      <SignupFrom />
-    </div>
+
+      <Separator />
+      <CardContent>
+        <SignupFrom />
+      </CardContent>
+    </Card>
   );
 }

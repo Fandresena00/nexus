@@ -6,18 +6,18 @@ export default function layout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="relative overflow-hidden flex h-screen bg-linear-120 from-blue-50 to-blue-100">
+    <div className="relative overflow-hidden flex h-screen bg-linear-120 from-zinc-50 to-zinc-100">
       {/** Animated Background */}
-      <div className="absolute rounded-full blur-[80px] opacity-50 w-96 h-96 bg-blue-600 top-28 left-28 animate-pulse"></div>
-      <div className="absolute rounded-full blur-[80px] opacity-50 w-72 h-72 bg-blue-600 bottom-28 right-28 animate-bounce"></div>
-      <div className="absolute rounded-full blur-[80px] opacity-50 w-52 h-52 bg-blue-600 top-1/2 right-1/2 translate-1/2 animate-ping"></div>
+      <div className="absolute rounded-full blur-[80px] opacity-50 w-96 h-96 bg-zinc-600 top-28 left-28 animate-pulse"></div>
+      <div className="absolute rounded-full blur-[80px] opacity-50 w-72 h-72 bg-zinc-600 bottom-28 right-28 animate-bounce"></div>
+      <div className="absolute rounded-full blur-[80px] opacity-50 w-52 h-52 bg-zinc-600 top-1/2 right-1/2 translate-1/2 animate-ping"></div>
 
       {/** main container */}
       <div className="relative flex w-full max-w-7xl m-auto z-10">
         {/**  Left Side - Brand & Features */}
         <div className="flex flex-1 flex-col justify-center p-16">
           <div className="flex items-center gap-4 mb-12">
-            <div className="flex w-16 h-16 bg-linear-120 from-blue-300 to-blue-600 rounded-lg items-center justify-center shadow-xl shadow-blue-600/50">
+            <div className="flex w-16 h-16 bg-linear-120 from-zinc-300 to-zinc-600 rounded-lg items-center justify-center shadow-xl shadow-zinc-600/50">
               <svg
                 fill="none"
                 stroke="currentColor"
@@ -31,15 +31,15 @@ export default function layout({
                 ></path>
               </svg>
             </div>
-            <span className="text-3xl font-extrabold text-blue-800">Nexus</span>
+            <span className="text-3xl font-extrabold text-zinc-800">Nexus</span>
           </div>
 
-          <h1 className="text-4xl font-extrabold leading-tight mb-6 text-blue-950">
+          <h1 className="text-4xl font-extrabold leading-tight mb-6 text-zinc-950">
             Gérez vos tâches <br />
             comme un pro
           </h1>
 
-          <p className="text-lg leading-normal text-blue-900 mb-10">
+          <p className="text-lg leading-normal text-zinc-900 mb-10">
             La plateforme moderne de gestion de tâches qui booste votre
             productivité et vous aide à atteindre vos objectifs plus rapidement.
           </p>
@@ -47,8 +47,8 @@ export default function layout({
           {/** feature presentation */}
           <ul className="list-none">
             {/** interface */}
-            <li className="flex items-center gap-4 mb-5 text-sm text-blue-700">
-              <div className=" flex  w-12 h-12 bg-white rounded-lg items-center justify-center shrink-0 shadow-lg shadow-blue-700/60">
+            <li className="flex items-center gap-4 mb-5 text-sm text-zinc-700">
+              <div className=" flex  w-12 h-12 bg-white rounded-lg items-center justify-center shrink-0 shadow-lg shadow-zinc-700/60">
                 <svg
                   fill="none"
                   stroke="currentColor"
@@ -68,8 +68,8 @@ export default function layout({
               </span>
             </li>
             {/** analyse and productivity */}
-            <li className="flex items-center gap-4 mb-5 text-sm text-blue-700">
-              <div className="flex  w-12 h-12 bg-white rounded-lg items-center justify-center shrink-0 shadow-lg shadow-blue-700/60">
+            <li className="flex items-center gap-4 mb-5 text-sm text-zinc-700">
+              <div className="flex  w-12 h-12 bg-white rounded-lg items-center justify-center shrink-0 shadow-lg shadow-zinc-700/60">
                 <svg
                   fill="none"
                   stroke="currentColor"
@@ -89,8 +89,8 @@ export default function layout({
               </span>
             </li>
             {/** security */}
-            <li className="flex items-center gap-4 mb-5 text-sm text-blue-700">
-              <div className="flex  w-12 h-12 bg-white rounded-lg items-center justify-center shrink-0 shadow-lg shadow-blue-700/60">
+            <li className="flex items-center gap-4 mb-5 text-sm text-zinc-700">
+              <div className="flex  w-12 h-12 bg-white rounded-lg items-center justify-center shrink-0 shadow-lg shadow-zinc-700/60">
                 <svg
                   fill="none"
                   stroke="currentColor"

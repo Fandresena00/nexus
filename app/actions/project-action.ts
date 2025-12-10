@@ -58,11 +58,6 @@ export const updateProject = async (
   }
 };
 
-/**
- * Ensures a string is a valid ISO-8601 date string (YYYY-MM-DD or full ISO)
- * and converts it to a Date object if valid.
- * Returns undefined if input is falsy or not parseable.
- */
 function parseDeadlineToDate(deadline?: string): Date | undefined {
   if (!deadline) return undefined;
   const iso8601Regex = /^\d{4}-\d{2}-\d{2}$/;

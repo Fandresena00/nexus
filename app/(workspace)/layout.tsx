@@ -1,5 +1,5 @@
-import Navbar from "@/src/components/layout/navbar";
-import Sidebar from "@/src/components/layout/sidebar/sidebar";
+import AppSidebar from "@/components/layout/app-sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
 export default async function layout({
   children,
@@ -7,12 +7,12 @@ export default async function layout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex w-full h-screen">
-      <Sidebar />
-      <div className="flex flex-col w-full">
-        <Navbar />
-        <div>{children}</div>
-      </div>
-    </div>
+    <SidebarProvider>
+      <AppSidebar />
+      <main className="flex flex-col w-full">
+        <SidebarTrigger />
+        {children}
+      </main>
+    </SidebarProvider>
   );
 }

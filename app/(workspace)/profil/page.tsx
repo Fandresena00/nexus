@@ -1,6 +1,5 @@
 import { getSession } from "@/lib/auth-server";
 import { redirect } from "next/navigation";
-import NavButton from "@/src/components/personnal/nav-button";
 import {
   Pencil,
   Mail,
@@ -11,6 +10,7 @@ import {
 import Link from "next/link";
 import prisma from "@/lib/prisma";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
 export default async function page() {
   const session = await getSession();
@@ -70,11 +70,10 @@ export default async function page() {
             </div>
           </div>
           <Link href="/profil/edit">
-            <NavButton
-              text="Modifier le profil"
-              icon={<Pencil size={18} />}
-              principal
-            />
+            <Button>
+              <Pencil />
+              <span>edit</span>
+            </Button>
           </Link>
         </div>
       </div>
