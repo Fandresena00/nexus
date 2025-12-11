@@ -1,6 +1,5 @@
 "use client";
 
-import NavButton from "@/src/components/personnal/nav-button";
 import { updateUser } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { useState, useRef } from "react";
@@ -243,9 +242,6 @@ export default function EditForm({
 
       {/** Footer */}
       <div className="flex justify-end py-4 px-16 gap-6 border-t border-t-gray-600">
-        <Link href="/profil">
-          <NavButton text="Annuler" principal />
-        </Link>
         <button
           type="submit"
           disabled={

@@ -159,6 +159,7 @@ export default function KanbanBoard({
               <div className="flex flex-col gap-2.5 px-3 py-2">
                 {getTasksByStatus(column.status).map((task) => (
                   <RenderTasks
+                    projectId={projectId}
                     key={task.id}
                     task={task}
                     onDragStart={handleDragStart}

@@ -29,7 +29,6 @@ export default function NewTaskForm({
   userId: string;
   projectId: string;
 }) {
-  const [title, SetTitle] = useState("");
   const [description, SetDescription] = useState("");
   const [deadline, SetDeadline] = useState("");
   const [tag, SetTag] = useState<string[]>([]);
@@ -50,29 +49,22 @@ export default function NewTaskForm({
     e.preventDefault();
     setLoading(true);
     try {
-      if (
-        title.length > 0 &&
-        description.length > 0 &&
-        deadline.length > 0 &&
-        tag.length > 0
-      ) {
+      if (description.length > 0 && deadline.length > 0 && tag.length > 0) {
         await createTask({
           projectId: projectId,
           userId: userId,
-          title: title,
           description: description,
           deadline: new Date(deadline),
           tag: tag,
         });
         router.refresh();
-        toast.success(`task ${title} has been created`);
+        toast.success(`task ${description} has been created`);
       } else {
         toast.error(`Invalid task information`);
       }
     } catch (err) {
       console.error("Error creating project:", err);
     } finally {
-      SetTitle("");
       SetDescription("");
       SetDeadline("");
       SetTag([]);
@@ -99,16 +91,6 @@ export default function NewTaskForm({
           <div className="w-full max-w-md mx-auto">
             <FieldSet>
               <FieldGroup>
-                <Field>
-                  <FieldLabel htmlFor="title">Title</FieldLabel>
-                  <Input
-                    type="text"
-                    value={title}
-                    onChange={(e) => SetTitle(e.target.value)}
-                    required
-                    autoFocus
-                  />
-                </Field>
                 <Field>
                   <FieldLabel htmlFor="description">Descrition</FieldLabel>
                   <Textarea

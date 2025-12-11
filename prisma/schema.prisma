@@ -79,7 +79,6 @@ enum TaskStatus {
 model Task {
   
   id          String     @id @default(cuid())
-  title       String
   description String
   tag         String[]
   taskStatus  TaskStatus @default(TODO)

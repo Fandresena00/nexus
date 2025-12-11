@@ -25,9 +25,9 @@ export default function ProjectOption({
 
   const HandleDeleteProject = async () => {
     try {
-      toast.message(`project ${projectTitle} has been deleted`);
       await deleteTaskByProject(projectId);
       await deleteProject(projectId);
+      toast.message(`project ${projectTitle} has been deleted`);
       router.refresh();
     } catch (err) {
       console.log(`error on deleted project : ${err}`);

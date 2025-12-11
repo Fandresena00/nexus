@@ -15,18 +15,20 @@ import { Button } from "../button";
 
 export default function TaskOption({
   taskId,
+  projectId,
   taskTitle,
 }: {
   taskId: string;
+  projectId: string;
   taskTitle: string;
 }) {
   const router = useRouter();
 
-  const HandleDeleteProject = async () => {
+  const HandleDeleteTask = async () => {
     try {
-      await deleteTask(taskId);
-      router.refresh();
+      await deleteTask(taskId, projectId);
       toast.message(`task ${taskTitle} has been deleted`);
+      router.refresh();
     } catch (err) {
       console.log(`error on deleted task : ${err}`);
     }
@@ -41,7 +43,7 @@ export default function TaskOption({
       <DropdownMenuContent>
         <DropdownMenuGroup>
           <DropdownMenuItem
-            onClick={HandleDeleteProject}
+            onClick={HandleDeleteTask}
             className="group transition-all"
           >
             <Trash2 className="group-hover:text-red-500 transition-all" />

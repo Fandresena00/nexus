@@ -7,14 +7,12 @@ import { TaskStatus } from "@/generated/prisma/enums";
 export async function createTask({
   projectId,
   userId,
-  title,
   description,
   deadline,
   tag = [],
 }: {
   projectId: string;
   userId: string;
-  title: string;
   description: string;
   deadline: Date;
   tag: string[];
@@ -22,7 +20,6 @@ export async function createTask({
   try {
     const newTask = await prisma.task.create({
       data: {
-        title,
         description: description || "",
         deadline,
         tag,
@@ -30,8 +27,8 @@ export async function createTask({
         userId,
       },
     });
-
-    revalidatePath(`/project/${projectId}/kanban`);
+    revalidatePath(`/project/${projectId}/kanban-board`);
+    revalidatePath(`/project/${projectId}/list-view`);
     return newTask;
   } catch (err) {
     console.error("Erreur création:", err);
@@ -42,7 +39,6 @@ export async function createTask({
 export async function updateTask(
   taskId: string,
   data: {
-    title?: string;
     description?: string;
     deadline?: Date;
     tag?: string[];
@@ -55,7 +51,8 @@ export async function updateTask(
       data,
     });
 
-    revalidatePath(`/project/${updated.projectId}/kanban`);
+    revalidatePath(`/project/${updated.projectId}/kanban-board`);
+    revalidatePath(`/project/${updated.projectId}/list-view`);
     return updated;
   } catch (err) {
     console.error("Erreur mise à jour:", err);
@@ -72,7 +69,9 @@ export async function updateTaskStatus(taskId: string, taskStatus: TaskStatus) {
     });
 
     // Rafraîchir le cache Next.js
-    revalidatePath(`/project/${updated.projectId}/kanban`);
+
+    revalidatePath(`/project/${updated.projectId}/kanban-board`);
+    revalidatePath(`/project/${updated.projectId}/list-view`);
 
     return updated;
   } catch (err) {
@@ -81,14 +80,14 @@ export async function updateTaskStatus(taskId: string, taskStatus: TaskStatus) {
   }
 }
 
-export async function deleteTask(taskId: string) {
+export async function deleteTask(taskId: string, projectId: string) {
   try {
     const deleted = await prisma.task.delete({
       where: { id: taskId },
     });
 
-    revalidatePath(`/project/${deleted.projectId}/kanban-board`);
-    revalidatePath(`/project/${deleted.projectId}/list`);
+    revalidatePath(`/project/${projectId}/kanban-board`);
+    revalidatePath(`/project/${projectId}/list-view`);
 
     return deleted;
   } catch (err) {
@@ -103,9 +102,8 @@ export async function deleteTaskByProject(projectId: string) {
       where: { projectId: projectId },
     });
 
-    revalidatePath(`/project/${projectId}/kanban`);
-    revalidatePath(`/project/${projectId}/list`);
-
+    revalidatePath(`/project/${projectId}/kanban-board`);
+    revalidatePath(`/project/${projectId}/list-view`);
     return deleted;
   } catch (err) {
     console.error("Erreur suppression:", err);

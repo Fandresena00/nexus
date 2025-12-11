@@ -5,17 +5,18 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Task } from "@/generated/prisma/client";
 
 export default function RenderTasks({
   task,
+  projectId,
   onDragStart,
   onDragEnd,
 }: {
   task: Task;
+  projectId: string;
   onDragStart: (e: React.DragEvent, task: Task) => void;
   onDragEnd: (e: React.DragEvent) => void;
 }) {
@@ -28,11 +29,14 @@ export default function RenderTasks({
     >
       <Card className="rounded-none hover:shadow-xl transition-all">
         <CardHeader>
-          <CardTitle className="flex justify-between items-center">
-            <span>{task.title}</span>
-            <TaskOption taskId={task.id} taskTitle={task.title} />
-          </CardTitle>
-          <CardDescription>{task.description}</CardDescription>
+          <CardDescription className="flex justify-between items-center">
+            <span>{task.description}</span>
+            <TaskOption
+              taskId={task.id}
+              taskTitle={task.description}
+              projectId={projectId}
+            />
+          </CardDescription>
         </CardHeader>
         <Separator />
         <CardContent className="flex items-center justify-between">

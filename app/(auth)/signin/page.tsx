@@ -23,16 +23,10 @@ export default async function page() {
         </p>
       </CardHeader>
       {/** Social Login */}
-      <div className="relative flex gap-2 justify-center">
-        <Button className="w-2/5">
-          <GoogleSvg />
-          <span>Google</span>
-        </Button>
-        <Button className="w-2/5">
-          <FacebookSvg />
-          <span>Facebook</span>
-        </Button>
-      </div>
+      <Button>
+        <GoogleSvg />
+        <span>Google</span>
+      </Button>
 
       <Separator />
       <CardContent>

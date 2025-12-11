@@ -24,8 +24,7 @@ export default function TaskList({
     <div className="bg-accent w-full my-2 min-h-[70vh]">
       <div className="grid grid-cols-2 bg-accent-foreground">
         <div className="flex items-center gap-2 py-2.5 px-8">
-          <h3 className="text-white font-bold text-sm tracking-wide">TITLE</h3>
-          <p className="text-white">( description )</p>
+          <p className=" text-white">( description )</p>
         </div>
         <div className="grid grid-cols-3">
           <h4 className="text-white  py-2.5 px-8">Badge</h4>
@@ -38,7 +37,7 @@ export default function TaskList({
       {initialTasks.length > 0 ? (
         <div className="flex p-2.5 flex-col gap-3.5">
           {initialTasks.map((task) => (
-            <RenderTask key={task.id} task={task} />
+            <RenderTask key={task.id} task={task} projectId={projectId} />
           ))}
         </div>
       ) : (
