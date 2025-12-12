@@ -18,8 +18,16 @@ import {
   FolderKanban,
 } from "lucide-react";
 import { TaskPriority } from "@/generated/prisma/enums";
+import { getSession } from "@/lib/auth-server";
+import { redirect } from "next/navigation";
 
-export default function Dashboard() {
+export default async function Dashboard() {
+  const session = await getSession();
+
+  if (!session) {
+    redirect("/signin");
+  }
+
   const stats = [
     {
       label: "Projets totaux",
