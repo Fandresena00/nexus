@@ -1,340 +1,214 @@
-#
+# **Nexus**
 
-Nexus
+A modern and intuitive project management application designed for seamless collaboration, powerful task organization, and a delightful user experience.
 
-A modern project management application built with cutting-edge technologies for seamless collaboration and task organization.
+Built with **Next.js**, **shadcn/ui**, **Tailwind CSS**, **Prisma**, and **Better Auth**.
 
-##
+---
 
-Features
+## 🚀 Features
 
-- **
-  Email Authentication
-  **
-  - Secure authentication powered by Better Auth
-- **
-  Project Management
-  **
-  - Create, update, and delete projects with ease
-- **
-  Task Organization
-  **
-  - Manage tasks within projects with full CRUD operations
-- **
-  Modern UI
-  **
-  - Beautiful, responsive interface built with shadcn/ui and Tailwind CSS
-- **
-  Type-Safe
-  **
-  - End-to-end type safety with TypeScript and Prisma
+### 🔐 Email Authentication
 
-##
+Secure and modern email-based authentication powered by **Better Auth**.
 
-Tech Stack
+### 📁 Project Management
 
-- **
-  Framework
-  **
-  :
-  [
-  Next.js 16
-  ](https://nextjs.org/)
-  - React framework for production
-- **
-  Authentication
-  **
-  :
-  [
-  Better Auth
-  ](https://www.better-auth.com/)
-  - Modern authentication solution
-- **
-  Database
-  **
-  :
-  [
-  PostgreSQL
-  ](https://www.postgresql.org/)
-  - Robust relational database
-- **
-  ORM
-  **
-  :
-  [
-  Prisma
-  ](https://www.prisma.io/)
-  - Next-generation ORM for Node.js and TypeScript
-- **
-  UI Components
-  **
-  :
-  [
-  shadcn/ui
-  ](https://ui.shadcn.com/)
-  - Re-usable components built with Radix UI
-- **
-  Styling
-  **
-  :
-  [
-  Tailwind CSS
-  ](https://tailwindcss.com/)
-  - Utility-first CSS framework
+- Create, update, and delete projects
+- Clean and intuitive dashboard
 
-##
+### ✔️ Task Management
 
-Getting Started
+- Full CRUD operations on tasks
+- Organized by project
+- Status updates & seamless editing
 
-###
+### 🎨 Modern UI
 
-Prerequisites
+- Polished interface built with **shadcn/ui**
+- Fully responsive thanks to **Tailwind CSS**
+
+### 🔒 Type Safety
+
+- End-to-end reliability with **TypeScript** and **Prisma**
+
+---
+
+## 🛠️ Tech Stack
+
+- **Framework:** [Next.js 16](https://nextjs.org/)
+- **Authentication:** [Better Auth](https://www.better-auth.com/)
+- **Database:** [PostgreSQL](https://www.postgresql.org/)
+- **ORM:** [Prisma](https://www.prisma.io/)
+- **UI:** [shadcn/ui](https://ui.shadcn.com/) (Radix UI-based components)
+- **CSS:** [Tailwind CSS](https://tailwindcss.com/)
+
+---
+
+## 📦 Getting Started
+
+### **Prerequisites**
 
 - Node.js 18+
-- PostgreSQL database
-- npm, yarn, pnpm, or bun
+- PostgreSQL installed
+- npm / yarn / pnpm / bun
 
-###
+---
 
-Installation
+## 🔧 Installation
 
-1.  Clone the repository:
+### 1. Clone the repository
 
-```
-bash
-
-git
- clone
-cd
- nexus
-
+```bash
+git clone https://github.com/Fandresena00/nexus.git
+cd nexus
 ```
 
-2.  Install dependencies:
+### 2. Install dependencies
 
-```
-bash
-
-npm
-
-install
-
-# or
-
-yarn
-
-install
-
-# or
-
-pnpm
-
-install
-
-# or
-
-bun
-install
-
+```bash
+npm install
+# or yarn install / pnpm install / bun install
 ```
 
-3.  Set up environment variables:
+### 3. Configure environment variables
 
-```
-bash
-
-cp
- .env.example .env
-
+```bash
+cp .env.example .env
 ```
 
-Edit
-`.env`
-and add your configuration:
+Edit **.env** with your configuration:
 
-```
-env
-
+```env
 # Database
 DATABASE_URL="postgresql://user:password@localhost:5432/nexus"
+
 # Better Auth
 BETTER_AUTH_SECRET="your-secret-key"
 BETTER_AUTH_URL="http://localhost:3000"
+
 # Email (for authentication)
 EMAIL_SERVER_HOST="smtp.example.com"
 EMAIL_SERVER_PORT=587
 EMAIL_SERVER_USER="your-email@example.com"
 EMAIL_SERVER_PASSWORD="your-password"
 EMAIL_FROM="noreply@nexus.app"
-
 ```
 
-4.  Set up the database:
+### 4. Set up the database
 
-```
-bash
-
+```bash
 npx prisma generate
 npx prisma db push
-
 ```
 
-5.  Run the development server:
+### 5. Start the development server
 
-```
-bash
-
-npm
- run dev
-# or
-
-yarn
- dev
-# or
-
-pnpm
- dev
-# or
-
-bun dev
-
+```bash
+npm run dev
 ```
 
-6.  Open
-    [
-    http://localhost:3000
-    ](http://localhost:3000)
-    in your browser.
+Then open:
+👉 [http://localhost:3000](http://localhost:3000)
 
-##
+---
 
-Database Schema
+## 🗄️ Database Models
 
-## The application uses the following main models:
+### **User**
 
-**
-User
-**
+- Email authentication
+- Session management
 
-- User accounts with email authentication
-- **
-  Project
-  **
-  - Projects that contain tasks
-- **
-  Task
-  **
-  - Individual tasks within projects
+### **Project**
 
-##
+- Belongs to a user
+- Contains tasks
 
-Project Structure
+### **Task**
+
+- Linked to a project
+- CRUD + status updates
+
+---
+
+## 📁 Project Structure
 
 ```
-
 nexus/
-├── app/                # Next.js app directory
-│   ├── (auth)/        # Authentication routes
-│   ├── (workspace)/   # Main application routes
-│   ├── actions        # prisma request actions
-│   └── api/           # API routes
-├── components/        # React components
-│   ├── ui/           # shadcn/ui components
-│   └── ...           # Custom components
-├── lib/              # Utility functions and configurations
-│   ├── auth.ts       # Better Auth configuration
-│   ├── prisma.ts        # Prisma client
+├── app/
+│   ├── (auth)/            # Authentication routes
+│   ├── (workspace)/       # Main workspace UI
+│   ├── actions/           # Server actions (Prisma)
+│   └── api/               # API routes
+├── components/
+│   ├── ui/                # shadcn/ui components
+│   └── ...                # Custom components
+├── lib/
+│   ├── auth.ts            # Better Auth configuration
+│   ├── prisma.ts          # Prisma client
 │   └── ...
-├── prisma/           # Database schema and migrations
-│   └── schema.prisma
-└── public/           # Static assets
-
+├── prisma/
+│   └── schema.prisma      # Database schema
+└── public/                # Static assets
 ```
 
-##
+---
 
-Available Scripts
+## 📜 Scripts
 
--
+| Command             | Description                  |
+| ------------------- | ---------------------------- |
+| `npm run dev`       | Start the development server |
+| `npm run build`     | Build for production         |
+| `npm run start`     | Run production server        |
+| `npm run lint`      | Run ESLint                   |
+| `npx prisma studio` | Visual database explorer     |
 
-`npm run dev`
+---
 
-- Start development server
--
+## 🔍 Features in Detail
 
-`npm run build`
+### **Authentication**
 
-- Build for production
--
+- Magic link or password login
+- Secure sessions
+- Protected pages & API routes
 
-`npm run start`
+### **Project Management**
 
-- Start production server
--
+- Create/edit/delete projects
+- Dashboard with all user projects
+- Cascading task deletion
 
-`npm run lint`
+### **Task Management**
 
-- Run ESLint
--
+- Create/edit/delete tasks
+- Update task status
+- Organized by project
 
-`npx prisma studio`
+---
 
-- Open Prisma Studio to view/edit database
+## 🤝 Contributing
 
-##
+Contributions are welcome! Submit an Issue or open a Pull Request.
 
-Features in Detail
+---
 
-###
+## 📄 License
 
-Authentication
+This project is licensed under the **MIT License**.
 
-- Email-based authentication with magic links or password
-- Secure session management
-- Protected routes and API endpoints
+---
 
-###
+## 👤 Author
 
-Project Management
+**Anjara Fandresena**  
+📧 **[anjarafandresena05@gmail.com](mailto:anjarafandresena05@gmail.com)**
 
-- Create new projects with descriptions
-- Update project details
-- Delete projects (with cascading task deletion)
-- View all projects in dashboard
+---
 
-###
+## 🆘 Support
 
-Task Management
-
-- Create tasks within projects
-- Update task status and details
-- Delete individual tasks
-- Organize tasks by project
-
-##
-
-Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-##
-
-License
-
-This project is licensed under the MIT License.
-
-##
-
-Author
-
-**
-Anjara Fandresena
-**
-
-- Email: anjarafandresena05@gmail.com
-
-##
-
-Support
-
-## For support or inquiries, please contact anjarafandresena05@gmail.com or open an issue in the repository.
+For inquiries or assistance, email:  
+📧 **[anjarafandresena05@gmail.com](mailto:anjarafandresena05@gmail.com)**
