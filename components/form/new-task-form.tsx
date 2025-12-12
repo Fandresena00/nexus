@@ -22,13 +22,7 @@ import { Badge } from "../ui/badge";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { TaskPriority } from "@/generated/prisma/enums";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-} from "../ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger } from "../ui/select";
 
 export default function NewTaskForm({
   userId,

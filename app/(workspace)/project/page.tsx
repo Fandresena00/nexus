@@ -24,7 +24,6 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty";
 import NewProjectForm from "../../../components/form/new-project-form";
-import ProjectOption from "@/components/actions/delete-project";
 import { Input } from "@/components/ui/input";
 
 export default async function page() {

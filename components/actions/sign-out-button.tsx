@@ -2,7 +2,7 @@
 
 import { signOut } from "@/lib/auth-client";
 import { LogOut } from "lucide-react";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 
 export default function SignOutButton() {
