@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
+import { Suspense } from "react";
+import LoadingOverlay from "@/components/ui/loading-overlay";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -13,17 +15,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning={true}>
-      <body className="bg-background">
-        <Toaster
-          position="top-center"
-          duration={10000}
-          expand
-          theme="light"
-          closeButton
-          richColors
-        />
-        <main>{children}</main>
+    <html lang="en" suppressHydrationWarning>
+      <body>
+        <Suspense fallback={<LoadingOverlay />}>
+          <Toaster
+            position="top-center"
+            duration={10000}
+            expand
+            theme="light"
+            closeButton
+            richColors
+          />
+          <main>{children}</main>
+        </Suspense>
       </body>
     </html>
   );
