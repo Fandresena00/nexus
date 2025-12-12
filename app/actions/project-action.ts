@@ -180,12 +180,12 @@ export const createProject = async (
 };
 
 // Project Access Management Actions
-export const addProjectAccess = async (
+async function addProjectAccess(
   projectId: string,
   userEmail: string,
   role: "OWNER" | "EDITOR" | "VIEWER",
   currentUserId: string,
-) => {
+) {
   try {
     // Check if current user is the project owner
     const project = await prisma.project.findUnique({
@@ -237,7 +237,9 @@ export const addProjectAccess = async (
     console.error("Error adding project access:", error);
     throw error;
   }
-};
+}
+
+export { addProjectAccess };
 
 export const removeProjectAccess = async (
   projectId: string,

@@ -21,6 +21,14 @@ import { PlusCircle, BadgeHelpIcon } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { TaskPriority } from "@/generated/prisma/enums";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+} from "../ui/select";
 
 export default function NewTaskForm({
   userId,
@@ -34,6 +42,7 @@ export default function NewTaskForm({
   const [tag, SetTag] = useState<string[]>([]);
   const [tagContent, SetTagContent] = useState("");
   const [loading, setLoading] = useState(false);
+  const [priority, setPriority] = useState<TaskPriority>(TaskPriority.MEDIUM);
 
   const router = useRouter();
 
@@ -56,6 +65,7 @@ export default function NewTaskForm({
           description: description,
           deadline: new Date(deadline),
           tag: tag,
+          priority: priority,
         });
         toast.success(`task ${description} has been created`);
         SetDescription("");
@@ -105,6 +115,20 @@ export default function NewTaskForm({
                 required
                 onChange={(e) => SetDeadline(e.target.value)}
               />
+            </Field>
+            <Field>
+              <FieldLabel>Priority</FieldLabel>
+              <Select
+                value={priority}
+                onValueChange={(v) => setPriority(v as TaskPriority)}
+              >
+                <SelectTrigger>{priority}</SelectTrigger>
+                <SelectContent>
+                  <SelectItem value={TaskPriority.HIGH}>high</SelectItem>
+                  <SelectItem value={TaskPriority.MEDIUM}>medium</SelectItem>
+                  <SelectItem value={TaskPriority.LOW}>low</SelectItem>
+                </SelectContent>
+              </Select>
             </Field>
             <Field>
               <FieldLabel>Tag</FieldLabel>

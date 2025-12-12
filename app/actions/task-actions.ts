@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { TaskStatus } from "@/generated/prisma/enums";
+import { TaskStatus, TaskPriority } from "@/generated/prisma/enums";
 import { getUserProjectRole } from "./project-action";
 
 export async function createTask({
@@ -10,12 +10,14 @@ export async function createTask({
   userId,
   description,
   deadline,
+  priority,
   tag = [],
 }: {
   projectId: string;
   userId: string;
   description: string;
   deadline: Date;
+  priority: TaskPriority;
   tag: string[];
 }) {
   try {
@@ -31,6 +33,7 @@ export async function createTask({
         deadline,
         tag,
         projectId,
+        priority,
         userId,
       },
     });
@@ -51,6 +54,7 @@ export async function updateTask(
     deadline?: Date;
     tag?: string[];
     taskStatus?: TaskStatus;
+    priority?: TaskPriority;
   },
 ) {
   try {
