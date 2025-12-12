@@ -17,13 +17,19 @@ import { Field, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Edit3 } from "lucide-react";
 import { Project } from "@/generated/prisma/client";
 import { useRouter } from "next/navigation";
 
-export default function EditProjectForm({ project }: { project: Project }) {
+export default function EditProjectForm({
+  project,
+  userId,
+}: {
+  project: Project;
+  userId: string;
+}) {
   const [title, setTitle] = useState(project.title);
   const [description, setDescription] = useState(project.description);
   const [deadline, setDeadline] = useState(
@@ -32,8 +38,13 @@ export default function EditProjectForm({ project }: { project: Project }) {
   const [image, setImage] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   const router = useRouter();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleUpdateProject = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,7 +58,7 @@ export default function EditProjectForm({ project }: { project: Project }) {
         imageUrl = await uploadImage(image);
       }
 
-      await updateProject(project.id, {
+      await updateProject(project.id, userId, {
         title,
         description,
         deadline,
@@ -73,10 +84,19 @@ export default function EditProjectForm({ project }: { project: Project }) {
     }
   };
 
+  if (!mounted) {
+    return (
+      <Button variant="outline" disabled>
+        <Edit3 className="w-4 h-4 mr-2" />
+        Edit Project
+      </Button>
+    );
+  }
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm">
+        <Button variant="outline">
           <Edit3 className="w-4 h-4 mr-2" />
           Edit Project
         </Button>

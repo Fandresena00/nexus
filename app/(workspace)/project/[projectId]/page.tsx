@@ -10,18 +10,18 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-  Calendar,
-  CheckCircle2,
-  FileBarChart2,
-  ImageIcon,
-  Edit3,
-} from "lucide-react";
+import { Calendar, CheckCircle2, FileBarChart2, ImageIcon } from "lucide-react";
 import Link from "next/link";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import EditProjectForm from "@/components/form/edit-project-form";
+import ProjectAccessManager from "@/components/form/project-access-manager";
+import {
+  getProjectAccess,
+  getUserProjectRole,
+} from "@/app/actions/project-action";
+import Image from "next/image";
+import DeleteProject from "@/components/actions/delete-project";
 
 export default async function ProjectPage({
   params,
@@ -40,12 +40,30 @@ export default async function ProjectPage({
     where: { id: projectId },
     include: {
       tasks: true,
+      user: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          image: true,
+        },
+      },
     },
   });
 
   if (!project) {
     notFound();
   }
+
+  // Check if user has access to this project
+  const userRole = await getUserProjectRole(projectId, session.id);
+  if (!userRole) {
+    // User doesn't have access, redirect or show error
+    redirect("/project");
+  }
+
+  // Fetch project access list
+  const accessList = await getProjectAccess(projectId);
 
   // Calculate project progress
   const totalTasks = project.tasks.length;
@@ -61,12 +79,15 @@ export default async function ProjectPage({
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           {project.image ? (
-            <Avatar className="w-16 h-16">
-              <AvatarImage src={project.image} alt={project.title} />
-              <AvatarFallback>
-                <ImageIcon className="w-8 h-8" />
-              </AvatarFallback>
-            </Avatar>
+            <div className="w-xl h-96">
+              <Image
+                width={576}
+                height={384}
+                className="w-full h-full"
+                src={project.image}
+                alt={project.title}
+              />
+            </div>
           ) : (
             <div className="w-16 h-16 rounded-lg bg-muted flex items-center justify-center">
               <ImageIcon className="w-8 h-8 text-muted-foreground" />
@@ -79,7 +100,17 @@ export default async function ProjectPage({
             <p className="text-muted-foreground">{project.description}</p>
           </div>
         </div>
-        <EditProjectForm project={project} />
+        <div className="flex gap-2.5">
+          {(userRole === "OWNER" || userRole === "EDITOR") && (
+            <EditProjectForm project={project} userId={session.id} />
+          )}
+          {userRole === "OWNER" && (
+            <DeleteProject
+              projectId={project.id}
+              projectTitle={project.title}
+            />
+          )}
+        </div>
       </div>
 
       <Separator />
@@ -178,6 +209,20 @@ export default async function ProjectPage({
           </div>
         </CardContent>
       </Card>
+
+      {/* Project Access Management */}
+      <ProjectAccessManager
+        projectId={project.id}
+        currentUserId={session.id}
+        currentUserRole={userRole}
+        accessList={accessList}
+        projectOwner={{
+          id: project.user.id,
+          name: project.user.name,
+          email: project.user.email,
+          image: project.user.image,
+        }}
+      />
 
       {/* Project Details */}
       <Card>

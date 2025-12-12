@@ -8,6 +8,7 @@ import { Search, ListChecks, KanbanSquare } from "lucide-react";
 import { redirect } from "next/navigation";
 import TaskList from "./task-list";
 import Link from "next/link";
+import { getUserProjectRole } from "@/app/actions/project-action";
 
 export default async function page({
   params,
@@ -28,7 +29,14 @@ export default async function page({
     },
   });
 
+  // Check if user has access to this project
+  const userRole = await getUserProjectRole(projectId, session.id);
+  if (!userRole) {
+    redirect("/project");
+  }
+
   const tasks = await getTasksByProject(projectId);
+  const canEdit = userRole === "OWNER" || userRole === "EDITOR";
 
   return (
     <div className="p-8">
@@ -55,7 +63,9 @@ export default async function page({
                 <span>Kanban</span>
               </Button>
             </Link>
-            <NewTaskForm projectId={projectId} userId={session.id} />
+            {canEdit && (
+              <NewTaskForm projectId={projectId} userId={session.id} />
+            )}
           </div>
         </div>
       </nav>
@@ -64,6 +74,7 @@ export default async function page({
         initialTasks={tasks}
         userId={session.id}
         projectId={projectId}
+        userRole={userRole}
       />
     </div>
   );

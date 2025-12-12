@@ -16,11 +16,11 @@ import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { Spinner } from "../ui/spinner";
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
 import { createTask } from "@/app/actions/task-actions";
 import { PlusCircle, BadgeHelpIcon } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function NewTaskForm({
   userId,
@@ -57,99 +57,96 @@ export default function NewTaskForm({
           deadline: new Date(deadline),
           tag: tag,
         });
-        router.refresh();
         toast.success(`task ${description} has been created`);
+        SetDescription("");
+        SetDeadline("");
+        SetTag([]);
       } else {
         toast.error(`Invalid task information`);
       }
     } catch (err) {
       console.error("Error creating project:", err);
     } finally {
-      SetDescription("");
-      SetDeadline("");
-      SetTag([]);
-      SetTagContent("");
       setLoading(false);
+      router.refresh();
     }
   };
 
   return (
-    <Dialog>
-      <form action="submit">
-        <DialogTrigger asChild>
-          <Button>
-            <PlusCircle />
-            <span>create task</span>
-          </Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-xl">
-          <DialogHeader>
-            <DialogTitle>Create new task</DialogTitle>
-            <DialogDescription>task card</DialogDescription>
-          </DialogHeader>
+    <Dialog modal>
+      <DialogTrigger asChild>
+        <Button>
+          <PlusCircle />
+          <span>create task</span>
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-xl">
+        <DialogHeader>
+          <DialogTitle>Create new task</DialogTitle>
+          <DialogDescription>task card</DialogDescription>
+        </DialogHeader>
 
-          <div className="w-full max-w-md mx-auto">
-            <FieldSet>
-              <FieldGroup>
-                <Field>
-                  <FieldLabel htmlFor="description">Descrition</FieldLabel>
-                  <Textarea
-                    value={description}
-                    onChange={(e) => SetDescription(e.target.value)}
-                    required
-                    className="max-h-28 h-full"
-                  />
-                </Field>
-                <Field>
-                  <FieldLabel htmlFor="daedline">Deadline</FieldLabel>
-                  <Input
-                    type="date"
-                    value={deadline}
-                    required
-                    onChange={(e) => SetDeadline(e.target.value)}
-                  />
-                </Field>
-                <Field>
-                  <FieldLabel>Tag</FieldLabel>
-                  <div className="flex gap-3">
-                    <Input
-                      value={tagContent}
-                      onChange={(e) => SetTagContent(e.target.value)}
-                    />
-                    <Button onClick={AddTag}>Add</Button>
+        <FieldSet>
+          <FieldGroup>
+            <Field>
+              <FieldLabel htmlFor="description">Descrition</FieldLabel>
+              <Textarea
+                value={description}
+                onChange={(e) => SetDescription(e.target.value)}
+                required
+                className="max-h-28 h-full"
+              />
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="daedline">Deadline</FieldLabel>
+              <Input
+                type="date"
+                value={deadline}
+                required
+                onChange={(e) => SetDeadline(e.target.value)}
+              />
+            </Field>
+            <Field>
+              <FieldLabel>Tag</FieldLabel>
+              <div className="flex gap-3">
+                <Input
+                  value={tagContent}
+                  onChange={(e) => SetTagContent(e.target.value)}
+                />
+                <Button onClick={AddTag}>Add</Button>
+              </div>
+              <div className="flex gap-2.5 border-2 p-2 h-16">
+                {tag.length > 0 ? (
+                  tag.map((e) => (
+                    <div key={e}>
+                      <Badge>{e}</Badge>
+                    </div>
+                  ))
+                ) : (
+                  <div className="flex flex-col w-full justify-center text-xs font-bold h-full items-center">
+                    <BadgeHelpIcon />
+                    <span>Empty badge</span>
                   </div>
-                  <div className="flex gap-2.5 border-2 p-2 h-16">
-                    {tag.length > 0 ? (
-                      tag.map((e) => (
-                        <div key={e}>
-                          <Badge>{e}</Badge>
-                        </div>
-                      ))
-                    ) : (
-                      <div className="flex flex-col w-full justify-center text-xs font-bold h-full items-center">
-                        <BadgeHelpIcon />
-                        <span>Empty badge</span>
-                      </div>
-                    )}
-                  </div>
-                </Field>
-              </FieldGroup>
+                )}
+              </div>
+            </Field>
+          </FieldGroup>
 
-              <FieldGroup>
-                <DialogFooter>
-                  <DialogClose asChild>
-                    <Button variant={"outline"}>Cancel</Button>
-                  </DialogClose>
-                  <Button onClick={HandleCreateTaskCard} disabled={loading}>
-                    {loading ? <Spinner /> : "Confirm"}
-                  </Button>
-                </DialogFooter>
-              </FieldGroup>
-            </FieldSet>
-          </div>
-        </DialogContent>
-        {/** Submit Button */}
-      </form>
+          <FieldGroup>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button variant={"outline"}>Cancel</Button>
+              </DialogClose>
+              <DialogClose asChild>
+                <Button onClick={HandleCreateTaskCard} disabled={loading}>
+                  {loading ? <Spinner /> : "Confirm"}
+                </Button>
+              </DialogClose>
+            </DialogFooter>
+          </FieldGroup>
+        </FieldSet>
+      </DialogContent>
+      {/** Submit Button */}
     </Dialog>
   );
 }

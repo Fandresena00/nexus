@@ -15,16 +15,20 @@ export default function TaskList({
   initialTasks = [],
   userId,
   projectId,
+  userRole,
 }: {
   initialTasks: Task[];
   userId: string;
   projectId: string;
+  userRole: "OWNER" | "EDITOR" | "VIEWER" | null;
 }) {
+  const canEdit = userRole === "OWNER" || userRole === "EDITOR";
+
   return (
     <div className="bg-accent w-full my-2 min-h-[70vh]">
       <div className="grid grid-cols-2 bg-accent-foreground">
         <div className="flex items-center gap-2 py-2.5 px-8">
-          <p className=" text-white">( description )</p>
+          <p className=" text-white">Description</p>
         </div>
         <div className="grid grid-cols-3">
           <h4 className="text-white  py-2.5 px-8">Badge</h4>
@@ -37,7 +41,13 @@ export default function TaskList({
       {initialTasks.length > 0 ? (
         <div className="flex p-2.5 flex-col gap-3.5">
           {initialTasks.map((task) => (
-            <RenderTask key={task.id} task={task} projectId={projectId} />
+            <RenderTask
+              key={task.id}
+              task={task}
+              projectId={projectId}
+              userId={userId}
+              userRole={userRole}
+            />
           ))}
         </div>
       ) : (
@@ -48,11 +58,15 @@ export default function TaskList({
             </EmptyMedia>
             <EmptyTitle>Task Empty</EmptyTitle>
             <EmptyDescription>
-              Create new task to better track your progress
+              {canEdit
+                ? "Create new task to better track your progress"
+                : "No tasks available"}
             </EmptyDescription>
-            <EmptyContent>
-              <NewTaskForm userId={userId} projectId={projectId} />
-            </EmptyContent>
+            {canEdit && (
+              <EmptyContent>
+                <NewTaskForm userId={userId} projectId={projectId} />
+              </EmptyContent>
+            )}
           </EmptyHeader>
         </Empty>
       )}

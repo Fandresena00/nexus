@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import NewTaskForm from "@/components/form/new-task-form";
 import Link from "next/link";
+import { getUserProjectRole } from "@/app/actions/project-action";
 
 export default async function page({
   params,
@@ -26,10 +27,17 @@ export default async function page({
     },
   });
 
+  // Check if user has access to this project
+  const userRole = await getUserProjectRole(projectId, session.id);
+  if (!userRole) {
+    redirect("/project");
+  }
+
   const allTasks = await prisma.task.findMany({
     where: { projectId },
     orderBy: { deadline: "asc" },
   });
+  const canEdit = userRole === "OWNER" || userRole === "EDITOR";
 
   return (
     <div>
@@ -56,7 +64,9 @@ export default async function page({
                 <span>List</span>
               </Button>
             </Link>
-            <NewTaskForm projectId={projectId} userId={session.id} />
+            {canEdit && (
+              <NewTaskForm projectId={projectId} userId={session.id} />
+            )}
           </div>
         </div>
       </nav>
@@ -65,6 +75,7 @@ export default async function page({
         initialTasks={allTasks}
         projectId={projectId}
         userId={session.id}
+        userRole={userRole}
       />
     </div>
   );

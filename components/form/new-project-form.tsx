@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { Textarea } from "@/components/ui/textarea";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 
 export default function NewProjectForm({ userId }: { userId: string }) {
@@ -26,8 +26,13 @@ export default function NewProjectForm({ userId }: { userId: string }) {
   const [deadline, SetDeadline] = useState("");
   const [image, setImage] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   const router = useRouter();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const HandleCreateProject = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -63,86 +68,94 @@ export default function NewProjectForm({ userId }: { userId: string }) {
     }
   };
 
+  if (!mounted) {
+    return <Button disabled>create project</Button>;
+  }
+
   return (
     <Dialog>
-      <form>
-        <DialogTrigger asChild>
-          <Button>create project</Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-xl">
-          <DialogHeader>
-            <DialogTitle>Create a project</DialogTitle>
-            <DialogDescription>
-              Give the explicit information of the project for better track
-              progression
-            </DialogDescription>
-          </DialogHeader>
+      <DialogTrigger asChild>
+        <Button>create project</Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-xl">
+        <DialogHeader>
+          <DialogTitle>Create a project</DialogTitle>
+          <DialogDescription>
+            Give the explicit information of the project for better track
+            progression
+          </DialogDescription>
+        </DialogHeader>
 
-          <div className="w-full max-w-md mx-auto">
-            <FieldSet>
-              <FieldGroup>
-                <Field>
-                  <FieldLabel htmlFor="title">Title</FieldLabel>
-                  <Input
-                    type="text"
-                    value={title}
-                    onChange={(e) => SetTitle(e.target.value)}
-                    required
-                    autoFocus
-                  />
-                </Field>
-                <Field>
-                  <FieldLabel htmlFor="description">Descrition</FieldLabel>
-                  <Textarea
-                    value={description}
-                    onChange={(e) => SetDescription(e.target.value)}
-                    required
-                    className="max-h-28 h-full"
-                  />
-                </Field>
-                <Field>
-                  <FieldLabel htmlFor="deadline">Deadline</FieldLabel>
-                  <Input
-                    type="date"
-                    value={deadline}
-                    required
-                    onChange={(e) => SetDeadline(e.target.value)}
-                  />
-                </Field>
+        <div className="w-full max-w-md mx-auto">
+          <FieldSet>
+            <FieldGroup>
+              <Field>
+                <FieldLabel htmlFor="title">Title</FieldLabel>
+                <Input
+                  type="text"
+                  value={title}
+                  onChange={(e) => SetTitle(e.target.value)}
+                  required
+                  autoFocus
+                />
+              </Field>
+              <Field>
+                <FieldLabel htmlFor="description">Descrition</FieldLabel>
+                <Textarea
+                  value={description}
+                  onChange={(e) => SetDescription(e.target.value)}
+                  required
+                  className="max-h-28 h-full"
+                />
+              </Field>
+              <Field>
+                <FieldLabel htmlFor="deadline">Deadline</FieldLabel>
+                <Input
+                  type="date"
+                  value={deadline}
+                  required
+                  onChange={(e) => SetDeadline(e.target.value)}
+                />
+              </Field>
 
-                <Field>
-                  <FieldLabel htmlFor="image">
-                    Project Image (Optional)
-                  </FieldLabel>
-                  <Input
-                    type="file"
-                    id="image"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    className="cursor-pointer"
-                  />
-                  {image && (
-                    <p className="text-sm text-muted-foreground mt-2">
-                      Selected: {image.name}
-                    </p>
-                  )}
-                </Field>
-              </FieldGroup>
+              <Field>
+                <FieldLabel htmlFor="image">
+                  Project Image (Optional)
+                </FieldLabel>
+                <Input
+                  type="file"
+                  id="image"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="cursor-pointer"
+                />
+                {image && (
+                  <p className="text-sm text-muted-foreground mt-2">
+                    Selected: {image.name}
+                  </p>
+                )}
+              </Field>
+            </FieldGroup>
 
-              <FieldGroup>
-                <DialogFooter>
-                  <DialogClose asChild>
-                    <Button variant={"outline"}>Cancel</Button>
-                  </DialogClose>
-                  <Button onClick={HandleCreateProject} disabled={loading}>
-                    {loading ? <Spinner /> : "Confirm"}
+            <FieldGroup>
+              <DialogFooter>
+                <DialogClose asChild>
+                  <Button variant={"outline"} type="button">
+                    Cancel
                   </Button>
-                </DialogFooter>
-              </FieldGroup>
-            </FieldSet>
-          </div>
-        </DialogContent>
-      </form>
+                </DialogClose>
+                <Button
+                  type="submit"
+                  disabled={loading}
+                  onClick={HandleCreateProject}
+                >
+                  {loading ? <Spinner /> : "Confirm"}
+                </Button>
+              </DialogFooter>
+            </FieldGroup>
+          </FieldSet>
+        </div>
+      </DialogContent>
     </Dialog>
   );
 }

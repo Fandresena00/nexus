@@ -1,7 +1,7 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
-import RenderTasks from "./render-tasks";
+import { RenderTasks } from "./render-tasks";
 import { useState } from "react";
 import { updateTaskStatus } from "@/app/actions/task-actions";
 import { TaskStatus } from "@/generated/prisma/enums";
@@ -21,11 +21,14 @@ export default function KanbanBoard({
   initialTasks = [],
   userId,
   projectId,
+  userRole,
 }: {
   initialTasks: Task[];
   userId: string;
   projectId: string;
+  userRole: "OWNER" | "EDITOR" | "VIEWER" | null;
 }) {
+  const canEdit = userRole === "OWNER" || userRole === "EDITOR";
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
   const [draggedTask, setDraggedTask] = useState<Task | null>(null);
 
@@ -93,8 +96,20 @@ export default function KanbanBoard({
     );
 
     // Mise à jour dans la base de données
+    if (!canEdit) {
+      // Rollback if user can't edit
+      setTasks((prevTasks) =>
+        prevTasks.map((task) =>
+          task.id === draggedTask.id
+            ? { ...task, taskStatus: draggedTask.taskStatus }
+            : task,
+        ),
+      );
+      return;
+    }
+
     try {
-      const result = await updateTaskStatus(draggedTask.id, newStatus);
+      const result = await updateTaskStatus(draggedTask.id, userId, newStatus);
 
       // ✅ CORRECTION 5: Vérifier si result existe
       if (!result) {
@@ -162,6 +177,8 @@ export default function KanbanBoard({
                     projectId={projectId}
                     key={task.id}
                     task={task}
+                    userId={userId}
+                    userRole={userRole}
                     onDragStart={handleDragStart}
                     onDragEnd={handleDragEnd}
                   />
@@ -178,11 +195,15 @@ export default function KanbanBoard({
             </EmptyMedia>
             <EmptyTitle>Task Empty</EmptyTitle>
             <EmptyDescription>
-              Create new task to better track your progress
+              {canEdit
+                ? "Create new task to better track your progress"
+                : "No tasks available"}
             </EmptyDescription>
-            <EmptyContent>
-              <NewTaskForm userId={userId} projectId={projectId} />
-            </EmptyContent>
+            {canEdit && (
+              <EmptyContent>
+                <NewTaskForm userId={userId} projectId={projectId} />
+              </EmptyContent>
+            )}
           </EmptyHeader>
         </Empty>
       )}

@@ -24,7 +24,7 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty";
 import NewProjectForm from "../../../components/form/new-project-form";
-import ProjectOption from "@/components/ui/actions/project-option";
+import ProjectOption from "@/components/actions/delete-project";
 import { Input } from "@/components/ui/input";
 
 export default async function page() {
@@ -36,7 +36,18 @@ export default async function page() {
 
   const projects = await prisma.project.findMany({
     where: {
-      userId: session?.id,
+      OR: [
+        {
+          userId: session.id,
+        },
+        {
+          access: {
+            some: {
+              userId: session.id,
+            },
+          },
+        },
+      ],
     },
   });
 
@@ -46,19 +57,15 @@ export default async function page() {
         projectId: ProjectId,
       },
     });
+    // Calculate project progress
+    const totalTasks = tasks.length;
+    const completedTasks = tasks.filter(
+      (task) => task.taskStatus === "DONE",
+    ).length;
+    const progress =
+      totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
 
-    const taskDone = await prisma.task.findMany({
-      where: {
-        projectId: ProjectId,
-        AND: {
-          taskStatus: "DONE",
-        },
-      },
-    });
-
-    const result = (taskDone.length / tasks.length) * 100;
-
-    return result;
+    return progress;
   };
 
   const projectWithProgress = await Promise.all(
@@ -125,10 +132,6 @@ export default async function page() {
                       {project.description}
                     </CardDescription>
                   </div>
-                  <ProjectOption
-                    projectId={project.id}
-                    projectTitle={project.title}
-                  />
                 </div>
               </CardHeader>
 

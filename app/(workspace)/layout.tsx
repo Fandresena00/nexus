@@ -1,6 +1,10 @@
 import AppSidebar from "@/components/layout/app-sidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
+{
+  /** workspace layout */
+}
+
 export default async function layout({
   children,
 }: Readonly<{

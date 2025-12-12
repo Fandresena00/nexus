@@ -19,7 +19,20 @@ export const getProjectById = async (projectId: string) => {
 export const getUserProjects = async (userId: string) => {
   try {
     const userProjects = await prisma.project.findMany({
-      where: { userId: userId },
+      where: {
+        OR: [
+          {
+            userId: userId,
+          },
+          {
+            access: {
+              some: {
+                userId: userId,
+              },
+            },
+          },
+        ],
+      },
       orderBy: { createdAt: "desc" },
     });
     return userProjects;
@@ -43,6 +56,7 @@ export const deleteProject = async (projectId: string) => {
 
 export const updateProject = async (
   projectId: string,
+  userId: string,
   data: {
     title?: string;
     description?: string;
@@ -51,6 +65,11 @@ export const updateProject = async (
   },
 ) => {
   try {
+    // Check user role - only OWNER and EDITOR can update projects
+    const userRole = await getUserProjectRole(projectId, userId);
+    if (!userRole || userRole === "VIEWER") {
+      throw new Error("You don't have permission to update this project");
+    }
     // Create update data object with proper types
     const updateData: {
       title?: string;
@@ -157,5 +176,208 @@ export const createProject = async (
   } catch (error) {
     console.error("Error creating project:", error);
     throw error;
+  }
+};
+
+// Project Access Management Actions
+export const addProjectAccess = async (
+  projectId: string,
+  userEmail: string,
+  role: "OWNER" | "EDITOR" | "VIEWER",
+  currentUserId: string,
+) => {
+  try {
+    // Check if current user is the project owner
+    const project = await prisma.project.findUnique({
+      where: { id: projectId },
+    });
+
+    if (!project) {
+      throw new Error("Project not found");
+    }
+
+    if (project.userId !== currentUserId) {
+      throw new Error("Only project owner can manage access");
+    }
+
+    // Find user by email
+    const user = await prisma.user.findUnique({
+      where: { email: userEmail },
+    });
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    // Check if user is already the owner
+    if (project.userId === user.id) {
+      throw new Error("Project owner already has access");
+    }
+
+    // Create or update access
+    const access = await prisma.projectAccess.upsert({
+      where: {
+        userId_projectId: {
+          userId: user.id,
+          projectId: projectId,
+        },
+      },
+      update: {
+        role: role,
+      },
+      create: {
+        userId: user.id,
+        projectId: projectId,
+        role: role,
+      },
+    });
+
+    return { success: true, access };
+  } catch (error) {
+    console.error("Error adding project access:", error);
+    throw error;
+  }
+};
+
+export const removeProjectAccess = async (
+  projectId: string,
+  userId: string,
+  currentUserId: string,
+) => {
+  try {
+    // Check if current user is the project owner
+    const project = await prisma.project.findUnique({
+      where: { id: projectId },
+    });
+
+    if (!project) {
+      throw new Error("Project not found");
+    }
+
+    if (project.userId !== currentUserId) {
+      throw new Error("Only project owner can manage access");
+    }
+
+    // Prevent removing the owner
+    if (project.userId === userId) {
+      throw new Error("Cannot remove project owner");
+    }
+
+    await prisma.projectAccess.delete({
+      where: {
+        userId_projectId: {
+          userId: userId,
+          projectId: projectId,
+        },
+      },
+    });
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error removing project access:", error);
+    throw error;
+  }
+};
+
+export const updateProjectAccessRole = async (
+  projectId: string,
+  userId: string,
+  role: "OWNER" | "EDITOR" | "VIEWER",
+  currentUserId: string,
+) => {
+  try {
+    // Check if current user is the project owner
+    const project = await prisma.project.findUnique({
+      where: { id: projectId },
+    });
+
+    if (!project) {
+      throw new Error("Project not found");
+    }
+
+    if (project.userId !== currentUserId) {
+      throw new Error("Only project owner can manage access");
+    }
+
+    // Prevent changing owner's role
+    if (project.userId === userId) {
+      throw new Error("Cannot change project owner's role");
+    }
+
+    const access = await prisma.projectAccess.update({
+      where: {
+        userId_projectId: {
+          userId: userId,
+          projectId: projectId,
+        },
+      },
+      data: {
+        role: role,
+      },
+    });
+
+    return { success: true, access };
+  } catch (error) {
+    console.error("Error updating project access:", error);
+    throw error;
+  }
+};
+
+export const getProjectAccess = async (projectId: string) => {
+  try {
+    const access = await prisma.projectAccess.findMany({
+      where: { projectId },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            image: true,
+          },
+        },
+      },
+      orderBy: { createdAt: "asc" },
+    });
+
+    return access;
+  } catch (error) {
+    console.error("Error fetching project access:", error);
+    throw error;
+  }
+};
+
+export const getUserProjectRole = async (
+  projectId: string,
+  userId: string,
+): Promise<"OWNER" | "EDITOR" | "VIEWER" | null> => {
+  try {
+    const project = await prisma.project.findUnique({
+      where: { id: projectId },
+    });
+
+    if (!project) {
+      return null;
+    }
+
+    // Check if user is the project owner
+    if (project.userId === userId) {
+      return "OWNER";
+    }
+
+    // Check ProjectAccess
+    const access = await prisma.projectAccess.findUnique({
+      where: {
+        userId_projectId: {
+          userId: userId,
+          projectId: projectId,
+        },
+      },
+    });
+
+    return access ? (access.role as "OWNER" | "EDITOR" | "VIEWER") : null;
+  } catch (error) {
+    console.error("Error getting user project role:", error);
+    return null;
   }
 };

@@ -1,4 +1,6 @@
-import TaskOption from "@/components/ui/actions/task-option";
+"use client";
+
+import DeleteTask from "@/components/actions/delete-task";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -9,33 +11,42 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Task } from "@/generated/prisma/client";
 
-export default function RenderTasks({
+export function RenderTasks({
   task,
   projectId,
+  userId,
+  userRole,
   onDragStart,
   onDragEnd,
 }: {
   task: Task;
   projectId: string;
+  userId: string;
+  userRole: "OWNER" | "EDITOR" | "VIEWER" | null;
   onDragStart: (e: React.DragEvent, task: Task) => void;
   onDragEnd: (e: React.DragEvent) => void;
 }) {
+  const canEdit = userRole === "OWNER" || userRole === "EDITOR";
+
   return (
     <div
-      draggable // Rend la carte draggable
-      onDragStart={(e) => onDragStart(e, task)}
-      onDragEnd={onDragEnd}
-      className="cursor-grab"
+      draggable={canEdit} // Only draggable if user can edit
+      onDragStart={canEdit ? (e) => onDragStart(e, task) : undefined}
+      onDragEnd={canEdit ? onDragEnd : undefined}
+      className={canEdit ? "cursor-grab" : "cursor-default"}
     >
       <Card className="rounded-none hover:shadow-xl transition-all">
         <CardHeader>
           <CardDescription className="flex justify-between items-center">
             <span>{task.description}</span>
-            <TaskOption
-              taskId={task.id}
-              taskTitle={task.description}
-              projectId={projectId}
-            />
+            {canEdit && (
+              <DeleteTask
+                taskId={task.id}
+                projectId={projectId}
+                userId={userId}
+                userRole={userRole}
+              />
+            )}
           </CardDescription>
         </CardHeader>
         <Separator />

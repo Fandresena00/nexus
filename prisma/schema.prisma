@@ -76,11 +76,18 @@ enum TaskStatus {
   DONE        // done
 }
 
+enum TaskPriority {
+  HIGH
+  MEDIUM
+  LOW
+}
+
 model Task {
   
   id          String     @id @default(cuid())
   description String
   tag         String[]
+  priority    TaskPriority  @default(MEDIUM)
   taskStatus  TaskStatus @default(TODO)
   deadline    DateTime
   updatedAt   DateTime @updatedAt
