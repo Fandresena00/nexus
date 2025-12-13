@@ -69,11 +69,11 @@ export default function EditTaskForm({
       });
       toast.success(`Task updated`);
       setOpen(false);
-      router.refresh();
     } catch {
       toast.error(`Failed to update task`);
     } finally {
       setLoading(false);
+      router.refresh();
     }
   };
 

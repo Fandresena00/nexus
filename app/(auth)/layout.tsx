@@ -1,123 +1,85 @@
 import React from "react";
+import { Card } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
+import { CheckCircle2, Zap, Shield } from "lucide-react";
 
-{
-  /** Auth layout */
-}
-
-export default function layout({
+export default function AuthLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <div className="relative overflow-hidden flex h-screen bg-linear-120 from-zinc-50 to-zinc-100">
-      {/** Animated Background */}
-      <div className="absolute rounded-full blur-[80px] opacity-50 w-96 h-96 bg-zinc-600 top-28 left-28 animate-pulse"></div>
-      <div className="absolute rounded-full blur-[80px] opacity-50 w-72 h-72 bg-zinc-600 bottom-28 right-28 animate-bounce"></div>
-      <div className="absolute rounded-full blur-[80px] opacity-50 w-52 h-52 bg-zinc-600 top-1/2 right-1/2 translate-1/2 animate-ping"></div>
+    <div className="relative min-h-screen bg-background text-foreground">
+      {/* Background accents */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute -top-24 -left-24 h-96 w-96 rounded-full bg-primary/20 blur-3xl" />
+        <div className="absolute bottom-0 right-0 h-72 w-72 rounded-full bg-cyan-500/20 blur-3xl" />
+      </div>
 
-      {/** main container */}
-      <div className="relative flex w-full max-w-7xl m-auto z-10">
-        {/**  Left Side - Brand & Features */}
-        <div className="flex flex-1 flex-col justify-center p-16">
-          <div className="flex items-center gap-4 mb-12">
-            <div className="flex w-16 h-16 bg-linear-120 from-zinc-300 to-zinc-600 rounded-lg items-center justify-center shadow-xl shadow-zinc-600/50">
-              <svg
-                fill="none"
-                stroke="currentColor"
-                className="w-9 h-9 stroke-white"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-                ></path>
-              </svg>
+      <div className="relative z-10 mx-auto grid min-h-screen max-w-7xl grid-cols-1 items-center px-4 md:grid-cols-2 md:px-8">
+        {/* Left – Branding / Value */}
+        <div className="hidden flex-col justify-center md:flex">
+          <div className="mb-8 flex items-center gap-3">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-md">
+              <Zap className="h-6 w-6" />
             </div>
-            <span className="text-3xl font-extrabold text-zinc-800">Nexus</span>
+            <span className="text-2xl font-semibold tracking-tight">Nexus</span>
           </div>
 
-          <h1 className="text-4xl font-extrabold leading-tight mb-6 text-zinc-950">
-            Gérez vos tâches <br />
-            comme un pro
+          <h1 className="mb-4 max-w-xl text-4xl font-bold leading-tight">
+            Manage your projects
+            <br className="hidden lg:block" />
+            like a professional
           </h1>
 
-          <p className="text-lg leading-normal text-zinc-900 mb-10">
-            La plateforme moderne de gestion de tâches qui booste votre
-            productivité et vous aide à atteindre vos objectifs plus rapidement.
+          <p className="mb-10 max-w-xl text-muted-foreground">
+            Nexus is a modern project management platform designed to improve
+            collaboration, productivity, and clarity across your workflow.
           </p>
 
-          {/** feature presentation */}
-          <ul className="list-none">
-            {/** interface */}
-            <li className="flex items-center gap-4 mb-5 text-sm text-zinc-700">
-              <div className=" flex  w-12 h-12 bg-white rounded-lg items-center justify-center shrink-0 shadow-lg shadow-zinc-700/60">
-                <svg
-                  fill="none"
-                  stroke="currentColor"
-                  className="w-7 h-7"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M13 10V3L4 14h7v7l9-11h-7z"
-                  ></path>
-                </svg>
+          <ul className="space-y-4 text-sm">
+            <li className="flex items-start gap-3">
+              <div className="">
+                <CheckCircle2 className="mt-0.5 h-5 w-5 text-primary" />
               </div>
               <span>
-                <strong>Interface ultra-rapide</strong> et intuitive
+                <strong>Clean and intuitive UI</strong> built for daily focus
               </span>
             </li>
-            {/** analyse and productivity */}
-            <li className="flex items-center gap-4 mb-5 text-sm text-zinc-700">
-              <div className="flex  w-12 h-12 bg-white rounded-lg items-center justify-center shrink-0 shadow-lg shadow-zinc-700/60">
-                <svg
-                  fill="none"
-                  stroke="currentColor"
-                  className="w-7 h-7"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                  ></path>
-                </svg>
-              </div>
+
+            <li className="flex items-start gap-3">
+              <Zap className="mt-0.5 h-5 w-5 text-primary" />
               <span>
-                <strong>Analytics en temps réel</strong> de votre productivité
+                <strong>Real-time productivity insights</strong>
               </span>
             </li>
-            {/** security */}
-            <li className="flex items-center gap-4 mb-5 text-sm text-zinc-700">
-              <div className="flex  w-12 h-12 bg-white rounded-lg items-center justify-center shrink-0 shadow-lg shadow-zinc-700/60">
-                <svg
-                  fill="none"
-                  stroke="currentColor"
-                  className="w-7 h-7"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                  ></path>
-                </svg>
-              </div>
+
+            <li className="flex items-start gap-3">
+              <Shield className="mt-0.5 h-5 w-5 text-primary" />
               <span>
-                <strong>Sécurité maximale</strong> de vos données
+                <strong>Secure by default</strong> with modern standards
               </span>
             </li>
           </ul>
         </div>
-        {/**  Right Side - Login Form */}
-        <div className="flex flex-1 items-center justify-center p-16">
-          {children}
+
+        {/* Right – Auth content */}
+        <div className="flex items-center justify-center py-12">
+          <Card
+            className={cn(
+              "w-full max-w-md p-6 shadow-lg",
+              "animate-in fade-in slide-in-from-bottom-4 duration-300",
+            )}
+          >
+            {children}
+
+            <Separator className="my-2" />
+
+            <p className="text-center text-xs text-muted-foreground">
+              © {new Date().getFullYear()} Nexus. All rights reserved.
+            </p>
+          </Card>
         </div>
       </div>
     </div>

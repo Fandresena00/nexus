@@ -33,7 +33,6 @@ export default function DeleteTask({
   const HandleDeleteTask = async () => {
     try {
       await deleteTask(taskId, projectId, userId);
-      router.refresh();
       toast.message("Delete task", {
         description: `one task card has been deleted`,
       });
@@ -41,6 +40,8 @@ export default function DeleteTask({
       const message =
         err instanceof Error ? err.message : "Failed to delete task";
       toast.error(message);
+    } finally {
+      router.refresh();
     }
   };
 

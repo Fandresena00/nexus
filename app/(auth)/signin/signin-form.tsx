@@ -2,128 +2,99 @@
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Field, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
 import { signIn } from "@/lib/auth-client";
-import { EyeIcon, EyeClosedIcon } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
 export default function SigninForm() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [isViewPassword, setIsViewPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
-  const router = useRouter();
-
-  const HandleEmailAuth = async (e: React.FormEvent) => {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setIsLoading(true);
+    setLoading(true);
 
     await signIn.email(
+      { email, password },
       {
-        email: email,
-        password: password,
-      },
-      {
-        onResponse: () => {
-          setIsLoading(false);
-        },
+        onResponse: () => setLoading(false),
         onSuccess: () => {
-          toast.success("Connexion Success");
+          toast.success("Signed in successfully");
           router.push("/dashboard");
         },
         onError: (error) => {
-          toast.error("Connexion Failed", {
+          toast.error("Sign in failed", {
             description: error.error.message,
           });
         },
       },
     );
-  };
+  }
 
   return (
-    <form onSubmit={HandleEmailAuth}>
-      {/** Email  */}
-      <FieldSet>
-        <FieldGroup>
-          <Field>
-            <FieldLabel htmlFor="email">Adresse email</FieldLabel>
-            <Input
-              type="email"
-              name="email"
-              placeholder="exemple@email.com"
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-              required
-            />
-          </Field>
-
-          {/** Password */}
-          <Field className="mb-6">
-            <FieldLabel htmlFor="password">Password</FieldLabel>
-            <div className="relative">
-              <Input
-                type={isViewPassword ? "text" : "password"}
-                name="password"
-                value={password}
-                className="pr-12"
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
-                placeholder="••••••••"
-                required
-              />
-              <button
-                type="button"
-                className="absolute right-4 top-1/2 -translate-y-1/2 bg-none border-none cursor-pointer p-1"
-                onClick={() => {
-                  setIsViewPassword(!isViewPassword);
-                }}
-              >
-                {isViewPassword ? (
-                  <EyeIcon size={18} />
-                ) : (
-                  <EyeClosedIcon size={18} />
-                )}
-              </button>
-            </div>
-          </Field>
-        </FieldGroup>
-      </FieldSet>
-      {/** Remember & Forgot */}
-      <div className="flex items-center justify-between mb-5">
-        <div className="flex items-center gap-2">
-          <Checkbox className="border-zinc-900" />
-          <Label>Se souvenir de moi</Label>
-        </div>
-        <Button variant={"link"}>Mot de passe oublié ?</Button>
+    <form onSubmit={handleSubmit} className="space-y-5">
+      <div className="space-y-2">
+        <Label htmlFor="email">Email address</Label>
+        <Input
+          id="email"
+          type="email"
+          placeholder="you@example.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
       </div>
 
-      {/** Submit Button */}
-      <Button
-        className="w-full cursor-pointer"
-        type="submit"
-        disabled={isLoading}
-      >
-        {isLoading ? <Spinner /> : "Sign In"}
+      <div className="space-y-2">
+        <Label htmlFor="password">Password</Label>
+        <div className="relative">
+          <Input
+            id="password"
+            type={showPassword ? "text" : "password"}
+            placeholder="••••••••"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="pr-10"
+            required
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground transition hover:text-foreground"
+          >
+            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+          </button>
+        </div>
+      </div>
+
+      <div className="flex items-center justify-between text-sm">
+        <div className="flex items-center gap-2">
+          <Checkbox id="remember" />
+          <Label htmlFor="remember">Remember me</Label>
+        </div>
+
+        <Link href="/forgot-password" className="text-primary hover:underline">
+          Forgot password?
+        </Link>
+      </div>
+
+      <Button type="submit" className="w-full" disabled={loading}>
+        {loading ? <Spinner /> : "Sign in"}
       </Button>
 
-      {/** Signup Link */}
-      <p className="text-center mt-6 text-xs text-gray-700">
-        You don&apos;t have an account ?
-        <Link
-          href="/signup"
-          className="text-zinc-700 font-semibold px-1 hover:text-zinc-800 hover:underline "
-        >
-          Sign Up
+      <p className="text-center text-xs text-muted-foreground">
+        Don&apos;t have an account?
+        <Link href="/signup" className="ml-1 text-primary hover:underline">
+          Sign up
         </Link>
       </p>
     </form>
