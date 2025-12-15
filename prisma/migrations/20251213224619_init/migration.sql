@@ -1,6 +1,12 @@
 -- CreateEnum
 CREATE TYPE "ProjectRole" AS ENUM ('OWNER', 'EDITOR', 'VIEWER');
 
+-- CreateEnum
+CREATE TYPE "TaskStatus" AS ENUM ('TODO', 'IN_PROGRESS', 'REVIEW', 'DONE');
+
+-- CreateEnum
+CREATE TYPE "TaskPriority" AS ENUM ('HIGH', 'MEDIUM', 'LOW');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
@@ -19,6 +25,7 @@ CREATE TABLE "Project" (
     "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
     "description" TEXT NOT NULL,
+    "image" TEXT,
     "deadline" TIMESTAMP(3) NOT NULL,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -41,9 +48,10 @@ CREATE TABLE "ProjectAccess" (
 -- CreateTable
 CREATE TABLE "Task" (
     "id" TEXT NOT NULL,
-    "title" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "tag" TEXT[],
+    "priority" "TaskPriority" NOT NULL DEFAULT 'MEDIUM',
+    "taskStatus" "TaskStatus" NOT NULL DEFAULT 'TODO',
     "deadline" TIMESTAMP(3) NOT NULL,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "createddAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -100,9 +108,6 @@ CREATE TABLE "Verification" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Project_userId_key" ON "Project"("userId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "ProjectAccess_userId_projectId_key" ON "ProjectAccess"("userId", "projectId");

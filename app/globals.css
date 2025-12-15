@@ -3,24 +3,42 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Global Font */
+/* ===================================== */
+/*         GLOBAL FONT & BASE           */
+/* ===================================== */
 * {
   font-family: "Inter", sans-serif;
 }
 
-/* Scrollbar */
+/* ===================================== */
+/*         SCROLLBAR STYLING            */
+/* ===================================== */
 .scrollbar::-webkit-scrollbar {
-  width: 4px;
+  width: 6px;
+  height: 6px;
 }
 .scrollbar::-webkit-scrollbar-track {
   background: transparent;
 }
 .scrollbar::-webkit-scrollbar-thumb {
-  background: rgb(95, 95, 95);
-  border-radius: 2px;
+  background: rgba(139, 92, 246, 0.3);
+  border-radius: 3px;
+}
+.scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.5);
 }
 
-/* Theme Variables */
+/* Dark mode scrollbar */
+.dark .scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.4);
+}
+.dark .scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.6);
+}
+
+/* ===================================== */
+/*         THEME VARIABLES              */
+/* ===================================== */
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -64,112 +82,553 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
-/* ----------------------------- */
-/*         LIGHT MODE            */
-/* ----------------------------- */
+/* ===================================== */
+/*           LIGHT MODE THEME           */
+/* ===================================== */
 :root {
   --radius: 0.625rem;
 
   /* Backgrounds */
-  --background: #f3f4f6;
-  --foreground: #1f2937;
+  --background: #ffffff;
+  --foreground: #0a0a0a;
 
   /* Cards */
   --card: #ffffff;
-  --card-foreground: #1f2937;
+  --card-foreground: #0a0a0a;
 
   /* Popovers */
   --popover: #ffffff;
-  --popover-foreground: #1f2937;
+  --popover-foreground: #0a0a0a;
 
-  /* Primary (Blue) */
-  --primary: #6366f1;
+  /* Primary (Purple/Cyan) */
+  --primary: #8b5cf6;
   --primary-foreground: #ffffff;
 
   /* Secondary (Cyan) */
-  --secondary: #0686d4;
+  --secondary: #06b6d4;
   --secondary-foreground: #ffffff;
 
   /* Muted */
-  --muted: #f9fafb;
+  --muted: #f3f4f6;
   --muted-foreground: #6b7280;
 
   /* Accent */
-  --accent: #9decf9;
-  --accent-foreground: #1f2937;
-
-  /* Destructive */
-  --destructive: #dc2626;
-
-  /* Borders */
-  --border: #e5e7eb;
-  --input: #e5e7eb;
-  --ring: #6366f1;
-
-  /* Sidebar */
-  --sidebar: #ffffff;
-  --sidebar-foreground: #1f2937;
-  --sidebar-primary: #6366f1;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #bfdbfe;
-  --sidebar-accent-foreground: #1f2937;
-  --sidebar-border: #e5e7eb;
-  --sidebar-ring: #6366f1;
-}
-
-/* ----------------------------- */
-/*          DARK MODE            */
-/* ----------------------------- */
-.dark {
-  --background: #1f2937;
-  --foreground: #f9fafb;
-
-  --card: #374151;
-  --card-foreground: #f9fafb;
-
-  --popover: #374151;
-  --popover-foreground: #f9fafb;
-
-  /* Primary */
-  --primary: #6366f1;
-  --primary-foreground: #ffffff;
-
-  /* Secondary */
-  --secondary: #0686d4;
-  --secondary-foreground: #ffffff;
-
-  /* Muted */
-  --muted: #4b5563;
-  --muted-foreground: #d1d5db;
-
-  /* Accent */
-  --accent: #06b6d4;
+  --accent: #ec4899;
   --accent-foreground: #ffffff;
 
   /* Destructive */
   --destructive: #ef4444;
 
   /* Borders */
-  --border: #4b5563;
-  --input: #4b5563;
-  --ring: #6366f1;
+  --border: #e5e7eb;
+  --input: #e5e7eb;
+  --ring: #8b5cf6;
 
   /* Sidebar */
-  --sidebar: #111827;
-  --sidebar-foreground: #f9fafb;
-  --sidebar-primary: #6366f1;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #0a0a0a;
+  --sidebar-primary: #8b5cf6;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #1f2937;
-  --sidebar-accent-foreground: #f9fafb;
-  --sidebar-border: #4b5563;
-  --sidebar-ring: #6366f1;
+  --sidebar-accent: #f3e8ff;
+  --sidebar-accent-foreground: #0a0a0a;
+  --sidebar-border: #e5e7eb;
+  --sidebar-ring: #8b5cf6;
 }
 
+/* ===================================== */
+/*           DARK MODE THEME            */
+/* ===================================== */
+.dark {
+  /* Backgrounds */
+  --background: #0a0a0a;
+  --foreground: #fafafa;
+
+  /* Cards */
+  --card: #1a1a1a;
+  --card-foreground: #fafafa;
+
+  /* Popovers */
+  --popover: #1a1a1a;
+  --popover-foreground: #fafafa;
+
+  /* Primary (Purple) */
+  --primary: #8b5cf6;
+  --primary-foreground: #ffffff;
+
+  /* Secondary (Cyan) */
+  --secondary: #06b6d4;
+  --secondary-foreground: #ffffff;
+
+  /* Muted */
+  --muted: #262626;
+  --muted-foreground: #a3a3a3;
+
+  /* Accent (Pink) */
+  --accent: #ec4899;
+  --accent-foreground: #ffffff;
+
+  /* Destructive */
+  --destructive: #ef4444;
+
+  /* Borders */
+  --border: #262626;
+  --input: #262626;
+  --ring: #8b5cf6;
+
+  /* Sidebar */
+  --sidebar: #0a0a0a;
+  --sidebar-foreground: #fafafa;
+  --sidebar-primary: #8b5cf6;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #1a1a1a;
+  --sidebar-accent-foreground: #fafafa;
+  --sidebar-border: #262626;
+  --sidebar-ring: #8b5cf6;
+}
+
+/* ===================================== */
+/*           BASE LAYER                 */
+/* ===================================== */
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+  }
+}
+@keyframes scan {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
+}
+@keyframes scanline {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
+}
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(30px, -30px);
+  }
+}
+@keyframes float-slower {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-20px, 20px);
+  }
+}
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(1.1);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fade-in-down {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes expand-x {
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+@keyframes slide-fade-up {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes tilt {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(1deg);
+  }
+  75% {
+    transform: rotate(-1deg);
+  }
+}
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes pulse-slow {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fade-in-down {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes expand-x {
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-fade-up {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-10px);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(10px);
+  }
+}
+@keyframes tilt {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(1deg);
+  }
+  75% {
+    transform: rotate(-1deg);
+  }
+}
+
+@keyframes fade-in-down {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fade-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes pulse-slow {
+  0%,
+  100% {
+    opacity: 0.05;
+  }
+  50% {
+    opacity: 0.1;
+  }
+}
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(1.05);
+  }
+}
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(20px, -20px);
+  }
+}
+@keyframes float-slower {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-15px, 15px);
+  }
+}
+@keyframes fade-in-down {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fade-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes pulse-slow {
+  0%,
+  100% {
+    opacity: 0.05;
+  }
+  50% {
+    opacity: 0.1;
+  }
+}
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(1.05);
+  }
+}
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes tilt {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(1deg);
+  }
+  75% {
+    transform: rotate(-1deg);
+  }
+}
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes pulse-danger {
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes pulse-danger {
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

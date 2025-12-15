@@ -14,7 +14,7 @@ import {
   EmptyMedia,
   EmptyContent,
 } from "@/components/ui/empty";
-import { FileBarChart2 } from "lucide-react";
+import { FileBarChart2, Circle } from "lucide-react";
 import NewTaskForm from "@/components/form/new-task-form";
 
 export default function KanbanBoard({
@@ -32,7 +32,6 @@ export default function KanbanBoard({
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
   const [draggedTask, setDraggedTask] = useState<Task | null>(null);
 
-  // ✅ CORRECTION 1: Utiliser taskStatus au lieu de status
   const getTasksByStatus = (status: TaskStatus) => {
     return tasks.filter((task) => task.taskStatus === status);
   };
@@ -43,7 +42,7 @@ export default function KanbanBoard({
 
     const target = e.currentTarget as HTMLElement;
     setTimeout(() => {
-      target.style.opacity = "0.7";
+      target.style.opacity = "0.5";
     }, 0);
   };
 
@@ -55,49 +54,29 @@ export default function KanbanBoard({
   const handleDragEnter = (e: React.DragEvent) => {
     e.preventDefault();
     const target = e.currentTarget as HTMLElement;
-    target.classList.add(
-      "bg-slate-100",
-      "border-2",
-      "border-dashed",
-      "border-slate-700",
-    );
+    target.classList.add("bg-primary/10", "border-primary/50");
   };
 
   const handleDragLeave = (e: React.DragEvent) => {
     const target = e.currentTarget as HTMLElement;
-    target.classList.remove(
-      "bg-slate-100",
-      "border-2",
-      "border-dashed",
-      "border-slate-700",
-    );
+    target.classList.remove("bg-primary/10", "border-primary/50");
   };
 
-  // ✅ CORRECTION 2: Paramètre doit être TaskStatus, pas taskStatus
   const handleDrop = async (e: React.DragEvent, newStatus: TaskStatus) => {
     e.preventDefault();
 
     const target = e.currentTarget as HTMLElement;
-    // ✅ CORRECTION 3: Retirer les bonnes classes
-    target.classList.remove(
-      "bg-slate-100",
-      "border-2",
-      "border-dashed",
-      "border-slate-700",
-    );
+    target.classList.remove("bg-primary/10", "border-primary/50");
 
     if (!draggedTask) return;
 
-    // ✅ CORRECTION 4: Utiliser taskStatus au lieu de status
     setTasks((prevTasks) =>
       prevTasks.map((task) =>
         task.id === draggedTask.id ? { ...task, taskStatus: newStatus } : task,
       ),
     );
 
-    // Mise à jour dans la base de données
     if (!canEdit) {
-      // Rollback if user can't edit
       setTasks((prevTasks) =>
         prevTasks.map((task) =>
           task.id === draggedTask.id
@@ -111,9 +90,7 @@ export default function KanbanBoard({
     try {
       const result = await updateTaskStatus(draggedTask.id, userId, newStatus);
 
-      // ✅ CORRECTION 5: Vérifier si result existe
       if (!result) {
-        // Rollback en cas d'erreur
         setTasks((prevTasks) =>
           prevTasks.map((task) =>
             task.id === draggedTask.id
@@ -121,7 +98,7 @@ export default function KanbanBoard({
               : task,
           ),
         );
-        alert("Erreur lors de la mise à jour");
+        alert("Error updating task status");
       }
     } catch (error) {
       setTasks((prevTasks) =>
@@ -131,7 +108,7 @@ export default function KanbanBoard({
             : task,
         ),
       );
-      throw Error(error as string);
+      console.error("Error:", error);
     }
   };
 
@@ -141,71 +118,145 @@ export default function KanbanBoard({
     setDraggedTask(null);
   };
 
-  // ✅ CORRECTION 6: Définir les colonnes avec les bons statuts
-  const columns: { status: TaskStatus; title: string }[] = [
-    { status: TaskStatus.TODO, title: "TO DO" },
-    { status: TaskStatus.IN_PROGRESS, title: "IN PROGRESS" },
-    { status: TaskStatus.REVIEW, title: "IN REVIEW" },
-    { status: TaskStatus.DONE, title: "DONE" },
+  const columns: { status: TaskStatus; title: string; color: string }[] = [
+    {
+      status: TaskStatus.TODO,
+      title: "TO DO",
+      color: "from-red-500/20 to-red-600/20",
+    },
+    {
+      status: TaskStatus.IN_PROGRESS,
+      title: "IN PROGRESS",
+      color: "from-yellow-500/20 to-yellow-600/20",
+    },
+    {
+      status: TaskStatus.REVIEW,
+      title: "IN REVIEW",
+      color: "from-blue-500/20 to-blue-600/20",
+    },
+    {
+      status: TaskStatus.DONE,
+      title: "DONE",
+      color: "from-green-500/20 to-green-600/20",
+    },
   ];
+
+  const getColumnBorderColor = (status: TaskStatus) => {
+    switch (status) {
+      case TaskStatus.TODO:
+        return "border-red-500/30 hover:border-red-500/50";
+      case TaskStatus.IN_PROGRESS:
+        return "border-yellow-500/30 hover:border-yellow-500/50";
+      case TaskStatus.REVIEW:
+        return "border-blue-500/30 hover:border-blue-500/50";
+      case TaskStatus.DONE:
+        return "border-green-500/30 hover:border-green-500/50";
+      default:
+        return "border-border";
+    }
+  };
 
   return (
     <>
       {tasks.length > 0 ? (
-        <div className="grid grid-cols-4 gap-10 min-h-[90vh] w-full px-10 py-5">
-          {columns.map((column) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 min-h-[90vh] w-full px-6 lg:px-10 py-6 dark">
+          {columns.map((column, index) => (
             <div
               key={column.status}
-              className="bg-accent transition-all duration-200"
+              className={`relative rounded-xl border-2 ${getColumnBorderColor(column.status)} bg-muted/20 backdrop-blur-sm transition-all duration-300 overflow-hidden`}
               onDragOver={handleDragOver}
               onDragEnter={handleDragEnter}
               onDragLeave={handleDragLeave}
               onDrop={(e) => handleDrop(e, column.status)}
+              style={{
+                animation: `fade-in-up 0.5s cubic-bezier(0.2, 0, 0, 1) ${index * 0.1}s forwards`,
+                opacity: 0,
+              }}
             >
-              <div className="flex justify-between px-5 py-3">
-                <h2 className="text-sm text-slate-700 font-bold tracking-widest">
-                  {column.title}
-                </h2>
-                <Badge variant="outline">
+              {/* Column header gradient */}
+              <div
+                className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${column.color}`}
+              />
+
+              {/* Header */}
+              <div className="flex justify-between items-center px-4 py-4 border-b border-border/50">
+                <div className="flex items-center gap-2">
+                  <Circle className="w-3 h-3 fill-current text-muted-foreground" />
+                  <h2 className="text-xs font-bold tracking-wider text-foreground uppercase">
+                    {column.title}
+                  </h2>
+                </div>
+                <Badge
+                  variant="outline"
+                  className="bg-muted/50 border-border text-muted-foreground"
+                >
                   {getTasksByStatus(column.status).length}
                 </Badge>
               </div>
 
-              <div className="flex flex-col gap-2.5 px-3 py-2">
-                {getTasksByStatus(column.status).map((task) => (
-                  <RenderTasks
-                    projectId={projectId}
-                    key={task.id}
-                    task={task}
-                    userId={userId}
-                    userRole={userRole}
-                    onDragStart={handleDragStart}
-                    onDragEnd={handleDragEnd}
-                  />
-                ))}
+              {/* Tasks container */}
+              <div className="flex flex-col gap-3 p-4 min-h-[200px]">
+                {getTasksByStatus(column.status).length > 0 ? (
+                  getTasksByStatus(column.status).map((task, taskIndex) => (
+                    <div
+                      key={task.id}
+                      style={{
+                        animation: `fade-in-up 0.3s cubic-bezier(0.2, 0, 0, 1) ${taskIndex * 0.05}s forwards`,
+                        opacity: 0,
+                      }}
+                    >
+                      <RenderTasks
+                        projectId={projectId}
+                        task={task}
+                        userId={userId}
+                        userRole={userRole}
+                        onDragStart={handleDragStart}
+                        onDragEnd={handleDragEnd}
+                      />
+                    </div>
+                  ))
+                ) : (
+                  <div className="flex items-center justify-center h-32 text-muted-foreground text-sm">
+                    <span>No tasks</span>
+                  </div>
+                )}
               </div>
             </div>
           ))}
         </div>
       ) : (
-        <Empty className="border-4 border-dashed max-w-96 mx-auto my-8">
-          <EmptyHeader>
-            <EmptyMedia variant={"icon"}>
-              <FileBarChart2 />
-            </EmptyMedia>
-            <EmptyTitle>Task Empty</EmptyTitle>
-            <EmptyDescription>
-              {canEdit
-                ? "Create new task to better track your progress"
-                : "No tasks available"}
-            </EmptyDescription>
-            {canEdit && (
-              <EmptyContent>
-                <NewTaskForm userId={userId} projectId={projectId} />
-              </EmptyContent>
-            )}
-          </EmptyHeader>
-        </Empty>
+        <div className="flex items-center justify-center min-h-[70vh] dark">
+          <Empty className="border-2 border-dashed border-border max-w-md mx-auto bg-muted/20 backdrop-blur-sm">
+            <EmptyHeader>
+              <EmptyMedia variant="icon">
+                <div className="relative">
+                  <div
+                    className="absolute inset-0 bg-primary/20 blur-2xl"
+                    style={{
+                      animation: "pulse-glow 3s ease-in-out infinite",
+                    }}
+                  />
+                  <div className="relative flex items-center justify-center w-16 h-16 rounded-xl bg-gradient-to-br from-primary to-secondary border border-primary/50 shadow-[0_0_30px_rgba(139,92,246,0.3)]">
+                    <FileBarChart2 className="w-8 h-8 text-white" />
+                  </div>
+                </div>
+              </EmptyMedia>
+              <EmptyTitle className="text-xl bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                No Tasks Yet
+              </EmptyTitle>
+              <EmptyDescription className="text-muted-foreground">
+                {canEdit
+                  ? "Create your first task to start tracking progress"
+                  : "No tasks available in this project"}
+              </EmptyDescription>
+              {canEdit && (
+                <EmptyContent className="mt-6">
+                  <NewTaskForm userId={userId} projectId={projectId} />
+                </EmptyContent>
+              )}
+            </EmptyHeader>
+          </Empty>
+        </div>
       )}
     </>
   );

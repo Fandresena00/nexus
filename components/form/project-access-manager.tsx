@@ -38,7 +38,7 @@ import {
 } from "@/components/ui/select";
 import { Field, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
 import { Spinner } from "@/components/ui/spinner";
-import { Users, UserPlus, Trash2, Shield } from "lucide-react";
+import { Users, UserPlus, Trash2, Shield, Mail } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -169,6 +169,19 @@ export default function ProjectAccessManager({
     }
   };
 
+  const getRoleColor = (role: string) => {
+    switch (role) {
+      case "OWNER":
+        return "bg-primary/20 text-primary border-primary/30";
+      case "EDITOR":
+        return "bg-secondary/20 text-secondary border-secondary/30";
+      case "VIEWER":
+        return "bg-accent/20 text-accent border-accent/30";
+      default:
+        return "";
+    }
+  };
+
   // Include project owner in the list if not already present
   const ownerInList = accessList.find((a) => a.user.id === projectOwner.id);
   const allAccess = [
@@ -186,15 +199,20 @@ export default function ProjectAccessManager({
   ];
 
   return (
-    <Card>
+    <Card className="relative overflow-hidden bg-card/50 backdrop-blur-sm border border-border hover:border-primary/30 transition-all duration-300 dark">
+      {/* Neon accent line */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-primary to-transparent opacity-50" />
+
       <CardHeader>
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle className="flex items-center gap-2">
-              <Users className="w-5 h-5" />
+            <CardTitle className="flex items-center gap-2 text-foreground">
+              <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-linear-to-br from-primary/20 to-secondary/20 border border-primary/30">
+                <Users className="w-4 h-4 text-primary" />
+              </div>
               Project Access
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="mt-2">
               Manage who can access and modify this project
             </CardDescription>
           </div>
@@ -202,65 +220,121 @@ export default function ProjectAccessManager({
             (mounted ? (
               <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger asChild>
-                  <Button variant="outline" size="sm">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="border-primary/30 hover:bg-primary/10 hover:border-primary/50 hover:text-primary transition-all duration-300"
+                  >
                     <UserPlus className="w-4 h-4 mr-2" />
                     Add User
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-md">
-                  <DialogHeader>
-                    <DialogTitle>Add User to Project</DialogTitle>
-                    <DialogDescription>
+                <DialogContent className="sm:max-w-md bg-card/95 backdrop-blur-xl border border-primary/30 shadow-[0_0_50px_rgba(139,92,246,0.2)] dark">
+                  {/* Neon glow overlay */}
+                  <div className="absolute inset-0 bg-linear-to-br from-primary/5 via-transparent to-accent/5 pointer-events-none rounded-lg" />
+
+                  <DialogHeader className="relative">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-linear-to-br from-primary to-accent border border-primary/50 shadow-[0_0_15px_rgba(139,92,246,0.3)]">
+                        <UserPlus className="w-5 h-5 text-white" />
+                      </div>
+                      <div>
+                        <DialogTitle className="text-xl bg-linear-to-r from-primary to-accent bg-clip-text text-transparent">
+                          Add User to Project
+                        </DialogTitle>
+                        <div className="h-px w-16 bg-linear-to-r from-primary to-transparent mt-1" />
+                      </div>
+                    </div>
+                    <DialogDescription className="text-muted-foreground">
                       Enter the email address of the user you want to add
                     </DialogDescription>
                   </DialogHeader>
-                  <form onSubmit={handleAddUser}>
+                  <form onSubmit={handleAddUser} className="relative">
                     <FieldSet>
-                      <FieldGroup>
+                      <FieldGroup className="space-y-4">
                         <Field>
-                          <FieldLabel htmlFor="email">User Email</FieldLabel>
-                          <Input
-                            type="email"
-                            id="email"
-                            value={addUserEmail}
-                            onChange={(e) => setAddUserEmail(e.target.value)}
-                            placeholder="user@example.com"
-                            required
-                            autoFocus
-                          />
+                          <FieldLabel
+                            htmlFor="email"
+                            className="text-foreground flex items-center gap-2"
+                          >
+                            <Mail className="w-3.5 h-3.5 text-primary" />
+                            User Email
+                          </FieldLabel>
+                          <div className="relative group">
+                            <div className="absolute -inset-0.5 bg-linear-to-r from-primary to-accent rounded-lg opacity-0 group-focus-within:opacity-20 blur transition-all duration-300" />
+                            <Input
+                              type="email"
+                              id="email"
+                              value={addUserEmail}
+                              onChange={(e) => setAddUserEmail(e.target.value)}
+                              placeholder="user@example.com"
+                              required
+                              autoFocus
+                              className="relative bg-muted/50 border-border text-gray-300 focus:border-primary/50 transition-all duration-300"
+                            />
+                          </div>
                         </Field>
                         <Field>
-                          <FieldLabel htmlFor="role">Role</FieldLabel>
-                          <Select
-                            value={addUserRole}
-                            onValueChange={(value: "EDITOR" | "VIEWER") =>
-                              setAddUserRole(value)
-                            }
+                          <FieldLabel
+                            htmlFor="role"
+                            className="text-foreground flex items-center gap-2"
                           >
-                            <SelectTrigger id="role">
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="VIEWER">
-                                Viewer (Read Only)
-                              </SelectItem>
-                              <SelectItem value="EDITOR">
-                                Editor (Can Modify)
-                              </SelectItem>
-                            </SelectContent>
-                          </Select>
+                            <Shield className="w-3.5 h-3.5 text-accent" />
+                            Role
+                          </FieldLabel>
+                          <div className="relative group">
+                            <div className="absolute -inset-0.5 bg-linear-to-r from-accent to-primary rounded-lg opacity-0 group-focus-within:opacity-20 blur transition-all duration-300" />
+                            <Select
+                              value={addUserRole}
+                              onValueChange={(value: "EDITOR" | "VIEWER") =>
+                                setAddUserRole(value)
+                              }
+                            >
+                              <SelectTrigger
+                                id="role"
+                                className="relative bg-muted-foreground text-gray-300 border-border focus:border-accent/50"
+                              >
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent className="bg-gray-900">
+                                <SelectItem
+                                  className="text-gray-300 bg-black"
+                                  value="VIEWER"
+                                >
+                                  Viewer (Read Only)
+                                </SelectItem>
+                                <SelectItem
+                                  className="text-gray-300 bg-black"
+                                  value="EDITOR"
+                                >
+                                  Editor (Can Modify)
+                                </SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
                         </Field>
                       </FieldGroup>
-                      <FieldGroup>
-                        <DialogFooter>
+                      <FieldGroup className="mt-6">
+                        <DialogFooter className="gap-3">
                           <DialogClose asChild>
-                            <Button variant="outline" type="button">
+                            <Button
+                              variant="outline"
+                              type="button"
+                              className="border-border text-gray-300 hover:bg-muted hover:border-primary/30 transition-all duration-300"
+                            >
                               Cancel
                             </Button>
                           </DialogClose>
-                          <Button type="submit" disabled={loading}>
-                            {loading ? <Spinner /> : "Add User"}
-                          </Button>
+                          <div className="relative group">
+                            <div className="absolute -inset-1 bg-linear-to-r from-primary to-accent rounded-lg opacity-70 group-hover:opacity-100 blur transition-all duration-300" />
+                            <Button
+                              type="submit"
+                              disabled={loading}
+                              className="relative bg-linear-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 border border-primary/50 shadow-lg"
+                            >
+                              {loading ? <Spinner /> : "Add User"}
+                            </Button>
+                          </div>
                         </DialogFooter>
                       </FieldGroup>
                     </FieldSet>
@@ -276,14 +350,17 @@ export default function ProjectAccessManager({
         </div>
       </CardHeader>
       <CardContent>
-        <div className="space-y-4">
+        <div className="space-y-3">
           {allAccess.length === 0 ? (
-            <p className="text-sm text-muted-foreground text-center py-4">
-              No users have access to this project yet.
-            </p>
+            <div className="text-center py-8 border border-dashed border-border rounded-lg bg-muted/20">
+              <Users className="w-12 h-12 mx-auto mb-3 text-muted-foreground opacity-50" />
+              <p className="text-sm text-muted-foreground">
+                No users have access to this project yet.
+              </p>
+            </div>
           ) : (
-            <div className="space-y-3">
-              {allAccess.map((access) => {
+            <div className="space-y-2">
+              {allAccess.map((access, index) => {
                 const isOwner = access.user.id === projectOwner.id;
                 const isCurrentUser = access.user.id === currentUserId;
                 const canModify = canManageAccess && !isOwner;
@@ -291,40 +368,58 @@ export default function ProjectAccessManager({
                 return (
                   <div
                     key={access.id}
-                    className="flex items-center justify-between p-3 border rounded-lg hover:bg-muted/50 transition-colors"
+                    className="group relative overflow-hidden p-3 border border-border rounded-lg bg-muted/20 hover:bg-muted/40 hover:border-primary/30 transition-all duration-300"
+                    style={{
+                      animation: `fade-in-up 0.3s cubic-bezier(0.2, 0, 0, 1) ${index * 0.05}s forwards`,
+                      opacity: 0,
+                    }}
                   >
-                    <div className="flex items-center gap-3 flex-1">
-                      <Avatar className="w-10 h-10">
-                        <AvatarImage
-                          src={access.user.image || undefined}
-                          alt={access.user.name}
-                        />
-                        <AvatarFallback>
-                          {access.user.name
-                            .split(" ")
-                            .map((n) => n[0])
-                            .join("")
-                            .toUpperCase() || "U"}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2">
-                          <p className="font-medium text-sm truncate">
-                            {access.user.name || "Unknown User"}
-                          </p>
-                          {isCurrentUser && (
-                            <Badge variant="outline" className="text-xs">
-                              You
-                            </Badge>
-                          )}
-                          {isOwner && (
-                            <Shield className="w-4 h-4 text-blue-600" />
-                          )}
+                    {/* Hover glow effect */}
+                    <div className="absolute inset-0 bg-linear-to-r from-primary/5 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+
+                    <div className="relative flex items-center justify-between gap-3">
+                      <div className="flex items-center gap-3 flex-1 min-w-0">
+                        {/* Avatar with glow */}
+                        <div className="relative">
+                          <div className="absolute inset-0 bg-primary/20 blur-md rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                          <Avatar className="relative w-10 h-10 border-2 border-primary/30 shadow-[0_0_10px_rgba(139,92,246,0.2)]">
+                            <AvatarImage
+                              src={access.user.image || undefined}
+                              alt={access.user.name}
+                            />
+                            <AvatarFallback className="bg-linear-to-br from-primary/20 to-accent/20 text-foreground font-semibold text-sm">
+                              {access.user.name
+                                .split(" ")
+                                .map((n) => n[0])
+                                .join("")
+                                .toUpperCase() || "U"}
+                            </AvatarFallback>
+                          </Avatar>
                         </div>
-                        <p className="text-xs text-muted-foreground truncate">
-                          {access.user.email || "No email"}
-                        </p>
+
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-0.5">
+                            <p className="font-medium text-sm text-foreground truncate">
+                              {access.user.name || "Unknown User"}
+                            </p>
+                            {isCurrentUser && (
+                              <Badge
+                                variant="outline"
+                                className="text-xs bg-primary/10 text-primary border-primary/30"
+                              >
+                                You
+                              </Badge>
+                            )}
+                            {isOwner && (
+                              <Shield className="w-4 h-4 text-primary" />
+                            )}
+                          </div>
+                          <p className="text-xs text-muted-foreground truncate">
+                            {access.user.email || "No email"}
+                          </p>
+                        </div>
                       </div>
+
                       <div className="flex items-center gap-2">
                         {canModify ? (
                           <Select
@@ -333,7 +428,7 @@ export default function ProjectAccessManager({
                               handleUpdateRole(access.user.id, value)
                             }
                           >
-                            <SelectTrigger className="w-32">
+                            <SelectTrigger className="w-28 h-8 text-xs bg-muted/50 border-border hover:border-primary/50 transition-colors duration-300">
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
@@ -342,7 +437,10 @@ export default function ProjectAccessManager({
                             </SelectContent>
                           </Select>
                         ) : (
-                          <Badge variant={getRoleBadgeVariant(access.role)}>
+                          <Badge
+                            variant={getRoleBadgeVariant(access.role)}
+                            className={getRoleColor(access.role)}
+                          >
                             {access.role}
                           </Badge>
                         )}
@@ -352,33 +450,43 @@ export default function ProjectAccessManager({
                               <Button
                                 variant="ghost"
                                 size="sm"
-                                className="text-destructive hover:text-destructive"
+                                className="h-8 w-8 p-0 text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-all duration-300"
                               >
                                 <Trash2 className="w-4 h-4" />
                               </Button>
                             </AlertDialogTrigger>
-                            <AlertDialogContent>
-                              <AlertDialogHeader>
-                                <AlertDialogTitle>Remove User</AlertDialogTitle>
-                                <AlertDialogDescription>
+                            <AlertDialogContent className="bg-card/95 backdrop-blur-xl border border-red-500/30 shadow-[0_0_50px_rgba(239,68,68,0.2)] dark">
+                              <div className="absolute inset-0 bg-linear-to-br from-red-500/5 via-transparent to-red-600/5 pointer-events-none rounded-lg" />
+                              <AlertDialogHeader className="relative">
+                                <AlertDialogTitle className="text-xl text-foreground">
+                                  Remove User
+                                </AlertDialogTitle>
+                                <AlertDialogDescription className="text-muted-foreground">
                                   Are you sure you want to remove{" "}
-                                  <strong>{access.user.name}</strong> from this
-                                  project? They will lose all access.
+                                  <span className="font-semibold text-red-400">
+                                    {access.user.name}
+                                  </span>{" "}
+                                  from this project? They will lose all access.
                                 </AlertDialogDescription>
                               </AlertDialogHeader>
-                              <AlertDialogFooter>
-                                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                <AlertDialogAction
-                                  onClick={() =>
-                                    handleRemoveUser(
-                                      access.user.id,
-                                      access.user.name,
-                                    )
-                                  }
-                                  className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                                >
-                                  Remove
-                                </AlertDialogAction>
+                              <AlertDialogFooter className="gap-2">
+                                <AlertDialogCancel className="border-border hover:bg-muted">
+                                  Cancel
+                                </AlertDialogCancel>
+                                <div className="relative group">
+                                  <div className="absolute -inset-0.5 bg-linear-to-r from-red-500 to-red-600 rounded-lg opacity-70 group-hover:opacity-100 blur transition-all duration-300" />
+                                  <AlertDialogAction
+                                    onClick={() =>
+                                      handleRemoveUser(
+                                        access.user.id,
+                                        access.user.name,
+                                      )
+                                    }
+                                    className="relative bg-linear-to-r from-red-500 to-red-600 hover:from-red-400 hover:to-red-500 text-white"
+                                  >
+                                    Remove
+                                  </AlertDialogAction>
+                                </div>
                               </AlertDialogFooter>
                             </AlertDialogContent>
                           </AlertDialog>

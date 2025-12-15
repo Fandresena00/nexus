@@ -4,6 +4,7 @@ import DeleteTask from "@/components/actions/delete-task";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
+  CardAction,
   CardContent,
   CardDescription,
   CardHeader,
@@ -11,7 +12,13 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Task } from "@/generated/prisma/client";
 import { TaskPriority } from "@/generated/prisma/enums";
-import { AlertCircle, Circle, AlertTriangle } from "lucide-react";
+import {
+  AlertCircle,
+  Circle,
+  AlertTriangle,
+  Calendar,
+  GripVertical,
+} from "lucide-react";
 import EditTaskForm from "@/components/form/edit-task-form";
 
 export function RenderTasks({
@@ -34,13 +41,13 @@ export function RenderTasks({
   const getPriorityColor = (priority: TaskPriority) => {
     switch (priority) {
       case "HIGH":
-        return "text-red-600 bg-red-50 border-red-200";
+        return "bg-red-500/20 text-red-400 border-red-500/30";
       case "MEDIUM":
-        return "text-yellow-600 bg-yellow-50 border-yellow-200";
+        return "bg-yellow-500/20 text-yellow-400 border-yellow-500/30";
       case "LOW":
-        return "text-green-600 bg-green-50 border-green-200";
+        return "bg-green-500/20 text-green-400 border-green-500/30";
       default:
-        return "text-gray-600 bg-gray-50 border-gray-200";
+        return "bg-muted text-muted-foreground border-border";
     }
   };
 
@@ -59,26 +66,82 @@ export function RenderTasks({
 
   return (
     <div
-      draggable={canEdit} // Only draggable if user can edit
+      draggable={canEdit}
       onDragStart={canEdit ? (e) => onDragStart(e, task) : undefined}
       onDragEnd={canEdit ? onDragEnd : undefined}
-      className={canEdit ? "cursor-grab" : "cursor-default"}
+      className={`group relative ${canEdit ? "cursor-grab active:cursor-grabbing" : "cursor-default"}`}
     >
-      <Card className="rounded-none hover:shadow-xl transition-all">
-        <CardHeader>
-          <CardDescription className="flex justify-between items-center gap-2">
-            <span className="flex-1">{task.description}</span>
-            <Badge
-              variant="outline"
-              className={`${getPriorityColor(
-                task.priority,
-              )} flex items-center gap-1.5 shrink-0`}
-            >
-              {getPriorityIcon(task.priority)}
-              {task.priority}
-            </Badge>
+      {/* Drag indicator */}
+      {canEdit && (
+        <div className="absolute left-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-50 transition-opacity duration-300 pointer-events-none">
+          <GripVertical className="w-4 h-4 text-muted-foreground" />
+        </div>
+      )}
+
+      <Card className="relative overflow-hidden bg-card/50 backdrop-blur-sm border border-border hover:border-primary/50 hover:shadow-[0_0_20px_rgba(139,92,246,0.15)] transition-all duration-300 dark">
+        {/* Neon top border based on priority */}
+        <div
+          className={`absolute top-0 left-0 right-0 h-px ${
+            task.priority === "HIGH"
+              ? "bg-linear-to-r from-transparent via-red-500 to-transparent"
+              : task.priority === "MEDIUM"
+                ? "bg-linear-to-r from-transparent via-yellow-500 to-transparent"
+                : "bg-linear-to-r from-transparent via-green-500 to-transparent"
+          } opacity-50`}
+        />
+
+        {/* Hover glow effect */}
+        <div className="absolute inset-0 bg-linear-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+
+        <CardHeader className="relative pb-3">
+          <CardDescription className="flex justify-between items-start gap-2">
+            <span className="flex-1 text-gray-300 text-sm leading-relaxed">
+              {task.description}
+            </span>
+            <div className="flex items-center gap-1 shrink-0">
+              <Badge
+                variant="outline"
+                className={`${getPriorityColor(task.priority)} flex items-center gap-1.5 text-xs`}
+              >
+                {getPriorityIcon(task.priority)}
+                <span className="uppercase">{task.priority}</span>
+              </Badge>
+            </div>
+          </CardDescription>
+        </CardHeader>
+
+        <Separator className="bg-border/50" />
+
+        <CardContent className="relative flex justify-between pt-3 pb-3">
+          <div>
+            {/* Tags */}
+            <div className="flex flex-wrap gap-1.5 mb-3">
+              {task.tag.map((e) => (
+                <Badge
+                  key={e}
+                  className="bg-secondary/20 text-secondary border-secondary/30 hover:bg-secondary/30 transition-colors duration-300 text-xs"
+                >
+                  {e}
+                </Badge>
+              ))}
+            </div>
+
+            {/* Deadline */}
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <Calendar className="w-3 h-3" />
+              <span>
+                {task.deadline.toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })}
+              </span>
+            </div>
+          </div>
+          <CardAction>
+            {/* Action buttons */}
             {canEdit && (
-              <>
+              <div className="flex items-center gap-1 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <EditTaskForm task={task} userId={userId} />
                 <DeleteTask
                   taskId={task.id}
@@ -86,20 +149,9 @@ export function RenderTasks({
                   userId={userId}
                   userRole={userRole}
                 />
-              </>
+              </div>
             )}
-          </CardDescription>
-        </CardHeader>
-        <Separator />
-        <CardContent className="flex items-center justify-between">
-          <div className="flex flex-wrap gap-1.5">
-            {task.tag.map((e) => (
-              <Badge key={e}>{e}</Badge>
-            ))}
-          </div>
-          <h4 className="flex text-xs tracking-wide gap-1.5">
-            <span>{task.deadline.toDateString()}</span>
-          </h4>
+          </CardAction>
         </CardContent>
       </Card>
     </div>

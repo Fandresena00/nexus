@@ -93,6 +93,7 @@ EMAIL_SERVER_PORT=587
 EMAIL_SERVER_USER="your-email@example.com"
 EMAIL_SERVER_PASSWORD="your-password"
 EMAIL_FROM="noreply@nexus.app"
+RESEND_API_KEY=re_api_key
 ```
 
 ### 4. Set up the database

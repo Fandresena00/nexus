@@ -10,7 +10,7 @@ export default async function page() {
   }
 
   return (
-    <div className="flex items-center justify-center p-5 min-h-screen">
+    <div className="flex items-center justify-center p-5 min-h-screen dark">
       <EditForm
         name={session.name}
         email={session.email}
