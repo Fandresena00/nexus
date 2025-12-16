@@ -21,7 +21,7 @@ export default async function page() {
         <div
           className="absolute -inset-1 bg-linear-to-r from-cyan-500 via-blue-600 to-purple-600 rounded-2xl opacity-20 group-hover:opacity-30 blur-lg transition-all duration-500"
           style={{
-            animation: "pulse-glow 4s ease-in-out infinite",
+            animation: "pulse-slow 4s ease-in-out infinite",
           }}
         />
 

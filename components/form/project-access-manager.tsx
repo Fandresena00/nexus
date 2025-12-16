@@ -283,7 +283,6 @@ export default function ProjectAccessManager({
                             Role
                           </FieldLabel>
                           <div className="relative group">
-                            <div className="absolute -inset-0.5 bg-linear-to-r from-accent to-primary rounded-lg opacity-0 group-focus-within:opacity-20 blur transition-all duration-300" />
                             <Select
                               value={addUserRole}
                               onValueChange={(value: "EDITOR" | "VIEWER") =>
@@ -326,11 +325,11 @@ export default function ProjectAccessManager({
                             </Button>
                           </DialogClose>
                           <div className="relative group">
-                            <div className="absolute -inset-1 bg-linear-to-r from-primary to-accent rounded-lg opacity-70 group-hover:opacity-100 blur transition-all duration-300" />
+                            <div className="absolute -inset-1 bg-linear-to-r from-primary to-accent rounded-lg opacity-0 group-hover:opacity-20 blur transition-all duration-300" />
                             <Button
                               type="submit"
                               disabled={loading}
-                              className="relative bg-linear-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 border border-primary/50 shadow-lg"
+                              className="relative bg-linear-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 border border-primary/50"
                             >
                               {loading ? <Spinner /> : "Add User"}
                             </Button>

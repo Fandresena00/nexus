@@ -23,7 +23,6 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { Progress } from "@/components/ui/progress";
-import { Separator } from "@/components/ui/separator";
 import EditProjectForm from "@/components/form/edit-project-form";
 import ProjectAccessManager from "@/components/form/project-access-manager";
 import {
@@ -327,8 +326,8 @@ export default async function ProjectPage({
                 href={`/project/${project.id}/kanban-board`}
                 className="group"
               >
-                <div className="relative overflow-hidden">
-                  <div className="absolute -inset-1 bg-linear-to-r from-primary to-secondary rounded-xl opacity-0 group-hover:opacity-100 blur transition-all duration-300" />
+                <div className="relative">
+                  <div className="absolute -inset-1 bg-linear-to-r from-primary to-secondary opacity-0 group-hover:opacity-20 blur transition-all duration-300" />
                   <Button
                     variant="outline"
                     className="relative w-full h-24 flex flex-col items-center justify-center gap-3 bg-muted/20 border-border hover:border-primary/50 hover:bg-primary/10 transition-all duration-300"
@@ -349,8 +348,8 @@ export default async function ProjectPage({
               </Link>
 
               <Link href={`/project/${project.id}/list-view`} className="group">
-                <div className="relative overflow-hidden">
-                  <div className="absolute -inset-1 bg-linear-to-r from-secondary to-accent rounded-xl opacity-0 group-hover:opacity-100 blur transition-all duration-300" />
+                <div className="relative">
+                  <div className="absolute -inset-1 bg-linear-to-r from-secondary to-accent rounded-xl opacity-0 group-hover:opacity-20 blur transition-all duration-300" />
                   <Button
                     variant="outline"
                     className="relative w-full h-24 flex flex-col items-center justify-center gap-3 bg-muted/20 border-border hover:border-secondary/50 hover:bg-secondary/10 transition-all duration-300"

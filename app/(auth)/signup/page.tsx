@@ -44,7 +44,7 @@ export default async function page() {
               >
                 <div className="relative">
                   <div className="absolute inset-0 bg-purple-400/20 blur-lg" />
-                  <div className="relative w-16 h-16 mx-auto bg-linear-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center border border-purple-400/50 shadow-[0_0_30px_rgba(168,85,247,0.3)] hover:scale-110 transition-transform duration-300">
+                  <div className="relative w-16 h-16 mx-auto bg-linear-to-br from-purple-600 to-pink-700 rounded-xl flex items-center justify-center border border-purple-400/50 shadow-[0_0_30px_rgba(168,85,247,0.3)] hover:scale-110 transition-transform duration-300">
                     <svg
                       fill="none"
                       stroke="currentColor"

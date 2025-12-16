@@ -57,7 +57,7 @@ export function SignupForm() {
             animation: "shake 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
           }}
         >
-          <div className="absolute -inset-0.5 bg-linear-to-r from-red-500 to-pink-600 rounded-lg opacity-20 blur" />
+          <div className="absolute -inset-0.5 bg-linear-to-r from-red-600 to-pink-700 rounded-lg opacity-20 blur" />
           <div className="relative w-full flex items-center justify-center text-xs text-red-400 bg-red-500/10 border border-red-500/30 rounded-lg py-3 px-4">
             <Shield className="h-4 w-4 mr-2" />
             <p>{error}</p>

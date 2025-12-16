@@ -99,15 +99,15 @@ export default function RenderTask({
       <div
         className={`absolute left-0 top-0 bottom-0 w-1 ${
           task.priority === "HIGH"
-            ? "bg-gradient-to-b from-red-500 to-red-600"
+            ? "bg-linear-to-b from-red-500 to-red-600"
             : task.priority === "MEDIUM"
-              ? "bg-gradient-to-b from-yellow-500 to-yellow-600"
-              : "bg-gradient-to-b from-green-500 to-green-600"
+              ? "bg-linear-to-b from-yellow-500 to-yellow-600"
+              : "bg-linear-to-b from-green-500 to-green-600"
         }`}
       />
 
       {/* Hover glow effect */}
-      <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+      <div className="absolute inset-0 bg-linear-to-r from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
       <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Left Section - Description & Priority */}
@@ -118,7 +118,7 @@ export default function RenderTask({
 
           {canEdit ? (
             <div className="relative group/select">
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-primary to-secondary rounded-lg opacity-0 group-hover/select:opacity-20 blur transition-all duration-300" />
+              <div className="absolute -inset-0.5 bg-linear-to-r from-primary to-secondary rounded-lg opacity-0 group-hover/select:opacity-20 blur transition-all duration-300" />
               <Select
                 onValueChange={handlePriorityChange}
                 value={task.priority}
@@ -186,7 +186,6 @@ export default function RenderTask({
           {/* Status */}
           {canEdit ? (
             <div className="relative group/select">
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-secondary to-accent rounded-lg opacity-0 group-hover/select:opacity-20 blur transition-all duration-300" />
               <Select
                 onValueChange={handleStatusChange}
                 value={task.taskStatus}
@@ -194,7 +193,7 @@ export default function RenderTask({
                 <SelectTrigger className="relative bg-muted/50 border-border">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-black text-gray-300">
                   <SelectItem value="TODO">To Do</SelectItem>
                   <SelectItem value="IN_PROGRESS">In Progress</SelectItem>
                   <SelectItem value="REVIEW">In Review</SelectItem>

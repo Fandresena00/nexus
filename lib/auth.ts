@@ -11,9 +11,12 @@ export const auth = betterAuth({
   }),
   emailAndPassword: {
     enabled: true,
+    requireEmailVerification: true,
+    minPasswordLength: 8,
   },
   emailVerification: {
-    sendVerificationEmail: async ({ user, url, token }) => {
+    sendOnSignUp: true,
+    sendVerificationEmail: async ({ user, url }) => {
       try {
         await sendVerificationEmail({
           to: user.email,
@@ -27,6 +30,7 @@ export const auth = betterAuth({
         throw error;
       }
     },
+    sendOnSignIn: true,
   },
 
   plugins: [nextCookies()],

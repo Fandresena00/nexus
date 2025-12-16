@@ -87,7 +87,7 @@ export default async function page() {
         <div className="flex items-center justify-between px-8 py-4">
           {/* Title with neon effect */}
           <div className="flex items-center gap-3">
-            <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-linear-to-br from-primary to-secondary border border-primary/50 shadow-[0_0_15px_rgba(139,92,246,0.3)]">
+            <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-linear-to-br from-purple-700 to-cyan-600 border border-primary/50">
               <FileBarChart2 className="w-5 h-5 text-white" />
             </div>
             <div>
@@ -102,7 +102,7 @@ export default async function page() {
           <div className="flex items-center gap-4">
             {/* Search Bar */}
             <div className="relative group">
-              <div className="absolute -inset-0.5 bg-linear-to-r from-primary to-secondary rounded-lg opacity-0 group-focus-within:opacity-20 blur transition-all duration-300" />
+              <div className="absolute inset-0.5 bg-linear-to-r from-purple-700 to-cyan-600 rounded-lg opacity-0 group-focus-within:opacity-10 blur transition-all duration-300" />
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors duration-300" />
                 <Input
@@ -281,7 +281,7 @@ export default async function page() {
                   <Link href={`/project/${project.id}`} className="flex-1">
                     <Button
                       variant="outline"
-                      className="w-full border-border hover:bg-primary/10 hover:border-primary/50 hover:text-primary transition-all duration-300"
+                      className="w-full border-border hover:bg-primary/10 hover:border-primary/50 text-secondary hover:text-primary transition-all duration-300"
                     >
                       Details
                     </Button>
@@ -291,8 +291,8 @@ export default async function page() {
                     className="flex-1"
                   >
                     <div className="relative group/btn">
-                      <div className="absolute -inset-0.5 bg-linear-to-r from-primary to-secondary rounded-lg opacity-50 group-hover/btn:opacity-100 blur-sm transition-all duration-300" />
-                      <Button className="relative w-full bg-linear-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 border border-primary/50">
+                      <div className="absolute -inset-0.5 bg-linear-to-r from-primary to-secondary rounded-lg opacity-20 group-hover/btn:opacity-50 blur-xs transition-all duration-300" />
+                      <Button className="relative w-full bg-linear-to-r from-purple-700 to-cyan-700 hover:from-purple-800/90 hover:to-cyan-700/90 border border-primary/50">
                         Board
                       </Button>
                     </div>

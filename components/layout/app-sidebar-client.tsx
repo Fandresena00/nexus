@@ -66,10 +66,7 @@ export default function AppSidebarClient({
         >
           {/* Logo with glow */}
           <div className="relative">
-            <div className="absolute inset-0 bg-primary/20 blur-md rounded-lg group-hover:bg-primary/30 transition-all duration-300" />
-            <div className="relative flex w-10 h-10 bg-linear-to-br from-primary to-secondary rounded-lg items-center justify-center border border-primary/50 shadow-[0_0_15px_rgba(139,92,246,0.3)] group-hover:shadow-[0_0_20px_rgba(139,92,246,0.5)] transition-all duration-300">
-              <Logo />
-            </div>
+            <Logo />
           </div>
 
           <span className="text-xl font-bold bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">
@@ -254,20 +251,14 @@ export default function AppSidebarClient({
           opacity: 0,
         }}
       >
-        <Card className="relative overflow-hidden bg-card backdrop-blur-xs border border-primary/20 shadow-[0_0_20px_rgba(139,92,246,0.1)] p-3">
+        <Card className="relative overflow-hidden bg-black backdrop-blur-xs border border-primary/20 p-3">
           {/* Neon glow overlay */}
           <div className="absolute inset-0 bg-linear-to-r from-primary/5 via-transparent to-accent/5 pointer-events-none" />
 
           <div className="relative w-full flex items-center gap-3 mb-3">
             {/* Avatar with glow */}
             <div className="relative">
-              <div
-                className="absolute inset-0 bg-primary/20 blur-xs rounded-full"
-                style={{
-                  animation: "pulse-glow 3s ease-in-out infinite",
-                }}
-              />
-              <Avatar className="relative border-2 border-primary/50 h-11 w-11 shadow-[0_0_15px_rgba(139,92,246,0.3)]">
+              <Avatar className="relative border-2 border-primary/50 h-11 w-11 ">
                 <AvatarImage
                   src={session?.image?.toString()}
                   alt={session?.name}
@@ -293,7 +284,9 @@ export default function AppSidebarClient({
               </p>
               <p className="text-xs text-muted-foreground truncate flex items-center gap-1.5">
                 <Mail className="w-3 h-3 text-secondary" />
-                <span>{session?.email}</span>
+                <span className="text-ellipsis overflow-hidden">
+                  {session?.email}
+                </span>
               </p>
             </div>
           </div>

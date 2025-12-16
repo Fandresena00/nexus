@@ -35,7 +35,7 @@ export default function layout({
         <div
           className="absolute top-1/2 left-1/2 w-64 h-64 bg-purple-600/20 rounded-full blur-[60px]"
           style={{
-            animation: "pulse-glow 4s ease-in-out infinite",
+            animation: "pulse-slow 4s ease-in-out infinite",
           }}
         />
       </div>
@@ -64,7 +64,7 @@ export default function layout({
             <div className="inline-flex items-center gap-3 group cursor-pointer">
               <div className="relative">
                 <div className="absolute inset-0 bg-cyan-400/20 blur-xl rounded-xl group-hover:bg-cyan-400/40 transition-all duration-300" />
-                <Logo className="h-12 w-12" />
+                <Logo />
               </div>
               <span className="text-2xl font-bold bg-linear-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent tracking-tight">
                 NEXUS

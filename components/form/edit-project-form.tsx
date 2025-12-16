@@ -104,7 +104,7 @@ export default function EditProjectForm({
           variant="outline"
           className="border-border text-gray-300 hover:bg-secondary/10 hover:border-secondary/50 hover:text-secondary transition-all duration-300 dark"
         >
-          <Edit3 className="w-4 h-4 mr-2" />
+          <Edit3 className="w-4 h-4 mr-2 text-secondary" />
           Edit Project
         </Button>
       </DialogTrigger>
