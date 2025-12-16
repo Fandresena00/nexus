@@ -38,6 +38,9 @@ export default async function Dashboard() {
   if (!session) {
     redirect("/signin");
   }
+  if (!session.emailVerified) {
+    redirect("/verify-email");
+  }
 
   // Fetch all dashboard data
   const [stats, tasksToday, activities, productivity, deadlines] =

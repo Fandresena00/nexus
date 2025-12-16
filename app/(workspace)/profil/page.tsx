@@ -21,6 +21,9 @@ export default async function page() {
   if (!session) {
     redirect("/signin");
   }
+  if (!session.emailVerified) {
+    redirect("/verify-email");
+  }
 
   // Get user statistics
   const [projectCount, taskCount, completedTaskCount] = await Promise.all([

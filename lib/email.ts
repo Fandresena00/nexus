@@ -22,19 +22,19 @@ export async function sendVerificationEmail({
     const { data, error } = await resend.emails.send({
       from: "Nexus <onboarding@resend.dev>",
       to: [to],
-      subject: "Vérifiez votre adresse email - Nexus",
+      subject: "Verify your email adress - Nexus",
       html: emailHtml, // 👈 Utilisez 'html' au lieu de 'react'
     });
 
     if (error) {
-      console.error("Erreur Resend:", error);
+      console.error("Resend error:", error);
       throw error;
     }
 
-    console.log("✅ Email envoyé avec succès:", data);
+    console.log("✅ email have been send successfuly:", data);
     return data;
   } catch (error) {
-    console.error("❌ Échec envoi email:", error);
+    console.error("❌ error on send email:", error);
     throw error;
   }
 }

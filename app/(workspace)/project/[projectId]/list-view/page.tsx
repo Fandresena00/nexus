@@ -21,6 +21,10 @@ export default async function page({
     redirect("/signin");
   }
 
+  if (!session.emailVerified) {
+    redirect("/verify-email");
+  }
+
   const { projectId } = await params;
 
   const project = await prisma.project.findUnique({

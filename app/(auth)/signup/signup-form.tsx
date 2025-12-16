@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Spinner } from "@/components/ui/spinner";
+import { toast } from "sonner";
 
 export function SignupForm() {
   const [name, setName] = useState("");
@@ -18,11 +19,18 @@ export function SignupForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [isViewPassword, setIsViewPassword] = useState(false);
   const [error, setError] = useState("");
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
 
   const router = useRouter();
 
   const HandleEmailAuth = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!agreedToTerms) {
+      setError("Please agree to the Terms of Service and Privacy Policy");
+      return;
+    }
+
     setIsLoading(true);
     setError("");
 
@@ -31,17 +39,26 @@ export function SignupForm() {
         name: name,
         email: email,
         password: password,
+        callbackURL: "/dashboard",
       },
       {
         onResponse: () => {
           setIsLoading(false);
         },
         onSuccess: () => {
-          router.push("/dashboard");
+          // Better Auth sends verification email automatically
+          toast.success("Account created!", {
+            description: "Please check your email to verify your account",
+          });
+          // Redirect to verification page
+          router.push("/verify-email");
         },
         onError: (error) => {
-          setError(error.error.message);
-          console.log(error.error.message);
+          const errorMessage = error.error.message;
+          setError(errorMessage);
+          toast.error("Registration failed", {
+            description: errorMessage,
+          });
         },
       },
     );
@@ -59,7 +76,7 @@ export function SignupForm() {
         >
           <div className="absolute -inset-0.5 bg-linear-to-r from-red-600 to-pink-700 rounded-lg opacity-20 blur" />
           <div className="relative w-full flex items-center justify-center text-xs text-red-400 bg-red-500/10 border border-red-500/30 rounded-lg py-3 px-4">
-            <Shield className="h-4 w-4 mr-2" />
+            <Shield className="h-4 w-4 mr-2 shrink-0" />
             <p>{error}</p>
           </div>
         </div>
@@ -97,6 +114,8 @@ export function SignupForm() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
+              minLength={2}
+              maxLength={50}
               className="h-10 pl-11 bg-gray-800/50 border-gray-700 text-white placeholder:text-gray-500 focus:border-purple-500 focus:ring-purple-500/20 transition-all duration-300"
             />
             {/* Animated border */}
@@ -177,6 +196,7 @@ export function SignupForm() {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••••••"
               required
+              minLength={8}
               className="h-10 pl-11 pr-12 bg-gray-800/50 border-gray-700 text-white placeholder:text-gray-500 focus:border-pink-500 focus:ring-pink-500/20 transition-all duration-300"
             />
             <button
@@ -195,11 +215,14 @@ export function SignupForm() {
             <div className="absolute inset-0 rounded-lg border border-pink-500/0 group-focus-within:border-pink-500/50 pointer-events-none transition-all duration-300" />
           </div>
         </div>
+        <p className="text-xs text-gray-500 mt-1">
+          Must be at least 8 characters long
+        </p>
       </div>
 
       {/* Terms & Conditions */}
       <div
-        className="flex items-center gap-3 pt-2"
+        className="flex items-start gap-3 pt-2"
         style={{
           animation:
             "slide-fade-up 0.6s cubic-bezier(0.2, 0, 0, 1) 0.5s forwards",
@@ -208,6 +231,8 @@ export function SignupForm() {
       >
         <Checkbox
           id="terms"
+          checked={agreedToTerms}
+          onCheckedChange={(checked) => setAgreedToTerms(checked as boolean)}
           required
           className="mt-0.5 border-gray-600 data-[state=checked]:bg-purple-600 data-[state=checked]:border-purple-600 transition-all duration-300"
         />
@@ -215,14 +240,14 @@ export function SignupForm() {
           htmlFor="terms"
           className="text-xs text-gray-400 font-normal cursor-pointer hover:text-gray-300 transition-colors duration-300 leading-relaxed"
         >
-          I agree to the&nbsp;
+          I agree to the{" "}
           <Link
             href="/terms"
             className="text-purple-400 hover:text-purple-300 underline underline-offset-2 transition-colors duration-300"
           >
             Terms of Service
-          </Link>
-          &nbsp;and&nbsp;
+          </Link>{" "}
+          and{" "}
           <Link
             href="/privacy"
             className="text-purple-400 hover:text-purple-300 underline underline-offset-2 transition-colors duration-300"
@@ -251,8 +276,8 @@ export function SignupForm() {
 
         <Button
           type="submit"
-          disabled={isLoading}
-          className="relative w-full h-10 bg-linear-to-r from-purple-800 to-pink-900 hover:from-purple-700 hover:to-pink-800 text-white font-semibold shadow-lg shadow-purple-500/50 transition-all duration-300 border border-purple-400/50"
+          disabled={isLoading || !agreedToTerms}
+          className="relative w-full h-10 bg-linear-to-r from-purple-800 to-pink-900 hover:from-purple-700 hover:to-pink-800 text-white font-semibold shadow-lg shadow-purple-500/50 transition-all duration-300 border border-purple-400/50 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isLoading ? (
             <div className="flex items-center gap-2">

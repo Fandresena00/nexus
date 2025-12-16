@@ -6,10 +6,15 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-export default async function page() {
+export default async function SignInPage() {
   const session = await getSession();
 
   if (session) {
+    // If user has session but email not verified, redirect to verification
+    if (!session.emailVerified) {
+      redirect("/verify-email");
+    }
+    // If verified, go to dashboard
     redirect("/dashboard");
   }
 
@@ -145,7 +150,7 @@ export default async function page() {
                 animation: "fade-in 1s ease-out 0.5s both",
               }}
             >
-              New user ?&nbsp;
+              New user?{" "}
               <Link
                 href="/signup"
                 className="font-semibold bg-linear-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent hover:from-cyan-300 hover:to-blue-400 transition-all duration-300"
@@ -172,7 +177,7 @@ export default async function page() {
             }}
           />
           <p className="text-sm text-gray-400">
-            Powered by&nbsp;
+            Powered by{" "}
             <span className="font-semibold bg-linear-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
               Fandresena
             </span>

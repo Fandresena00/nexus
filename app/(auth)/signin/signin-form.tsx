@@ -17,6 +17,7 @@ export default function SigninForm() {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isViewPassword, setIsViewPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
 
   const router = useRouter();
 
@@ -33,9 +34,17 @@ export default function SigninForm() {
         onResponse: () => {
           setIsLoading(false);
         },
-        onSuccess: () => {
-          toast.success("Access granted");
-          router.push("/dashboard");
+        onSuccess: (ctx) => {
+          // Check if email is verified
+          if (ctx.data?.user?.emailVerified === false) {
+            toast.info("Please verify your email", {
+              description: "Check your inbox for the verification link",
+            });
+            router.push("/verify-email");
+          } else {
+            toast.success("Access granted");
+            router.push("/dashboard");
+          }
         },
         onError: (error) => {
           toast.error("Access denied", {
@@ -152,6 +161,8 @@ export default function SigninForm() {
         <div className="flex items-center gap-2">
           <Checkbox
             id="remember"
+            checked={rememberMe}
+            onCheckedChange={(checked) => setRememberMe(checked as boolean)}
             className="border-gray-600 data-[state=checked]:bg-cyan-600 data-[state=checked]:border-cyan-600 transition-all duration-300"
           />
           <Label

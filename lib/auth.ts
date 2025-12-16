@@ -11,11 +11,13 @@ export const auth = betterAuth({
   }),
   emailAndPassword: {
     enabled: true,
-    requireEmailVerification: true,
     minPasswordLength: 8,
+    maxPasswordLength: 128,
   },
   emailVerification: {
     sendOnSignUp: true,
+    autoSignInAfterVerification: true,
+    expiresIn: 60 * 60,
     sendVerificationEmail: async ({ user, url }) => {
       try {
         await sendVerificationEmail({
@@ -23,14 +25,27 @@ export const auth = betterAuth({
           userName: user.name,
           verificationUrl: url,
         });
-        console.log(`Email de vérification envoyé à ${user.email}`);
+        console.log(` Verification email sent to ${user.email}`);
       } catch (error) {
-        console.error("Échec de l'envoi de l'email de vérification:", error);
+        console.error("❌ Failed to send verification email:", error);
         // Better Auth gérera l'erreur
         throw error;
       }
     },
-    sendOnSignIn: true,
+  },
+  session: {
+    expiresIn: 60 * 60 * 24 * 7, // 7 days
+    updateAge: 60 * 60 * 24, // 1 day
+    cookieCache: {
+      enabled: true,
+      maxAge: 5 * 60, // 5 minutes
+    },
+  },
+  advanced: {
+    cookiePrefix: "nexus",
+    crossSubDomainCookies: {
+      enabled: false,
+    },
   },
 
   plugins: [nextCookies()],

@@ -9,6 +9,9 @@ export default async function page() {
     redirect("/signin");
   }
 
+  if (!session.emailVerified) {
+    redirect("/verify-email");
+  }
   return (
     <div className="flex items-center justify-center p-5 min-h-screen dark">
       <EditForm

@@ -40,6 +40,10 @@ export default async function page() {
     redirect("/signin");
   }
 
+  if (!session.emailVerified) {
+    redirect("/verify-email");
+  }
+
   const projects = await prisma.project.findMany({
     where: {
       OR: [
