@@ -1,8 +1,6 @@
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth-server";
-import GoogleSvg from "@/public/google-svg";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { SignupForm } from "./signup-form";
 import Link from "next/link";
 import GoogleLink from "./google-link";

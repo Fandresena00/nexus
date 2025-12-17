@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
 import { resetPassword } from "@/lib/auth-client";
-import { Eye, Lock } from "lucide-react";
+import { EyeIcon, EyeOffIcon, Lock } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -14,7 +14,8 @@ export default function ResetPassword() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [isViewPassword, setIsViewPassword] = useState(false);
+  const [isViewNewPassword, setIsViewNewPassword] = useState(false);
+  const [isViewConfirmPassword, setIsViewConfirmPassword] = useState(false);
 
   const searchParams = useSearchParams();
   const token = searchParams.get("token") || undefined;
@@ -82,9 +83,14 @@ export default function ResetPassword() {
           />
           <button
             type="button"
+            onClick={() => setIsViewNewPassword(!isViewNewPassword)}
             className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
           >
-            <Eye className="w-5 h-5" />
+            {isViewNewPassword ? (
+              <EyeOffIcon className="h-4 w-4" />
+            ) : (
+              <EyeIcon className="h-4 w-4" />
+            )}
           </button>
         </div>
       </div>
@@ -113,9 +119,14 @@ export default function ResetPassword() {
           />
           <button
             type="button"
+            onClick={() => setIsViewConfirmPassword(!isViewConfirmPassword)}
             className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
           >
-            <Eye className="w-5 h-5" />
+            {isViewConfirmPassword ? (
+              <EyeOffIcon className="h-4 w-4" />
+            ) : (
+              <EyeIcon className="h-4 w-4" />
+            )}
           </button>
         </div>
       </div>
