@@ -1,9 +1,7 @@
-import GoogleSvg from "@/public/google-svg";
 import SigninForm from "./signin-form";
 import { getSession } from "@/lib/auth-server";
 import { redirect } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import GoogleLink from "./google-link";
 
