@@ -2,8 +2,11 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import prisma from "./prisma";
 import { nextCookies } from "better-auth/next-js";
-import { sendVerificationEmail } from "./email";
-// If your Prisma file is located elsewhere, you can change the path
+import {
+  sendConfirmResetPasswordEmail,
+  sendResetPasswordEmail,
+  sendVerificationEmail,
+} from "./email";
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -13,6 +16,34 @@ export const auth = betterAuth({
     enabled: true,
     minPasswordLength: 8,
     maxPasswordLength: 128,
+    onPasswordReset: async ({ user }) => {
+      try {
+        await sendConfirmResetPasswordEmail({
+          to: user.email,
+          userName: user.name,
+        });
+      } catch (error) {
+        console.error(
+          "❌ Failed to send reset password confirmation email:",
+          error,
+        );
+        throw error;
+      }
+      console.log("password reset for the user email :" + user.email);
+    },
+    sendResetPassword: async ({ user, url }) => {
+      try {
+        await sendResetPasswordEmail({
+          to: user.email,
+          userName: user.name,
+          resetUrl: url,
+        });
+        console.log(` reset password email sent to ${user.email}`);
+      } catch (error) {
+        console.error("❌ Failed to send reset password email:", error);
+        throw error;
+      }
+    },
   },
   emailVerification: {
     sendOnSignUp: true,
@@ -28,7 +59,6 @@ export const auth = betterAuth({
         console.log(` Verification email sent to ${user.email}`);
       } catch (error) {
         console.error("❌ Failed to send verification email:", error);
-        // Better Auth gérera l'erreur
         throw error;
       }
     },

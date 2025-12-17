@@ -54,6 +54,7 @@ export function VerifyEmailPage({ userEmail }: VerifyEmailPageProps) {
       toast.error("Error", {
         description: "An unexpected error occurred. Please try again.",
       });
+      console.log(error);
     } finally {
       setIsResending(false);
     }

@@ -1,20 +1,16 @@
-import Head from "next/head";
-
-interface VerificationEmailProps {
+interface ConfirmResetPasswordProps {
   userName?: string;
-  verificationUrl: string;
 }
 
-export function VerificationEmailTemplate({
+export function ConfirmResetPasswordTemplate({
   userName,
-  verificationUrl,
-}: VerificationEmailProps) {
+}: ConfirmResetPasswordProps) {
   return (
     <html>
-      <Head>
+      <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta httpEquiv="Content-Type" content="text/html; charset=UTF-8" />
-      </Head>
+      </head>
       <body
         style={{
           fontFamily:
@@ -32,8 +28,8 @@ export function VerificationEmailTemplate({
             backgroundColor: "#1a1a1a",
             borderRadius: "16px",
             overflow: "hidden",
-            border: "1px solid rgba(139, 92, 246, 0.2)",
-            boxShadow: "0 0 40px rgba(139, 92, 246, 0.15)",
+            border: "1px solid rgba(34, 197, 94, 0.2)",
+            boxShadow: "0 0 40px rgba(34, 197, 94, 0.15)",
           }}
         >
           {/* Top Neon Line */}
@@ -41,7 +37,7 @@ export function VerificationEmailTemplate({
             style={{
               height: "2px",
               background:
-                "linear-gradient(90deg, transparent 0%, #8b5cf6 50%, transparent 100%)",
+                "linear-gradient(90deg, transparent 0%, #22c55e 50%, transparent 100%)",
             }}
           />
 
@@ -49,7 +45,7 @@ export function VerificationEmailTemplate({
           <div
             style={{
               background:
-                "linear-gradient(135deg, #1a1a1a 0%, #2d1b4e 50%, #1a1a1a 100%)",
+                "linear-gradient(135deg, #1a1a1a 0%, #14532d 50%, #1a1a1a 100%)",
               padding: "50px 40px",
               textAlign: "center",
               position: "relative",
@@ -61,22 +57,22 @@ export function VerificationEmailTemplate({
                 width: "80px",
                 height: "80px",
                 margin: "0 auto 20px",
-                background: "linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%)",
+                background: "linear-gradient(135deg, #22c55e 0%, #06b6d4 100%)",
                 borderRadius: "50%",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                boxShadow: "0 0 30px rgba(139, 92, 246, 0.4)",
+                boxShadow: "0 0 30px rgba(34, 197, 94, 0.4)",
                 border: "2px solid rgba(255, 255, 255, 0.1)",
               }}
             >
-              <span style={{ fontSize: "40px" }}>✉️</span>
+              <span style={{ fontSize: "40px" }}>✅</span>
             </div>
 
             <h1
               style={{
                 background:
-                  "linear-gradient(135deg, #ffffff 0%, #a78bfa 50%, #22d3ee 100%)",
+                  "linear-gradient(135deg, #ffffff 0%, #4ade80 50%, #22d3ee 100%)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
@@ -86,7 +82,7 @@ export function VerificationEmailTemplate({
                 letterSpacing: "-0.5px",
               }}
             >
-              Verify Your Email
+              Password Reset Successful
             </h1>
 
             <div
@@ -103,16 +99,16 @@ export function VerificationEmailTemplate({
                   width: "40px",
                   height: "1px",
                   background:
-                    "linear-gradient(90deg, transparent 0%, #8b5cf6 100%)",
+                    "linear-gradient(90deg, transparent 0%, #22c55e 100%)",
                 }}
               />
-              <span style={{ color: "#8b5cf6", fontSize: "16px" }}>✨</span>
+              <span style={{ color: "#22c55e", fontSize: "16px" }}>✨</span>
               <div
                 style={{
                   width: "40px",
                   height: "1px",
                   background:
-                    "linear-gradient(90deg, #8b5cf6 0%, transparent 100%)",
+                    "linear-gradient(90deg, #22c55e 0%, transparent 100%)",
                 }}
               />
             </div>
@@ -140,15 +136,15 @@ export function VerificationEmailTemplate({
                 marginBottom: "30px",
               }}
             >
-              Welcome to <strong style={{ color: "#8b5cf6" }}>NEXUS</strong>!
-              We&apos;re excited to have you on board. To get started, please
-              verify your email address by clicking the button below.
+              Your password has been successfully changed. You can now use your
+              new password to sign in to your{" "}
+              <strong style={{ color: "#22c55e" }}>NEXUS</strong> account.
             </p>
 
             {/* Success Box */}
             <div
               style={{
-                padding: "16px",
+                padding: "20px",
                 backgroundColor: "rgba(34, 197, 94, 0.1)",
                 border: "1px solid rgba(34, 197, 94, 0.2)",
                 borderRadius: "8px",
@@ -159,11 +155,11 @@ export function VerificationEmailTemplate({
                 style={{
                   fontSize: "14px",
                   color: "#4ade80",
-                  margin: "0 0 4px",
+                  margin: "0 0 8px",
                   fontWeight: "600",
                 }}
               >
-                ✓ Account Created Successfully
+                ✓ Password Changed Successfully
               </p>
               <p
                 style={{
@@ -172,77 +168,110 @@ export function VerificationEmailTemplate({
                   margin: 0,
                 }}
               >
-                Just one more step to access your workspace.
+                Your account is now secured with your new password.
               </p>
             </div>
 
-            {/* CTA Button */}
-            <div style={{ textAlign: "center", margin: "40px 0" }}>
-              <a
-                href={verificationUrl}
-                style={{
-                  display: "inline-block",
-                  background:
-                    "linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%)",
-                  color: "#ffffff",
-                  padding: "16px 40px",
-                  textDecoration: "none",
-                  borderRadius: "8px",
-                  fontSize: "16px",
-                  fontWeight: "600",
-                  boxShadow: "0 0 20px rgba(139, 92, 246, 0.4)",
-                  border: "1px solid rgba(255, 255, 255, 0.1)",
-                }}
-              >
-                Verify Email Address →
-              </a>
-            </div>
-
-            {/* Alternative Link Box */}
+            {/* Account Details */}
             <div
               style={{
-                marginTop: "35px",
                 padding: "20px",
                 backgroundColor: "#111111",
                 borderRadius: "8px",
                 border: "1px solid #2a2a2a",
+                marginBottom: "30px",
               }}
             >
               <p
                 style={{
                   fontSize: "13px",
                   color: "#6b7280",
-                  marginBottom: "12px",
+                  margin: "0 0 12px",
                   fontWeight: "600",
                 }}
               >
-                Or copy and paste this link:
+                📋 Account Security Details:
               </p>
               <div
-                style={{
-                  padding: "12px",
-                  backgroundColor: "#0a0a0a",
-                  borderRadius: "6px",
-                  border: "1px solid #2a2a2a",
-                }}
+                style={{ borderLeft: "2px solid #22c55e", paddingLeft: "12px" }}
               >
-                <p
-                  style={{
-                    fontSize: "12px",
-                    color: "#06b6d4",
-                    wordBreak: "break-all",
-                    margin: 0,
-                    fontFamily: "monospace",
-                  }}
-                >
-                  {verificationUrl}
-                </p>
+                <div style={{ marginBottom: "8px" }}>
+                  <p
+                    style={{
+                      fontSize: "12px",
+                      color: "#6b7280",
+                      margin: "0 0 2px",
+                    }}
+                  >
+                    Date & Time:
+                  </p>
+                  <p
+                    style={{
+                      fontSize: "13px",
+                      color: "#e5e7eb",
+                      margin: 0,
+                      fontFamily: "monospace",
+                    }}
+                  >
+                    {new Date().toLocaleString("en-US", {
+                      weekday: "long",
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </p>
+                </div>
+                <div>
+                  <p
+                    style={{
+                      fontSize: "12px",
+                      color: "#6b7280",
+                      margin: "0 0 2px",
+                    }}
+                  >
+                    Status:
+                  </p>
+                  <p
+                    style={{
+                      fontSize: "13px",
+                      color: "#4ade80",
+                      margin: 0,
+                      fontWeight: "600",
+                    }}
+                  >
+                    ✓ All Sessions Logged Out
+                  </p>
+                </div>
               </div>
             </div>
 
             {/* Info Boxes */}
-            <div style={{ marginTop: "35px" }}>
-              {/* Expiry Notice */}
+            <div style={{ marginTop: "30px" }}>
+              {/* Session Notice */}
+              <div
+                style={{
+                  padding: "14px",
+                  backgroundColor: "rgba(6, 182, 212, 0.05)",
+                  border: "1px solid rgba(6, 182, 212, 0.15)",
+                  borderRadius: "8px",
+                  marginBottom: "12px",
+                }}
+              >
+                <p
+                  style={{
+                    fontSize: "13px",
+                    color: "#22d3ee",
+                    margin: 0,
+                  }}
+                >
+                  🔄 <strong>Session Update:</strong> You&apos;ve been logged
+                  out of all devices for security. Please sign in again.
+                </p>
+              </div>
+
+              {/* Security Tips */}
               <div
                 style={{
                   padding: "14px",
@@ -259,31 +288,53 @@ export function VerificationEmailTemplate({
                     margin: 0,
                   }}
                 >
-                  ⏱️ <strong>Expires in 1 hour</strong> - Please verify soon to
-                  secure your account.
+                  💡 <strong>Security Tip:</strong> Use a unique password and
+                  enable two-factor authentication for maximum security.
                 </p>
               </div>
 
-              {/* Security Notice */}
+              {/* Warning Notice */}
               <div
                 style={{
                   padding: "14px",
-                  backgroundColor: "rgba(156, 163, 175, 0.05)",
-                  border: "1px solid rgba(156, 163, 175, 0.1)",
+                  backgroundColor: "rgba(239, 68, 68, 0.05)",
+                  border: "1px solid rgba(239, 68, 68, 0.15)",
                   borderRadius: "8px",
                 }}
               >
                 <p
                   style={{
                     fontSize: "13px",
-                    color: "#9ca3af",
+                    color: "#f87171",
                     margin: 0,
                   }}
                 >
-                  🔒 <strong>Didn&apos;t create an account?</strong> You can
-                  safely ignore this email.
+                  ⚠️ <strong>Didn&apos;t change your password?</strong> Contact
+                  our support team immediately to secure your account.
                 </p>
               </div>
+            </div>
+
+            {/* CTA Button */}
+            <div style={{ textAlign: "center", margin: "40px 0 0" }}>
+              <a
+                href="https://nexus.com/sign-in"
+                style={{
+                  display: "inline-block",
+                  background:
+                    "linear-gradient(135deg, #22c55e 0%, #06b6d4 100%)",
+                  color: "#ffffff",
+                  padding: "16px 40px",
+                  textDecoration: "none",
+                  borderRadius: "8px",
+                  fontSize: "16px",
+                  fontWeight: "600",
+                  boxShadow: "0 0 20px rgba(34, 197, 94, 0.4)",
+                  border: "1px solid rgba(255, 255, 255, 0.1)",
+                }}
+              >
+                Sign In to Your Account →
+              </a>
             </div>
           </div>
 
@@ -301,7 +352,7 @@ export function VerificationEmailTemplate({
                   fontSize: "16px",
                   fontWeight: "bold",
                   background:
-                    "linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%)",
+                    "linear-gradient(135deg, #22c55e 0%, #06b6d4 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
@@ -347,7 +398,7 @@ export function VerificationEmailTemplate({
             style={{
               height: "2px",
               background:
-                "linear-gradient(90deg, transparent 0%, #ec4899 50%, transparent 100%)",
+                "linear-gradient(90deg, transparent 0%, #22c55e 50%, transparent 100%)",
             }}
           />
         </div>

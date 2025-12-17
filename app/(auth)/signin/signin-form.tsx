@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
@@ -17,7 +16,6 @@ export default function SigninForm() {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isViewPassword, setIsViewPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
 
   const router = useRouter();
 
@@ -149,37 +147,6 @@ export default function SigninForm() {
         </div>
       </div>
 
-      {/* Remember & Forgot */}
-      <div
-        className="flex items-center justify-between pt-2"
-        style={{
-          animation:
-            "slide-fade-up 0.6s cubic-bezier(0.2, 0, 0, 1) 0.4s forwards",
-          opacity: 0,
-        }}
-      >
-        <div className="flex items-center gap-2">
-          <Checkbox
-            id="remember"
-            checked={rememberMe}
-            onCheckedChange={(checked) => setRememberMe(checked as boolean)}
-            className="border-gray-600 data-[state=checked]:bg-cyan-600 data-[state=checked]:border-cyan-600 transition-all duration-300"
-          />
-          <Label
-            htmlFor="remember"
-            className="text-sm text-gray-400 font-normal cursor-pointer hover:text-gray-300 transition-colors duration-300"
-          >
-            Remember session
-          </Label>
-        </div>
-        <Link
-          href="/forgot-password"
-          className="text-sm font-medium text-cyan-400 hover:text-cyan-300 transition-colors duration-300"
-        >
-          Reset code?
-        </Link>
-      </div>
-
       {/* Submit Button with holographic effect */}
       <div
         className="relative group/submit pt-2"
@@ -226,6 +193,15 @@ export default function SigninForm() {
             </div>
           )}
         </Button>
+      </div>
+
+      <div className="flex justify-end px-4">
+        <Link
+          href="/forgot-password"
+          className="text-xs font-medium text-cyan-400 hover:text-cyan-300 transition-colors duration-300"
+        >
+          Forgot password ?
+        </Link>
       </div>
     </form>
   );
