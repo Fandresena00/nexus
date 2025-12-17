@@ -94,7 +94,18 @@ EMAIL_SERVER_USER="your-email@example.com"
 EMAIL_SERVER_PASSWORD="your-password"
 EMAIL_FROM="noreply@nexus.app"
 RESEND_API_KEY=re_api_key
+
+# Email (for authentication)
+GOOGLE_CLIENT_ID=google_client_id
+GOOGLE_CLIENT_SECRET=google_client_secret
 ```
+
+# Google cloud configuration
+
+- Open Google **Cloud Console** → **APIs & Services** → **Credentials**
+- Click Create **Credentials** → **OAuth client ID**
+- Choose Web application
+- Copy the Client ID and Client Secret into your environment variables
 
 ### 4. Set up the database
 

@@ -1,8 +1,5 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { getSession } from "@/lib/auth-server";
-import { KeyRound, Mail, ArrowLeft, Shield, Sparkles } from "lucide-react";
+import { KeyRound, ArrowLeft, Shield, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import ForgetPassword from "./forget-password";
