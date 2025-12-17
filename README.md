@@ -105,7 +105,7 @@ GOOGLE_CLIENT_SECRET=google_client_secret
 - Open Google **Cloud Console** → **APIs & Services** → **Credentials**
 - Click Create **Credentials** → **OAuth client ID**
 - Choose Web application
-- Copy the Client ID and Client Secret into your environment variables
+- Copy the **Client ID** and **Client Secret** into your environment variables
 
 ### 4. Set up the database
 
