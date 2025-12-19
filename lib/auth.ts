@@ -67,13 +67,13 @@ export const auth = betterAuth({
     expiresIn: 60 * 60 * 24 * 7, // 7 days
     updateAge: 60 * 60 * 24, // 1 day
     cookieCache: {
-      enabled: process.env.NODE_ENV !== "production",
+      enabled: false,
       maxAge: 5 * 60, // 5 minutes
     },
   },
   advanced: {
     cookiePrefix: "nexus",
-    useSecureCookies: process.env.NODE_ENV === "production",
+    useSecureCookies: false,
     crossSubDomainCookies: {
       enabled: false,
     },
