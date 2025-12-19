@@ -73,6 +73,7 @@ export const auth = betterAuth({
   },
   advanced: {
     cookiePrefix: "nexus",
+    useSecureCookies: true,
     crossSubDomainCookies: {
       enabled: false,
     },

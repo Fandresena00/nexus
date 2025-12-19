@@ -9,12 +9,12 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/dialog";
-import { Button } from "../ui/button";
-import { Field, FieldGroup, FieldLabel, FieldSet } from "../ui/field";
-import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
-import { Spinner } from "../ui/spinner";
+} from "../../ui/dialog";
+import { Button } from "../../ui/button";
+import { Field, FieldGroup, FieldLabel, FieldSet } from "../../ui/field";
+import { Input } from "../../ui/input";
+import { Textarea } from "../../ui/textarea";
+import { Spinner } from "../../ui/spinner";
 import React, { useState } from "react";
 import { createTask } from "@/app/actions/task-actions";
 import {
@@ -27,7 +27,7 @@ import {
   Shield,
   X,
 } from "lucide-react";
-import { Badge } from "../ui/badge";
+import { Badge } from "../../ui/badge";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { TaskPriority } from "@/generated/prisma/enums";
@@ -37,7 +37,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
+} from "../../ui/select";
 
 export default function NewTaskForm({
   userId,

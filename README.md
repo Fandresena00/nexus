@@ -88,11 +88,7 @@ BETTER_AUTH_SECRET="your-secret-key"
 BETTER_AUTH_URL="http://localhost:3000"
 
 # Email (for authentication)
-EMAIL_SERVER_HOST="smtp.example.com"
-EMAIL_SERVER_PORT=587
-EMAIL_SERVER_USER="your-email@example.com"
-EMAIL_SERVER_PASSWORD="your-password"
-EMAIL_FROM="noreply@nexus.app"
+EMAIL_FROM=onboarding@resend.dev  //your resend domain email
 RESEND_API_KEY=re_api_key
 
 # Email (for authentication)

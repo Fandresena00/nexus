@@ -21,7 +21,7 @@ export async function sendVerificationEmail({
     );
 
     const { data, error } = await resend.emails.send({
-      from: "Nexus <onboarding@resend.dev>",
+      from: `Nexus <${process.env.EMAIL_FROM}>`,
       to: [to],
       subject: "Verify your email adress - Nexus",
       html: emailHtml, // 👈 Utilisez 'html' au lieu de 'react'
@@ -55,7 +55,7 @@ export async function sendResetPasswordEmail({
     );
 
     const { data, error } = await resend.emails.send({
-      from: "Nexus <onboarding@resend.dev>",
+      from: `Nexus <${process.env.EMAIL_FROM}>`,
       to: [to],
       subject: "Reset your password - Nexus",
       html: emailHtml, // 👈 Utilisez 'html' au lieu de 'react'
@@ -85,7 +85,7 @@ export async function sendConfirmResetPasswordEmail({
     const emailHtml = await render(ConfirmResetPasswordTemplate({ userName }));
 
     const { data, error } = await resend.emails.send({
-      from: "Nexus <onboarding@resend.dev>",
+      from: `Nexus <${process.env.EMAIL_FROM}>`,
       to: [to],
       subject: "Reset password confirmed - Nexus",
       html: emailHtml, // 👈 Utilisez 'html' au lieu de 'react'

@@ -15,7 +15,7 @@ import {
   EmptyContent,
 } from "@/components/ui/empty";
 import { FileBarChart2, Circle } from "lucide-react";
-import NewTaskForm from "@/components/form/new-task-form";
+import NewTaskForm from "@/components/form/task/new-task-form";
 
 export default function KanbanBoard({
   initialTasks = [],
@@ -33,7 +33,7 @@ export default function KanbanBoard({
   const [draggedTask, setDraggedTask] = useState<Task | null>(null);
 
   const getTasksByStatus = (status: TaskStatus) => {
-    return tasks.filter((task) => task.taskStatus === status);
+    return initialTasks.filter((task) => task.taskStatus === status);
   };
 
   const handleDragStart = (e: React.DragEvent, task: Task) => {
@@ -175,7 +175,7 @@ export default function KanbanBoard({
             >
               {/* Column header gradient */}
               <div
-                className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${column.color}`}
+                className={`absolute top-0 left-0 right-0 h-1 bg-linear-to-r ${column.color}`}
               />
 
               {/* Header */}
@@ -236,12 +236,12 @@ export default function KanbanBoard({
                       animation: "pulse-glow 3s ease-in-out infinite",
                     }}
                   />
-                  <div className="relative flex items-center justify-center w-16 h-16 rounded-xl bg-gradient-to-br from-primary to-secondary border border-primary/50 shadow-[0_0_30px_rgba(139,92,246,0.3)]">
+                  <div className="relative flex items-center justify-center w-16 h-16 rounded-xl bg-linear-to-br from-primary to-secondary border border-primary/50 shadow-[0_0_30px_rgba(139,92,246,0.3)]">
                     <FileBarChart2 className="w-8 h-8 text-white" />
                   </div>
                 </div>
               </EmptyMedia>
-              <EmptyTitle className="text-xl bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+              <EmptyTitle className="text-xl bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">
                 No Tasks Yet
               </EmptyTitle>
               <EmptyDescription className="text-muted-foreground">

@@ -23,8 +23,8 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { Progress } from "@/components/ui/progress";
-import EditProjectForm from "@/components/form/edit-project-form";
-import ProjectAccessManager from "@/components/form/project-access-manager";
+import EditProjectForm from "@/components/form/project/edit-project-form";
+import ProjectAccessManager from "@/components/form/project/project-access-manager";
 import {
   getProjectAccess,
   getUserProjectRole,

@@ -1,5 +1,7 @@
 import AppSidebar from "@/components/layout/app-sidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { Suspense } from "react";
+import Loading from "../loading";
 
 export default async function layout({
   children,
@@ -52,7 +54,6 @@ export default async function layout({
                     animation: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
                   }}
                 />
-                <span className="text-sm text-gray-400">Dashboard</span>
               </div>
 
               {/* Optional: Quick actions or status */}
@@ -70,7 +71,9 @@ export default async function layout({
         </div>
 
         {/* Main content */}
-        <div className="relative flex-1 z-10">{children}</div>
+        <Suspense fallback={<Loading />}>
+          <div className="relative flex-1 z-10">{children}</div>1
+        </Suspense>
       </main>
     </SidebarProvider>
   );

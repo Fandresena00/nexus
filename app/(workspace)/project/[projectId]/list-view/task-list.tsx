@@ -9,7 +9,7 @@ import {
   EmptyMedia,
 } from "@/components/ui/empty";
 import { FileBarChart2, FileText, Tag, Clock, TrendingUp } from "lucide-react";
-import NewTaskForm from "@/components/form/new-task-form";
+import NewTaskForm from "@/components/form/task/new-task-form";
 
 export default function TaskList({
   initialTasks = [],
@@ -27,9 +27,9 @@ export default function TaskList({
   return (
     <div className="w-full mt-6 min-h-[70vh] dark">
       {/* Table Header */}
-      <div className="relative overflow-hidden rounded-t-xl bg-gradient-to-r from-muted/80 to-muted/40 border border-border backdrop-blur-sm">
+      <div className="relative overflow-hidden rounded-t-xl bg-linear-to-r from-muted/80 to-muted/40 border border-border backdrop-blur-sm">
         {/* Neon top border */}
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary to-transparent" />
+        <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-primary to-transparent" />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-4">
           {/* Left Header */}
@@ -105,12 +105,12 @@ export default function TaskList({
                       animation: "pulse-glow 3s ease-in-out infinite",
                     }}
                   />
-                  <div className="relative flex items-center justify-center w-16 h-16 rounded-xl bg-gradient-to-br from-primary to-secondary border border-primary/50 shadow-[0_0_30px_rgba(139,92,246,0.3)]">
+                  <div className="relative flex items-center justify-center w-16 h-16 rounded-xl bg-linear-to-br from-primary to-secondary border border-primary/50 shadow-[0_0_30px_rgba(139,92,246,0.3)]">
                     <FileBarChart2 className="w-8 h-8 text-white" />
                   </div>
                 </div>
               </EmptyMedia>
-              <EmptyTitle className="text-xl bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+              <EmptyTitle className="text-xl bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">
                 No Tasks Yet
               </EmptyTitle>
               <EmptyDescription className="text-muted-foreground">

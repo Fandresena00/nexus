@@ -264,7 +264,7 @@ export default function AppSidebarClient({
                   alt={session?.name}
                 />
                 <AvatarFallback className="bg-linear-to-br from-primary to-secondary text-primary-foreground font-bold text-sm">
-                  {session?.name?.[0]?.toLocaleUpperCase()}
+                  {session?.name?.[0].toLocaleUpperCase()}
                 </AvatarFallback>
               </Avatar>
 

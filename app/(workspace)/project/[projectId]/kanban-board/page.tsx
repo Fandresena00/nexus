@@ -2,19 +2,22 @@ import { getSession } from "@/lib/auth-server";
 import { redirect } from "next/navigation";
 import KanbanBoard from "./kanban-board";
 import prisma from "@/lib/prisma";
-import { KanbanSquareIcon, Search, ListCollapse, Layout } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { KanbanSquareIcon, ListCollapse, Layout } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import NewTaskForm from "@/components/form/new-task-form";
 import Link from "next/link";
 import { getUserProjectRole } from "@/app/actions/project-action";
+import NewTaskForm from "@/components/form/task/new-task-form";
+import SearchParams from "@/components/form/search-params";
 
-export default async function page({
-  params,
-}: {
+type Props = {
   params: Promise<{ projectId: string }>;
-}) {
+  searchParams: Promise<{ [key: string]: string }>;
+};
+
+export default async function page({ params, searchParams }: Props) {
   const { projectId } = await params;
+  const resultSearchParams = await searchParams;
+  const search = resultSearchParams.search;
   const session = await getSession();
 
   if (!session) {
@@ -38,7 +41,19 @@ export default async function page({
   }
 
   const allTasks = await prisma.task.findMany({
-    where: { projectId },
+    where: {
+      projectId,
+      AND: [
+        search
+          ? {
+              description: {
+                contains: search,
+                mode: "insensitive",
+              },
+            }
+          : {},
+      ],
+    },
     orderBy: { deadline: "asc" },
   });
   const canEdit = userRole === "OWNER" || userRole === "EDITOR";
@@ -82,18 +97,7 @@ export default async function page({
             }}
           >
             {/* Search Bar */}
-            <form className="relative flex items-center flex-1 max-w-md">
-              <div className="relative w-full group">
-                <div className="absolute -inset-0.5 bg-linear-to-r from-primary to-secondary rounded-lg opacity-0 group-focus-within:opacity-20 blur transition-all duration-300" />
-                <div className="relative flex">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors duration-300" />
-                  <Input
-                    placeholder="Search tasks..."
-                    className="w-full text-gray-300 pl-10 bg-muted/50 border-border focus:border-primary/50 transition-all duration-300"
-                  />
-                </div>
-              </div>
-            </form>
+            <SearchParams />
 
             {/* Action Buttons */}
             <div className="flex items-center gap-3">

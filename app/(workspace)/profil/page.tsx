@@ -11,9 +11,9 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import prisma from "@/lib/prisma";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default async function page() {
   const session = await getSession();
@@ -75,20 +75,13 @@ export default async function page() {
                       animation: "pulse-glow 3s ease-in-out infinite",
                     }}
                   />
-                  {session.image ? (
-                    <div className="relative w-24 h-24 rounded-full overflow-hidden border-4 border-primary/50 shadow-[0_0_30px_rgba(139,92,246,0.4)]">
-                      <Image
-                        src={session.image}
-                        alt={session.name}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                  ) : (
-                    <div className="relative w-24 h-24 rounded-full bg-linear-to-br from-primary to-secondary flex items-center justify-center text-white text-3xl font-bold border-4 border-primary/50 shadow-[0_0_30px_rgba(139,92,246,0.4)]">
-                      {initials}
-                    </div>
-                  )}
+                  <Avatar className="relative w-24 h-24 overflow-hidden border-4 border-primary/50 shadow-[0_0_30px_rgba(139,92,246,0.4)]">
+                    <AvatarImage src={session.image?.toString()} />
+                    <AvatarFallback className="bg-linear-to-br from-primary to-secondary flex items-center justify-center text-white text-3xl font-bold">
+                      {session.name[0].toLocaleUpperCase()}
+                    </AvatarFallback>
+                  </Avatar>
+
                   {/* Online indicator */}
                   <div
                     className="absolute bottom-1 right-1 w-5 h-5 bg-green-400 rounded-full border-4 border-card shadow-[0_0_15px_rgba(74,222,128,0.8)]"

@@ -15,7 +15,7 @@ export default function EditForm({
 }: {
   name: string;
   email: string;
-  image: string | null;
+  image: string;
 }) {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -178,12 +178,12 @@ export default function EditForm({
                 }}
               />
               {previewUrl ? (
-                <div className="relative w-24 h-24 rounded-full overflow-hidden border-4 border-primary/50 shadow-[0_0_25px_rgba(139,92,246,0.4)]">
+                <div className="relative w-24 h-24 rounded-full border-4 border-primary/50 shadow-[0_0_25px_rgba(139,92,246,0.4)]">
                   <Image
                     src={previewUrl}
                     alt="Profile"
                     fill
-                    className="object-cover"
+                    className="w-full h-full rounded-full"
                   />
                   <button
                     type="button"

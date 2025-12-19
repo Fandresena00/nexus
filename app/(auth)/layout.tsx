@@ -1,5 +1,7 @@
 import Logo from "@/components/ui/logo";
-import React from "react";
+import { Spinner } from "@/components/ui/spinner";
+import React, { Suspense } from "react";
+import Loading from "../loading";
 
 export default function layout({
   children,
@@ -212,9 +214,11 @@ export default function layout({
         </div>
 
         {/* Right Side - Auth Form */}
-        <div className="flex flex-1 items-center justify-center py-12 w-full lg:pl-16">
-          {children}
-        </div>
+        <Suspense fallback={<Loading />}>
+          <div className="flex flex-1 items-center justify-center py-12 w-full lg:pl-16">
+            {children}
+          </div>
+        </Suspense>
       </div>
     </div>
   );

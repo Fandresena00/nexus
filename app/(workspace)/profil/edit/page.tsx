@@ -17,7 +17,7 @@ export default async function page() {
       <EditForm
         name={session.name}
         email={session.email}
-        image={session.image || null}
+        image={session?.image?.toString() || ""}
       />
     </div>
   );

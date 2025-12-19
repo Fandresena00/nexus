@@ -1,20 +1,5 @@
 "use client";
 
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "../ui/dialog";
-import { Button } from "../ui/button";
-import { Field, FieldGroup, FieldLabel, FieldSet } from "../ui/field";
-import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
-import { Spinner } from "../ui/spinner";
 import React, { useState } from "react";
 import { updateTask } from "@/app/actions/task-actions";
 import {
@@ -26,17 +11,33 @@ import {
   Shield,
   X,
 } from "lucide-react";
-import { Badge } from "../ui/badge";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+
+import { Task, TaskPriority } from "@/generated/prisma/client";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Field, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
+import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
-import { Task, TaskPriority } from "@/generated/prisma/client";
+} from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function EditTaskForm({
   task,

@@ -5,7 +5,6 @@ import {
   Calendar,
   CheckCircle2,
   FileBarChart2,
-  Search,
   TrendingUp,
   Clock,
 } from "lucide-react";
@@ -30,10 +29,17 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
-import NewProjectForm from "../../../components/form/new-project-form";
-import { Input } from "@/components/ui/input";
+import NewProjectForm from "../../../components/form/project/new-project-form";
+import SearchParams from "../../../components/form/search-params";
 
-export default async function page() {
+type Props = {
+  searchParams: Promise<{ [key: string]: string }>;
+};
+
+export default async function page({ searchParams }: Props) {
+  const params = await searchParams;
+  const search = params.search;
+
   const session = await getSession();
 
   if (!session) {
@@ -46,6 +52,16 @@ export default async function page() {
 
   const projects = await prisma.project.findMany({
     where: {
+      AND: [
+        search
+          ? {
+              title: {
+                contains: search,
+                mode: "insensitive",
+              },
+            }
+          : {},
+      ],
       OR: [
         {
           userId: session.id,
@@ -105,17 +121,7 @@ export default async function page() {
           {/* Search and Create */}
           <div className="flex items-center gap-4">
             {/* Search Bar */}
-            <div className="relative group">
-              <div className="absolute inset-0.5 bg-linear-to-r from-purple-700 to-cyan-600 rounded-lg opacity-0 group-focus-within:opacity-10 blur transition-all duration-300" />
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors duration-300" />
-                <Input
-                  type="text"
-                  placeholder="Search projects..."
-                  className="pl-10 pr-4 w-64 bg-muted/50 text-gray-300 border-border focus:border-primary/50 transition-all duration-300"
-                />
-              </div>
-            </div>
+            <SearchParams />
 
             {/* Create Button */}
             <NewProjectForm userId={session.id} />
@@ -176,6 +182,7 @@ export default async function page() {
                 style={{
                   animation: `fade-in-up 0.5s cubic-bezier(0.2, 0, 0, 1) ${index * 0.1}s forwards`,
                   opacity: 0,
+                  background: project.image || undefined,
                 }}
               >
                 {/* Neon hover effect */}

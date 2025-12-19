@@ -1,6 +1,7 @@
 "use client";
 
 import DeleteTask from "@/components/actions/delete-task";
+import EditTaskForm from "@/components/form/task/edit-task-form";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -19,7 +20,6 @@ import {
   Calendar,
   GripVertical,
 } from "lucide-react";
-import EditTaskForm from "@/components/form/edit-task-form";
 
 export function RenderTasks({
   task,

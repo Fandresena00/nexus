@@ -330,9 +330,6 @@
   }
 }
 
-.pulse-slow {
-  animation: pulse-slow 3s ease-in-out infinite;
-}
 @keyframes pulse-slow {
   0%,
   100% {
@@ -467,5 +464,51 @@
   50% {
     transform: translate(-2px, 6px);
     opacity: 0.7;
+  }
+}
+
+@keyframes scale-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes bounce-dot {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-8px);
+    opacity: 0.5;
+  }
+}
+
+@keyframes text-cycle {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  25% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 0.5;
   }
 }

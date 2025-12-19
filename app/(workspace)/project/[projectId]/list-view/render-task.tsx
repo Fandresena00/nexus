@@ -19,7 +19,7 @@ import { updateTaskStatus, updateTask } from "@/app/actions/task-actions";
 import { TaskStatus, TaskPriority } from "@/generated/prisma/enums";
 import DeleteTask from "@/components/actions/delete-task";
 import { AlertCircle, Circle, AlertTriangle, Calendar } from "lucide-react";
-import EditTaskForm from "@/components/form/edit-task-form";
+import EditTaskForm from "@/components/form/task/edit-task-form";
 
 export default function RenderTask({
   task,

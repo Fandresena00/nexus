@@ -7,7 +7,6 @@ const nextConfig: NextConfig = {
       bodySizeLimit: "2mb",
     },
   },
-
   /* config options here */
 };
 
