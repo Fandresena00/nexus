@@ -28,7 +28,7 @@ export default function SearchParams() {
   };
 
   return (
-    <div className="relativegroup">
+    <div className="relative group">
       <div className="absolute inset-0.5 bg-linear-to-r from-purple-700 to-cyan-600 rounded-lg opacity-0 group-focus-within:opacity-10 blur transition-all duration-300" />
       <form className="relative" onSubmit={HandleSubmit}>
         <Button
