@@ -78,13 +78,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="antialiased">
-        <Toaster
-          position="top-center"
-          duration={5000}
-          theme="system"
-          closeButton
-          richColors
-        />
+        <Toaster position="top-center" duration={5000} closeButton richColors />
         <main>{children}</main>
         <Analytics />
       </body>
