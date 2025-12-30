@@ -126,19 +126,19 @@ export default async function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen p-6 dark">
+    <div className="min-h-screen p-6">
       {/* Animated background */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden -z-10">
         <div
-          className="absolute top-0 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-[120px]"
+          className="absolute top-0 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-[100px]"
           style={{
-            animation: "float-slow 20s ease-in-out infinite",
+            animation: "float-slow 25s ease-in-out infinite",
           }}
         />
         <div
-          className="absolute bottom-0 left-1/4 w-lg h-128 bg-accent/5 rounded-full blur-[120px]"
+          className="absolute bottom-0 left-1/4 w-96 h-96 bg-secondary/5 rounded-full blur-[100px]"
           style={{
-            animation: "float-slower 25s ease-in-out infinite",
+            animation: "float-slower 30s ease-in-out infinite",
           }}
         />
       </div>
@@ -148,7 +148,7 @@ export default async function Dashboard() {
         <header
           className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
           style={{
-            animation: "fade-in-down 0.5s cubic-bezier(0.2, 0, 0, 1) forwards",
+            animation: "fade-in-down 0.4s ease-out forwards",
           }}
         >
           <div>
@@ -161,13 +161,10 @@ export default async function Dashboard() {
             </p>
           </div>
           <Link href="/project">
-            <div className="relative group">
-              <div className="absolute -inset-1 bg-linear-to-r from-primary to-secondary rounded-lg opacity-30 group-hover:opacity-60 blur-xs transition-all duration-300" />
-              <Button className="relative bg-linear-to-r from-primary/50 to-secondary/50 hover:from-primary/80 hover:to-secondary/80 border border-primary/50">
-                <Plus className="w-4 h-4" />
-                <span>New Project</span>
-              </Button>
-            </div>
+            <Button className="button-animated bg-linear-to-r from-primary to-secondary hover:opacity-90 font-semibold">
+              <Plus className="w-4 h-4" />
+              <span>New Project</span>
+            </Button>
           </Link>
         </header>
 
@@ -175,8 +172,7 @@ export default async function Dashboard() {
         <section
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
           style={{
-            animation:
-              "fade-in-up 0.5s cubic-bezier(0.2, 0, 0, 1) 0.1s forwards",
+            animation: "fade-in-up 0.4s ease-out 0.1s forwards",
             opacity: 0,
           }}
         >
@@ -185,19 +181,18 @@ export default async function Dashboard() {
             return (
               <Card
                 key={stat.label}
-                className={`group relative overflow-hidden bg-card/50 backdrop-blur-sm border ${stat.borderColor} hover:shadow-[0_0_25px_rgba(139,92,246,0.15)] transition-all duration-300`}
+                className={`card-interactive bg-card/50 backdrop-blur-sm border ${stat.borderColor}`}
                 style={{
-                  animation: `fade-in-up 0.3s cubic-bezier(0.2, 0, 0, 1) ${0.2 + index * 0.05}s forwards`,
+                  animation: `fade-in-up 0.3s ease-out ${0.2 + index * 0.05}s forwards`,
                   opacity: 0,
                 }}
               >
-                <div className="absolute inset-0 bg-linear-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <CardHeader className="relative flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium text-muted-foreground">
                     {stat.label}
                   </CardTitle>
                   <div
-                    className={`${stat.bgColor} border ${stat.borderColor} p-2 rounded-lg`}
+                    className={`${stat.bgColor} border ${stat.borderColor} p-2 rounded-lg transition-transform duration-200`}
                   >
                     <Icon className={`h-4 w-4 ${stat.color}`} />
                   </div>
@@ -228,14 +223,12 @@ export default async function Dashboard() {
           <div className="lg:col-span-1 space-y-6">
             {/* Today's Tasks */}
             <Card
-              className="relative overflow-hidden bg-card/50 backdrop-blur-sm border border-border"
+              className="card-interactive bg-card/50 backdrop-blur-sm border-border"
               style={{
-                animation:
-                  "fade-in-up 0.5s cubic-bezier(0.2, 0, 0, 1) 0.4s forwards",
+                animation: "fade-in-up 0.4s ease-out 0.2s forwards",
                 opacity: 0,
               }}
             >
-              <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-primary to-transparent" />
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-foreground">
                   <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary/20 border border-primary/30">
@@ -265,7 +258,7 @@ export default async function Dashboard() {
                         <div
                           className="group p-3 rounded-lg border border-border bg-card/30 hover:bg-card/50 hover:border-primary/30 transition-all cursor-pointer"
                           style={{
-                            animation: `fade-in-left 0.3s cubic-bezier(0.2, 0, 0, 1) ${0.5 + i * 0.05}s forwards`,
+                            animation: `fade-in-left 0.3s ease-out ${0.5 + i * 0.05}s forwards`,
                             opacity: 0,
                           }}
                         >
@@ -290,14 +283,12 @@ export default async function Dashboard() {
 
             {/* Quick Stats */}
             <Card
-              className="relative overflow-hidden bg-card/50 backdrop-blur-sm border border-border"
+              className="card-interactive bg-card/50 backdrop-blur-sm border-border"
               style={{
-                animation:
-                  "fade-in-up 0.5s cubic-bezier(0.2, 0, 0, 1) 0.45s forwards",
+                animation: "fade-in-up 0.4s ease-out 0.45s forwards",
                 opacity: 0,
               }}
             >
-              <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-accent to-transparent" />
               <CardHeader>
                 <CardTitle className="text-foreground">Quick Stats</CardTitle>
               </CardHeader>
@@ -336,14 +327,12 @@ export default async function Dashboard() {
 
             {/* Recent Activity */}
             <Card
-              className="relative overflow-hidden bg-card/50 backdrop-blur-sm border border-border"
+              className="card-interactive bg-card/50 backdrop-blur-sm border-border"
               style={{
-                animation:
-                  "fade-in-up 0.5s cubic-bezier(0.2, 0, 0, 1) 0.5s forwards",
+                animation: "fade-in-up 0.4s ease-out 0.5s forwards",
                 opacity: 0,
               }}
             >
-              <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-secondary to-transparent" />
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-foreground">
                   <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-secondary/20 border border-secondary/30">
@@ -365,7 +354,7 @@ export default async function Dashboard() {
                         key={activity.id}
                         className="flex items-start gap-3"
                         style={{
-                          animation: `fade-in-left 0.3s cubic-bezier(0.2, 0, 0, 1) ${0.6 + i * 0.05}s forwards`,
+                          animation: `fade-in-left 0.3s ease-out ${0.6 + i * 0.05}s forwards`,
                           opacity: 0,
                         }}
                       >
@@ -396,14 +385,12 @@ export default async function Dashboard() {
           <div className="lg:col-span-2 space-y-6">
             {/* Productivity */}
             <Card
-              className="relative overflow-hidden bg-card/50 backdrop-blur-sm border border-border"
+              className="card-interactive bg-card/50 backdrop-blur-sm border-border"
               style={{
-                animation:
-                  "fade-in-up 0.5s cubic-bezier(0.2, 0, 0, 1) 0.7s forwards",
+                animation: "fade-in-up 0.4s ease-out 0.7s forwards",
                 opacity: 0,
               }}
             >
-              <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-primary to-transparent" />
               <CardHeader>
                 <CardTitle className="text-foreground">Productivity</CardTitle>
                 <CardDescription>Task completion - Last 7 days</CardDescription>
@@ -441,14 +428,12 @@ export default async function Dashboard() {
 
             {/* Mini Calendar */}
             <Card
-              className="relative overflow-hidden bg-card/50 backdrop-blur-sm border border-border"
+              className="card-interactive bg-card/50 backdrop-blur-sm border-border"
               style={{
-                animation:
-                  "fade-in-up 0.5s cubic-bezier(0.2, 0, 0, 1) 0.8s forwards",
+                animation: "fade-in-up 0.4s ease-out 0.8s forwards",
                 opacity: 0,
               }}
             >
-              <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-accent to-transparent" />
               <CardHeader>
                 <CardTitle className="text-foreground">Calendar</CardTitle>
                 <CardDescription>December 2025</CardDescription>
@@ -487,14 +472,12 @@ export default async function Dashboard() {
         </div>
         {/* Task Distribution */}
         <Card
-          className="relative overflow-hidden bg-card/50 backdrop-blur-sm border border-border"
+          className="card-interactive bg-card/50 backdrop-blur-sm border-border"
           style={{
-            animation:
-              "fade-in-up 0.5s cubic-bezier(0.2, 0, 0, 1) 0.6s forwards",
+            animation: "fade-in-up 0.4s ease-out 0.6s forwards",
             opacity: 0,
           }}
         >
-          <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-accent to-transparent" />
           <CardHeader>
             <CardTitle className="text-foreground">Task Distribution</CardTitle>
             <CardDescription>
